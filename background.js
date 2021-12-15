@@ -1,27 +1,207 @@
-let color = '#3aa757';
-
-chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({ color });
-    console.log('Default background color set to %cgreen', `color: ${color}`);;
-})
-
-// chrome.tabs.onCreated.addListener((e) => {
-//     fetch('http://localhost:3000')
-   
-// })
-
-chrome.tabs.onUpdated.addListener((e) => {
+const sendInfoToServer = (props) => {
     fetch('http://localhost:3000', {
         method : 'POST',
-        body : {e}
-    })
-   
-})
-
-const callback = (e) => {
-    fetch('http://localhost:3000', {
-        method : 'POST',
-        body : {e}
+        body : JSON.stringify({props}),
+        headers: new Headers({
+            'Content-Type': 'application/json; charset=UTF-8'
+          })
     })
 }
-chrome.tabs.onActivated.addListener(callback)
+
+//#region //* Chrome Event Listeners 
+
+// Chrome Browser is Opened
+chrome.windows.onCreated.addListener((window, filters) => {
+    console.log('Browser Created');
+    sendInfoToServer(window);
+    sendInfoToServer(filters); // Object, optioal ,  ['normal', 'popup', panel]
+    updateDateCounters();
+});
+
+// New Tab is Created
+chrome.tabs.onCreated.addListener((tab) => {
+    console.log('New Tab Created');
+    sendInfoToServer(tab)
+    addOneToTabCount();
+});
+
+// Tab is Updated
+chrome.tabs.onUpdated.addListener((tabId,changeInfo,tab) => {
+    console.log('Tab is Updated');
+    if (tab.status === 'complete') {
+        sendInfoToServer(tabId)
+        storeTabState(tabId, tab);
+    }
+    
+    
+
+});
+
+//#endregion
+
+//#region //* Browser is Opened Utilities
+
+const setSessionCount = () => {
+    console.log('Set Session Count +1');
+}
+
+const getSessionCount = () => {
+    console.log('Get Session Count');
+}
+
+const setDay = () => {
+    console.log('Set Day');
+
+}
+
+const getDay = () => {
+    console.log('Get Day');
+}
+
+const updateDateCounters = () => {
+    setSessionCount();
+
+    const [generatedDay, remainingMiliSeconds] = generateDay();
+    const savedDay = getDay();
+
+    if (generatedDay !== savedDay) {
+        setDay(generatedDay)
+    } else {
+        setTimeout(() => {
+            const [generatedDayToBe] = generateDay();
+            setDay(generatedDayToBe)
+        }, remainingMiliSeconds);
+    }
+}
+
+//#endregion
+
+//#region //* New Tab is Created Utilities
+
+const addOneToTabCount = () => {
+    console.log('Add One To Tab Count');
+}
+
+//#endregion
+
+//#region //* Tab On Update Utilities
+
+const storeTabState = async (tabId, tab) => {
+    console.log('Store Tab State');
+    console.log(tabId, tab);
+    const urlSet = scrapeInformationFromUrl(tab.url)
+    const [fullUrl, protocol, hostname, pathname, search] = urlSet
+    const tabState = {
+        tabId,
+        siteName : hostname.split('.')[0],
+        hostname,
+        url : fullUrl
+    };
+
+    let storedTabStateList = await getStoredTabStateList(tabId);
+
+    if (!storedTabStateList) {
+        storedTabStateList = []
+    }
+
+
+    const willBeUpdated = await setStoredTabState(storedTabStateList, tabState);
+
+    if (willBeUpdated) {
+        updateDomain(tabState)
+    }
+
+};
+
+
+const getStoredTabStateList = async (tabId = 0) => {
+    console.log('Get Stored Tab State List');
+    return await chrome.storage.sync.get("storedTabStateList", (data) => {
+        return data
+    })
+}
+
+const setStoredTabState = async (storedTabStateList) => {
+    console.log('Set Stored Tab State');
+    let willBeUpdated = false
+    console.log(storedTabStateList);
+    await storedTabStateList.forEach(storedTabState => {
+        if (storedTabState.hostName === tabState.hostName ) {
+            if (tabState.url !== storedTabState.url) {
+                storedTabState = tabState
+                willBeUpdated = true
+            }
+    
+        }
+    });
+
+    console.log(storedTabStateList);
+    chrome.storage.sync.set({"storedTabList" : storedTabStateList})
+    return willBeUpdated
+};
+
+const updateDomain = async (tabState) => {
+    console.log('Update Domain');
+
+    const store = await getStore()
+
+    let isRecordExist = false;
+
+    await store.hostList.forEach(host => {
+        if (host.siteName === tabState.siteName) {
+            host.visitCount++;
+            isRecordExist = true
+        }
+    });
+
+    if (!isRecordExist) {
+        store.hostList.push({siteName : tabState.siteName, hostName : tabState.hostName, visitCount : 1});
+    }
+    console.log(store);
+}
+
+//#endregion
+
+//#region Minor Utility Functions, Not Shown in Sketch
+
+const generateDay = () => {
+
+    const date = Date.now();
+    const today = new Date(date);
+
+    const todayInString = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}`;
+
+    const secondSpentToday = (today.getHours()*3600)+(today.getMinutes()*60)+(today.getSeconds())
+    const remainingMiliSeconds = (86400 - secondSpentToday)*1000;
+
+
+    return [todayInString, remainingMiliSeconds]
+}
+
+const scrapeInformationFromUrl = (fullUrl) => {
+    const url = new URL(fullUrl);
+    return [fullUrl, url.protocol, url.hostname, url.pathname, url.search]
+}
+
+//#endregion
+
+const createStore = () => {
+    const store = {
+        day : "",
+        sessionCount : 0,
+        tabCount : 0,
+        hostList : []
+    }
+    chrome.storage.sync.set({"store" : store});
+}
+
+const getStore = async () => {
+    return await chrome.storage.get("store", (data) => {
+        return data
+    })
+};
+
+const setStore = (store) => {
+    chrome.storage.set("store",store)
+}
+
