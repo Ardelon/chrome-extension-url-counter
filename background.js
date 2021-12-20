@@ -16,13 +16,15 @@ chrome.windows.onCreated.addListener((window, filters) => {
     // sendInfoToServer(window);
     // sendInfoToServer(filters); // Object, optioal ,  ['normal', 'popup', panel]
     // updateDateCounters();
+    sessionCount(window)
+
 });
 
 // New Tab is Created
 chrome.tabs.onCreated.addListener(async (tab) => {
     // console.log('New Tab Created');
     // sendInfoToServer(tab)
-    // addOneToTabCount();
+    addOneToTabCount();
   
 });
 
@@ -75,6 +77,19 @@ const updateDateCounters = () => {
     }
 }
 
+const sessionCount = async (e) => {
+    console.log("Session Count");
+    let sessionCount = await chrome.storage.local.get("sessionCount") || {} ;
+
+    if (!sessionCount || typeof (sessionCount.sessionCount) !== 'number' ) {
+        chrome.storage.local.set({"sessionCount": 1});        
+    } else {
+        // console.log("else");
+        sessionCount.sessionCount++
+        chrome.storage.local.set({"sessionCount": sessionCount.sessionCount});        
+    }
+}
+
 //#endregion
 
 //#region //* New Tab is Created Utilities
@@ -84,7 +99,7 @@ const addOneToTabCount = async () => {
     let tabCount = await chrome.storage.local.get("tabCount") || {} ;
 
     if (!tabCount || typeof (tabCount.tabCount) !== 'number' ) {
-        chrome.storage.local.set({"tabCount": 0});        
+        chrome.storage.local.set({"tabCount": 1});        
     } else {
         // console.log("else");
         tabCount.tabCount++
@@ -103,25 +118,27 @@ const storeTabState = async (tabId, tab) => {
     // console.log('Store Tab State');
     const urlSet = scrapeInformationFromUrl(tab.url)
     const [fullUrl, protocol, hostName, pathname, search] = urlSet
+    
     const tabState = {
         tabId,
-        siteName : hostName.split('.')[0],
+        siteName : hostName,
         hostName,
-        url : fullUrl
+        url : fullUrl,
+        timeStamp : Date.now()
     };
-    console.log('%c GOOOOOOOOOO! ', 'background: #222; color: #bada55');
+   
     let storedTabStateList = await getStoredTabStateList();
-    console.log(storedTabStateList, storedTabStateList.storedTabStateList);
+
     if (!storedTabStateList.storedTabStateList) {
         storedTabStateList["storedTabStateList"] = []
     }
-    console.log(storedTabStateList, storedTabStateList.storedTabStateList);
-    const willBeUpdated = await setStoredTabState(storedTabStateList.storedTabStateList, tabState);
 
+    const willBeUpdated = await setStoredTabState(storedTabStateList.storedTabStateList, tabState);
+    console.log(willBeUpdated);
     if (willBeUpdated) {
         updateDomain(tabState)
     }
-    console.log('%c yOU GO SOOOOOOOO FAR! ', 'background: #222; color: #bada55');
+
 };
 
 
@@ -146,7 +163,7 @@ const setStoredTabState = async (storedTabStateList, tabState) => {
         storedTabStateList.forEach((storedTabState, index) => {
             if (storedTabState.tabId === tabState.tabId) {
                 changeIndex = index;
-                willBeUpdated = true;
+
                 isTabExist = true
                 if (storedTabState.hostName === tabState.hostName) {
                     isSameHost = true;
