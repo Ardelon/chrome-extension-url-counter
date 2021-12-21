@@ -1,0 +1,76 @@
+body {
+    background-color: hsl(14.7,87.72%,55.29%); 
+    color: #0c0c0c;
+    font-weight: bold;
+}
+
+/* hsl(33.94,81.82%,52.55%) */
+
+.list-container {
+    height: 400px;
+    width: 270px;
+    overflow-x: auto;
+    background-color: #fafafa;
+
+    border-radius: 6px;
+    margin : 3px
+    
+}
+
+.tab-count {
+    font-size: 20px;
+    text-align: center;
+    margin:3px;
+}
+
+.total-visit {
+    font-size: 20px;
+    text-align: center;
+    margin:3px;
+}
+
+.tab-count-button {
+    width: 250px;
+    margin: 10px;
+}
+
+.list-element {
+    width: 250px;
+    height: 50px;
+    margin: 5px auto;
+    background-color: #fafafa;
+    display: block;
+    position: relative;
+    border-radius: 5px;
+    
+}
+
+.list-container::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
+.logo {
+    position: absolute;
+    width: 40px;
+    top: 50%;
+    transform: translate(15%, -50%);
+        cursor: pointer;
+  
+}
+
+.header {
+    transform: translate(10px, 10px);
+    width: 150px;
+    margin: auto;
+    color:#0c0c0c;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.visitDisplay {
+    position: absolute;
+    right: 5%;
+    top: -15%;
+    font-size: 20px;
+    color: #0c0c0c;
+}

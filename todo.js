@@ -1,13 +1,19 @@
 const todos= [
-    "arka planda otomatik çalışsın sürekli",
-    "toplamda kaç tab açılmış say",
-    "giden istekleri yakalama",
-    "lokale url kaydetme",
-    "url parçalama",
-    "açılan sayfaları sayma",
-    "sunucuya bilgileri yazdırma",
-    "browser her açıldığında sayılar sıfırlansın",
-    "istenirse bütün bir günün skorları gösterilsin",
-    "admin panel yapılabilir",
+
+    "paylaş butonu koy, insanlar skorlarını paylaşabilsin, bu paylaşma bütün veri olabileceği gibi tekil sayfa da olabilir",
+    "Verileri dışarı aktarma seçeneği sun",
+    "Verileri silebilme özelliği getir",
+
 
 ]
+
+
+const UI = [
+    "sitelerin resimlerini de tut ve bastır ", ///* Bitti
+    "Ziyaret sayılarını sağa yazdır", ///* Bitti
+    "site ismini ortaya yazdır",  ///* Bitti
+    "site ismine basınca gitsin", ///* Bitti //TODO bug fix gerekecek
+    "logolar cache'lenebilir",
+
+]
+

@@ -68,7 +68,7 @@ const updateDateCounters = async () => {
 }
 
 const sessionCount = async (e) => {
-    console.log("Session Count");
+    // console.log("Session Count");
     let sessionCount = await chrome.storage.local.get("sessionCount") || {} ;
 
     if (!sessionCount || typeof (sessionCount.sessionCount) !== 'number' ) {
@@ -112,7 +112,8 @@ const storeTabState = async (tabId, tab) => {
         siteName : hostName,
         hostName,
         url : fullUrl,
-        timeStamp : Date.now()
+        timeStamp : Date.now(),
+        favIcon : tab.favIconUrl || "https://assets.justinmind.com/wp-content/uploads/2019/07/favicon.ico"
     };
    
     let storedTabStateList = await getStoredTabStateList();
@@ -122,7 +123,7 @@ const storeTabState = async (tabId, tab) => {
     }
 
     const willBeUpdated = await setStoredTabState(storedTabStateList.storedTabStateList, tabState);
-    console.log(willBeUpdated);
+    // console.log(willBeUpdated);
     if (willBeUpdated) {
         updateDomain(tabState)
     }
@@ -234,7 +235,7 @@ const clearStorage = () => {
     chrome.storage.local.clear();
 }
 
-const storeStorage = () => {
+const storeStorage = async () => {
     const hostlist = await chrome.storage.local.get("hostList")
     const day = await chrome.storage.local.get("day")
     const sessionCount = await chrome.storage.local.get("sessionCount")
