@@ -13,17 +13,15 @@ const sendInfoToServer = (props) => {
 // Chrome Browser is Opened
 chrome.windows.onCreated.addListener((window, filters) => {
     // console.log('Browser Created');
-    // sendInfoToServer(window);
-    // sendInfoToServer(filters); // Object, optioal ,  ['normal', 'popup', panel]
-    // updateDateCounters();
+
     sessionCount(window)
+    updateDateCounters();
 
 });
 
 // New Tab is Created
 chrome.tabs.onCreated.addListener(async (tab) => {
     // console.log('New Tab Created');
-    // sendInfoToServer(tab)
     addOneToTabCount();
   
 });
@@ -32,47 +30,39 @@ chrome.tabs.onCreated.addListener(async (tab) => {
 chrome.tabs.onUpdated.addListener((tabId,changeInfo,tab) => {
     // console.log('Tab is Updated');
     if (tab.status === 'complete') {
-        // sendInfoToServer(tabId)
         storeTabState(tabId, tab);
     }
-    
-    
-
 });
 
 //#endregion
 
 //#region //* Browser is Opened Utilities
 
-const setSessionCount = () => {
-    // console.log('Set Session Count +1');
-}
 
-const getSessionCount = () => {
-    // console.log('Get Session Count');
-}
 
-const setDay = () => {
+const setDay = async (generatedDay) => {
     // console.log('Set Day');
-
+    await storeStorage();
+    await clearStorage()
+    chrome.storage.local.set({"day" : generatedDay});
 }
 
-const getDay = () => {
+const getDay = async () => {
     // console.log('Get Day');
+    return await chrome.storage.local.get("day");
 }
 
-const updateDateCounters = () => {
-    setSessionCount();
+const updateDateCounters = async () => {
 
     const [generatedDay, remainingMiliSeconds] = generateDay();
-    const savedDay = getDay();
-
+    const {day : savedDay} = await getDay();
+  
     if (generatedDay !== savedDay) {
         setDay(generatedDay)
     } else {
         setTimeout(() => {
             const [generatedDayToBe] = generateDay();
-            setDay(generatedDayToBe)
+            setDay(generatedDayToBe);
         }, remainingMiliSeconds);
     }
 }
@@ -84,7 +74,7 @@ const sessionCount = async (e) => {
     if (!sessionCount || typeof (sessionCount.sessionCount) !== 'number' ) {
         chrome.storage.local.set({"sessionCount": 1});        
     } else {
-        // console.log("else");
+
         sessionCount.sessionCount++
         chrome.storage.local.set({"sessionCount": sessionCount.sessionCount});        
     }
@@ -101,12 +91,10 @@ const addOneToTabCount = async () => {
     if (!tabCount || typeof (tabCount.tabCount) !== 'number' ) {
         chrome.storage.local.set({"tabCount": 1});        
     } else {
-        // console.log("else");
+
         tabCount.tabCount++
         chrome.storage.local.set({"tabCount": tabCount.tabCount});        
     }
-    // console.log(await chrome.storage.local.get("tabCount"));
-    
  
 }
 
@@ -198,21 +186,6 @@ const setStoredTabState = async (storedTabStateList, tabState) => {
 const updateDomain = async (tabState) => {
     // console.log('Update Domain');
 
-    // const store = await getStore()
-
-    // let isRecordExist = false;
-
-    // await store.hostList.forEach(host => {
-    //     if (host.siteName === tabState.siteName) {
-    //         host.visitCount++;
-    //         isRecordExist = true
-    //     }
-    // });
-
-    // if (!isRecordExist) {
-    //     store.hostList.push({siteName : tabState.siteName, hostName : tabState.hostName, visitCount : 1});
-    // }
-
     addToHostList(tabState)
 }
 
@@ -241,29 +214,6 @@ const scrapeInformationFromUrl = (fullUrl) => {
 
 //#endregion
 
-const createStore = () => {
-    const store = {
-        day : "",
-        sessionCount : 0,
-        tabCount : 0,
-        hostList : []
-    }
-    // chrome.storage.local.set({"store" : store});
-    return store
-}
-
-const getStore = async () => {
-    return await chrome.storage.local.get("store", (data) => {
-        if (!data) {
-            data = createStore();
-        }
-        return data
-    })
-};
-
-const setStore = (store) => {
-    // chrome.storage.local.set("store",store)
-}
 
 
 const getHostList = async () => {
@@ -280,19 +230,23 @@ const addToHostList = async (model) => {
 
 }
 
+const clearStorage = () => {
+    chrome.storage.local.clear();
+}
 
-// const execute = async () => {
+const storeStorage = () => {
+    const hostlist = await chrome.storage.local.get("hostList")
+    const day = await chrome.storage.local.get("day")
+    const sessionCount = await chrome.storage.local.get("sessionCount")
+    const tabCount = await chrome.storage.local.get("tabCount")
+    // const storedTabStateList = await chrome.storage.local.get("storedTabStateList")
     
-//     await chrome.storage.local.get(["store"], (data) => {
-//         let data1 = data[0]
-//         console.log(data1.store.tabCount);
-//         data1.store.tabCount++;
-//         console.log(data1.store.tabCount);
-//         chrome.storage.local.set({"store": data1})
-//     })
-//     // console.log(data);
-// }
+    const model = {
+        day,
+        sessionCount,
+        tabCount,
+        hostList
+    }
 
-// chrome.storage.sync.clear(); 
-// chrome.storage.local.set({"store" : {tabCount : 1}})
-// execute();
+    //TODO after permissions and server implementation
+}
