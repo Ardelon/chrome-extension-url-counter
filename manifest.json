@@ -1,12 +1,12 @@
 {
     "name": "Tab Tracker",
-    "description" : "Tab tracking extension. Tab Tracker is counts how many chrome browser and tabs have been opened and generate and show visit count under host names.",
+    "description" : "Tab tracking extension. Tab Tracker is counts how many chrome browser and tabs have been opened and generate and show visit count.",
     "version": "1.0",
     "manifest_version": 3,
     "background" : {
         "service_worker" : "background.js"
     },
-    "permissions": ["storage", "activeTab", "scripting", "tabs"],
+    "permissions": ["storage",  "tabs"],
     "action" : {
         "default_popup" : "popup.html",
         "default_icon": {
