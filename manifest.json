@@ -1,6 +1,6 @@
 {
-    "name": "Url Counter",
-    "description" : "Hopefully will count urls",
+    "name": "Tab Tracker",
+    "description" : "Tab tracking extension. Tab Tracker is counts how many chrome browser and tabs have been opened and generate and show visit count under host names.",
     "version": "1.0",
     "manifest_version": 3,
     "background" : {
@@ -10,17 +10,17 @@
     "action" : {
         "default_popup" : "popup.html",
         "default_icon": {
-            "16": "/images/get_started16.png",
-            "32": "/images/get_started32.png",
-            "48": "/images/get_started48.png",
-            "128": "/images/get_started128.png"
+            "16": "/images/aaaa.png",
+            "32": "/images/aaaa.png",
+            "48": "/images/aaaa.png",
+            "128": "/images/aaaa.png"
         }
     },
     "icons": {
-        "16": "/images/get_started16.png",
-        "32": "/images/get_started32.png",
-        "48": "/images/get_started48.png",
-        "128": "/images/get_started128.png"
+        "16": "/images/aaaa.png",
+        "32": "/images/aaaa.png",
+        "48": "/images/aaaa.png",
+        "128": "/images/aaaa.png"
       }
     
 }

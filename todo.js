@@ -12,7 +12,7 @@ const UI = [
     "sitelerin resimlerini de tut ve bastır ", ///* Bitti
     "Ziyaret sayılarını sağa yazdır", ///* Bitti
     "site ismini ortaya yazdır",  ///* Bitti
-    "site ismine basınca gitsin", ///* Bitti //TODO bug fix gerekecek
+    "site ismine basınca gitsin", ///* Bitti 
     "logolar cache'lenebilir",
 
 ]

@@ -105,7 +105,11 @@ const addOneToTabCount = async () => {
 const storeTabState = async (tabId, tab) => {
     // console.log('Store Tab State');
     const urlSet = scrapeInformationFromUrl(tab.url)
-    const [fullUrl, protocol, hostName, pathname, search] = urlSet
+    let [fullUrl, protocol, hostName, pathname, search] = urlSet;
+
+    if (hostName.includes("www.")) {
+        hostName = hostName.split("www.")[1];
+    }
     
     const tabState = {
         tabId,
@@ -113,19 +117,23 @@ const storeTabState = async (tabId, tab) => {
         hostName,
         url : fullUrl,
         timeStamp : Date.now(),
-        favIcon : tab.favIconUrl || "https://assets.justinmind.com/wp-content/uploads/2019/07/favicon.ico"
+        favIcon : tab.favIconUrl || "./images/notFound.png"
     };
-   
-    let storedTabStateList = await getStoredTabStateList();
 
-    if (!storedTabStateList.storedTabStateList) {
-        storedTabStateList["storedTabStateList"] = []
-    }
+    if (!tabState.url.includes("chrome://")) {
 
-    const willBeUpdated = await setStoredTabState(storedTabStateList.storedTabStateList, tabState);
-    // console.log(willBeUpdated);
-    if (willBeUpdated) {
-        updateDomain(tabState)
+        
+        let storedTabStateList = await getStoredTabStateList();
+        
+        if (!storedTabStateList.storedTabStateList) {
+            storedTabStateList["storedTabStateList"] = []
+        }
+        
+        const willBeUpdated = await setStoredTabState(storedTabStateList.storedTabStateList, tabState);
+        // console.log(willBeUpdated);
+        if (willBeUpdated) {
+            updateDomain(tabState)
+        }
     }
 
 };
@@ -236,7 +244,7 @@ const clearStorage = () => {
 }
 
 const storeStorage = async () => {
-    const hostlist = await chrome.storage.local.get("hostList")
+    const hostList = await chrome.storage.local.get("hostList")
     const day = await chrome.storage.local.get("day")
     const sessionCount = await chrome.storage.local.get("sessionCount")
     const tabCount = await chrome.storage.local.get("tabCount")

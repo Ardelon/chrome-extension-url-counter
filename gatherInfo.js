@@ -29,8 +29,11 @@ const generateListElement = async (hostName, visitCount, logo ) => {
     header.classList.add("header");
     visitDisplay.classList.add("visitDisplay")
 
+    if (logo.split("extension://").length > 1) {
+        logo = "./images/notFound.png"
+    }
     logoDisplay.src = logo
-    header.innerText = hostName;
+    header.innerText = hostName//`${hostName.substring(0,25)}`;
 
     visitDisplay.innerText = visitCount;
 
@@ -59,21 +62,26 @@ const prepareData = async () => {
     const hostList = await chrome.storage.local.get("hostList");
     const uniqueHostNameList = [];
     const hostInformationObject = {};
-    const totalVisit = hostList.hostList.length
-
-    hostList.hostList.forEach(host => {
-        if (!uniqueHostNameList.includes(host.siteName)) {
-            uniqueHostNameList.push(host.siteName);
-            hostInformationObject[host.siteName] = {
-                visitCount : 1,
-                logo : host.favIcon || "https://assets.justinmind.com/wp-content/uploads/2019/07/favicon.ico"
+    let totalVisit = 0
+    if (hostList.hostList) {
+        totalVisit = hostList.hostList.length
+        
+        hostList.hostList.forEach(host => {
+            if (!uniqueHostNameList.includes(host.siteName)) {
+                uniqueHostNameList.push(host.siteName);
+                hostInformationObject[host.siteName] = {
+                    visitCount : 1,
+                    logo : host.favIcon || "./images/notFound.png"
+                }
+            } else {
+                hostInformationObject[host.siteName].visitCount++
+                if (host.favIcon !== "./images/notFound.png") {
+                    hostInformationObject[host.siteName].logo = host.favIcon;
+                }
+                
             }
-        } else {
-            hostInformationObject[host.siteName].visitCount++
-        }
-    });
-
-
+        });   
+    }
 
     return [uniqueHostNameList, hostInformationObject, totalVisit ]
 
@@ -93,7 +101,7 @@ const eventHandler = async () => {
     const data = await prepareData();
     clearElements();
     const [uniqueHostNameList, hostInformationObject, totalVisit ] = data
-    tabCountDiv.innerText = `Tab Count : ${tabCount.tabCount}`;
+    tabCountDiv.innerText = `Tab Count : ${tabCount.tabCount || 0}`;
     uniqueHostNameList.forEach(hostName => {
         const visitCount = hostInformationObject[hostName].visitCount;
         const logo =  hostInformationObject[hostName].logo

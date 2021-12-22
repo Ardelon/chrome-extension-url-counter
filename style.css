@@ -65,6 +65,9 @@ body {
     color:#0c0c0c;
     font-weight: bold;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .visitDisplay {
