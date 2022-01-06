@@ -4,11 +4,11 @@
     "version": "1.0",
     "manifest_version": 3,
     "background" : {
-        "service_worker" : "background.js"
+        "service_worker" : "/js/background.js"
     },
     "permissions": ["storage",  "tabs"],
     "action" : {
-        "default_popup" : "popup.html",
+        "default_popup" : "/html/popup.html",
         "default_icon": {
             "16": "/aaaa.png",
             "32": "/aaaa.png",
@@ -21,7 +21,8 @@
         "32": "/aaaa.png",
         "48": "/aaaa.png",
         "128": "/aaaa.png"
-      }
+    },
+    "options_page" : "/html/options.html"
     
 }
 

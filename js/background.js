@@ -1,16 +1,5 @@
-const sendInfoToServer = (props) => {
-    fetch('http://localhost:3000', {
-        method : 'POST',
-        body : JSON.stringify({props}),
-        headers: new Headers({
-            'Content-Type': 'application/json; charset=UTF-8'
-          })
-    })
-}
+//#region Chrome Event Listeners
 
-//#region //* Chrome Event Listeners 
-
-// Chrome Browser is Opened
 chrome.windows.onCreated.addListener((window, filters) => {
     // console.log('Browser Created');
 
@@ -36,14 +25,52 @@ chrome.tabs.onUpdated.addListener((tabId,changeInfo,tab) => {
 
 //#endregion
 
-//#region //* Browser is Opened Utilities
+//#region Storage Methods
 
+const getHostList = async () => {
+    return await chrome.storage.local.get("hostList");
+}
 
+const addToHostList = async (model) => {
+    let hostList = await getHostList();
+    if (!hostList.hostList) {
+        hostList["hostList"] = [];
+    }
+    hostList.hostList.push(model)
+    chrome.storage.local.set({"hostList":hostList.hostList})
+
+}
+
+const clearStorage = () => {
+    chrome.storage.local.set({"hostList" : null})
+    chrome.storage.local.set({"day" : null})
+    chrome.storage.local.set({"sessionCount" : null});
+    chrome.storage.local.set({"tabCount" : null});
+    chrome.storage.local.set({"storedTabStateList" : null})
+}
+
+const storeStorage = async () => {
+    const hostList = await chrome.storage.local.get("hostList")
+    const day = await chrome.storage.local.get("day")
+    const sessionCount = await chrome.storage.local.get("sessionCount")
+    const tabCount = await chrome.storage.local.get("tabCount")
+    // const storedTabStateList = await chrome.storage.local.get("storedTabStateList")
+    
+    const model = {
+        day : day.day,
+        sessionCount : sessionCount.sessionCount,
+        tabCount : tabCount.tabCount,
+        hostList : hostList.hostList
+    }
+
+    setPreviousDay(model);
+
+}
 
 const setDay = async (generatedDay) => {
     // console.log('Set Day');
     await storeStorage();
-    await clearStorage()
+    await clearStorage();
     chrome.storage.local.set({"day" : generatedDay});
 }
 
@@ -78,11 +105,7 @@ const sessionCount = async (e) => {
         sessionCount.sessionCount++
         chrome.storage.local.set({"sessionCount": sessionCount.sessionCount});        
     }
-}
-
-//#endregion
-
-//#region //* New Tab is Created Utilities
+};
 
 const addOneToTabCount = async () => {
     // console.log('Add One To Tab Count');
@@ -96,11 +119,7 @@ const addOneToTabCount = async () => {
         chrome.storage.local.set({"tabCount": tabCount.tabCount});        
     }
  
-}
-
-//#endregion
-
-//#region //* Tab On Update Utilities
+};
 
 const storeTabState = async (tabId, tab) => {
     // console.log('Store Tab State');
@@ -117,7 +136,7 @@ const storeTabState = async (tabId, tab) => {
         hostName,
         url : fullUrl,
         timeStamp : Date.now(),
-        favIcon : tab.favIconUrl || "./images/notFound.png"
+        favIcon : tab.favIconUrl || "../images/notFound.png"
     };
 
     if (!tabState.url.includes("chrome://")) {
@@ -138,11 +157,38 @@ const storeTabState = async (tabId, tab) => {
 
 };
 
-
 const getStoredTabStateList = async () => {
     // console.log('Get Stored Tab State List');
     return await chrome.storage.local.get("storedTabStateList")
+};
+
+const setPreviousDay = async (previousDay) => {
+    chrome.storage.local.set({"previousDay" : previousDay})
 }
+
+
+//#endregion
+
+//#region Utilities
+
+const generateDay = () => {
+
+    const date = Date.now();
+    const today = new Date(date);
+
+    const todayInString = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}`;
+
+    const secondSpentToday = (today.getHours()*3600)+(today.getMinutes()*60)+(today.getSeconds())
+    const remainingMiliSeconds = (86400 - secondSpentToday)*1000;
+
+
+    return [todayInString, remainingMiliSeconds]
+}
+
+const scrapeInformationFromUrl = (fullUrl) => {
+    const url = new URL(fullUrl);
+    return [fullUrl, url.protocol, url.hostname, url.pathname, url.search]
+};
 
 const setStoredTabState = async (storedTabStateList, tabState) => {
     // console.log('Set Stored Tab State');
@@ -198,64 +244,5 @@ const updateDomain = async (tabState) => {
     addToHostList(tabState)
 }
 
-//#endregion
-
-//#region Minor Utility Functions, Not Shown in Sketch
-
-const generateDay = () => {
-
-    const date = Date.now();
-    const today = new Date(date);
-
-    const todayInString = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}`;
-
-    const secondSpentToday = (today.getHours()*3600)+(today.getMinutes()*60)+(today.getSeconds())
-    const remainingMiliSeconds = (86400 - secondSpentToday)*1000;
-
-
-    return [todayInString, remainingMiliSeconds]
-}
-
-const scrapeInformationFromUrl = (fullUrl) => {
-    const url = new URL(fullUrl);
-    return [fullUrl, url.protocol, url.hostname, url.pathname, url.search]
-}
 
 //#endregion
-
-
-
-const getHostList = async () => {
-    return await chrome.storage.local.get("hostList");
-}
-
-const addToHostList = async (model) => {
-    let hostList = await getHostList();
-    if (!hostList.hostList) {
-        hostList["hostList"] = [];
-    }
-    hostList.hostList.push(model)
-    chrome.storage.local.set({"hostList":hostList.hostList})
-
-}
-
-const clearStorage = () => {
-    chrome.storage.local.clear();
-}
-
-const storeStorage = async () => {
-    const hostList = await chrome.storage.local.get("hostList")
-    const day = await chrome.storage.local.get("day")
-    const sessionCount = await chrome.storage.local.get("sessionCount")
-    const tabCount = await chrome.storage.local.get("tabCount")
-    // const storedTabStateList = await chrome.storage.local.get("storedTabStateList")
-    
-    const model = {
-        day,
-        sessionCount,
-        tabCount,
-        hostList
-    }
-
-    //TODO after permissions and server implementation
-}
