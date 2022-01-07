@@ -6,12 +6,12 @@ body {
 }
 
 .list-container {
-    width: 600px;
+    width: 670px;
     margin: auto;
 }
 
 .previous-day-container {
-    height: 470px;
+    height: 530px;
     width: 290px;
 
     background-color: #fafafa;
@@ -33,7 +33,7 @@ body {
 
 .today-container {
 
-    height: 470px;
+    height: 530px;
     width: 290px;
     overflow-x: auto;
     background-color: #fafafa;
@@ -41,6 +41,7 @@ body {
     border-radius: 6px;
     margin : auto;
     float:right;
+
 }
 
 
@@ -55,6 +56,7 @@ body {
 
     border-radius: 6px;
     margin : auto;
+    border: 1px solid black;
 
 }
 
@@ -70,6 +72,7 @@ body {
 
     border-radius: 6px;
     margin : auto;
+    border: 1px solid black;
     
 }
 
@@ -117,4 +120,19 @@ body {
     top: -15%;
     font-size: 20px;
     color: #0c0c0c;
+}
+
+.previous-day-options-footer {
+    height: 50px;
+}
+
+.today-options-footer {
+    height: 60px;
+    align-items: "center";
+}
+
+.delete-button {
+    width: 125px;
+    margin: 9px;
+    height: 30px;
 }

@@ -1,6 +1,6 @@
 
+//#region Prepare and Serve Operations
 
-//! Pured
 const generateListElement = async (parent, hostName, visitCount, logo ) => {
 
     const element = document.createElement("div");
@@ -24,16 +24,20 @@ const generateListElement = async (parent, hostName, visitCount, logo ) => {
     visitDisplay.innerText = visitCount;
 
 
-    header.addEventListener('click', (e) => {
+    const headerEvent = header.addEventListener('click', (e) => {
         e.preventDefault()
         goToSiteEventHandler(hostName);
     })
 
-    logoDisplay.addEventListener('click', (e) => {
+    const logoEvent = logoDisplay.addEventListener('click', (e) => {
         e.preventDefault()
         goToSiteEventHandler(hostName);
     })
 
+    // logoEventListener(logoDisplay, hostName)
+
+    console.log(logoEvent);
+    console.log(headerEvent);
 
     element.appendChild(logoDisplay);
     element.appendChild(header);
@@ -41,11 +45,25 @@ const generateListElement = async (parent, hostName, visitCount, logo ) => {
 
     parent.appendChild(element);
 
+    const eventHolderObject = [
+
+        logoEvent,
+        headerEvent
+    ]
+    
+
+    return eventHolderObject
+
 }
 
-//! Pured
+// const logoEventListener = (logoDisplay, hostName) => {
+//     const logoEvent = logoDisplay.addEventListener('click', (e) => {
+//         e.preventDefault()
+//         goToSiteEventHandler(hostName);
+//     })
+// }
+
 const prepareData = async (hostList) => {
-    console.log("prepareData");
     // const hostList = await chrome.storage.local.get("hostList");
     let uniqueHostNameList = [];
     let sortByNameList = []
@@ -73,7 +91,6 @@ const prepareData = async (hostList) => {
     }
     sortByNameList.sort();
     const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
-    console.log(sortByVisitCount);
 
     return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ]
 
@@ -99,25 +116,50 @@ const generateSortForVisitCount = (object) => {
     })
     return sortedList
 
-}
-
-const sortToName = (uniqueHostNameList) => {
-    return uniqueHostNameList.sort();
 };
 
-const sortToVisitCount = (sortingKeyList) => {
-
-    sortingKeyList
-
-}
-
-//! Pured
 const clearElements = (element) => {
     element.innerHTML = "";
 }
 
-//! Pured
 const goToSiteEventHandler = (hostName) => {
     window.open(`https://${hostName}`, "_blank");
 }
 
+//#endregion
+
+//#region Delete Operations
+
+const clearSingleDomainPreviousDay = async () => {
+    const previousDayData = await chrome.storage.local.get("previousDay");
+
+    if (previousDayData.previousDay) { 
+
+        const hostList = previousDayData.previousDay.hostList;
+    }
+};
+
+const clearSingleDomainToday = async () => {
+    const hostList = await chrome.storage.local.get("hostList");
+
+    if (hostList.hostList) {
+
+        const hostList1 = hostList.hostList
+    
+    }
+};
+
+const clearPreviousDayData = async () => {
+    chrome.storage.local.set({"previousDay" : null})
+};
+
+const clearTodayData = async () => {
+
+    chrome.storage.local.set({"hostList" : null})
+    chrome.storage.local.set({"day" : null})
+    chrome.storage.local.set({"sessionCount" : null});
+    chrome.storage.local.set({"tabCount" : null});
+    chrome.storage.local.set({"storedTabStateList" : null})
+};
+
+//#endregion

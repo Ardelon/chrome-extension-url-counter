@@ -23,6 +23,8 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [x] Sort according to visit count
 - [x] Sort according to name
 - [ ] Add a switch button for change sorting mechanism
+- [x] Add informing messages in case of no data
+- [ ] Add total visit count to extension logo
 
 ## Credits
 

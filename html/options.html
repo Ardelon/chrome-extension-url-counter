@@ -9,20 +9,28 @@
     <link rel="stylesheet" href="../css/options.css">
 </head>
 <body>
-
+    
     <div id="list-container" class="list-container">
         <div class="previous-day-container">
 
             <h1 class="container-header">Previous Day</h1>
             <div id="previous-day-list" class="previous-day-list"></div>
+            <div id="previous-day-options-footer" class="previous-day-options-footer">
+                <button id="previous-day-delete-all" class="delete-button">Delete All</button>
+                <button id="previous-day-delete-domain" class="delete-button">Delete Domain</button>
+            </div>
         </div>
 
         <div class="today-container">
             <h1 class="container-header">Today</h1>
             <div id="today-list" class="today-list"></div>            
+            <div id="today-options-footer" class="today-options-footer">
+                <button id="today-delete-all" class="delete-button">Delete All</button>
+                <button id="today-delete-domain" class="delete-button">Delete Domain</button>
+            </div>
         </div>
     </div>
-    <script src="../js/gatherInfo.js"></script>
+    <script src="../js/manageInfo.js"></script>
     <script src="../js/options.js"></script>
 </body>
 </html>
