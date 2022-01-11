@@ -25,6 +25,8 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [ ] Add a switch button for change sorting mechanism
 - [x] Add informing messages in case of no data
 - [x] Add total visit count to extension logo
+- [ ] Track active tab times
+- [ ] Add dark theme
 
 ## Credits
 
