@@ -2,6 +2,7 @@
 let tabCountDiv = document.getElementById("tab-count");
 let listContainer = document.getElementById("list-container");
 let totalVisitDisplay = document.getElementById("total-visit");
+const optionsPageButton = document.getElementById("options-page-button");
 
 
 const getTabCount = async () => {
@@ -27,4 +28,22 @@ const eventHandler = async () => {
     totalVisitDisplay.innerText = `Total Visit : ${totalVisit}` 
 }
 
+const openOptionsPageEvent = () => {
+
+    
+    if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+      } else {
+        window.open(chrome.runtime.getURL('options.html'));
+      }
+}
+
 eventHandler();
+optionsPageButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    openOptionsPageEvent()
+    optionsPageButton.removeEventListener('click', (e) => {
+        e.preventDefault();
+        openOptionsPageEvent();
+    })
+})

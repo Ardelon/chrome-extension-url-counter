@@ -188,7 +188,7 @@ const clearPreviousDayData = async () => {
 const clearTodayData = async () => {
 
     chrome.storage.local.set({"hostList" : null})
-    chrome.storage.local.set({"day" : null})
+    // chrome.storage.local.set({"day" : null})
     chrome.storage.local.set({"sessionCount" : null});
     chrome.storage.local.set({"tabCount" : null});
     chrome.storage.local.set({"storedTabStateList" : null})
