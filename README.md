@@ -18,13 +18,13 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [ ] Add an export option to a provided link
 - [ ] Show how many browser is opened
 - [ ] Make a logo
-- [ ] Reference Github repo
+- [x] Reference Github repo
 - [ ] Add Language selection
 - [x] Sort according to visit count
 - [x] Sort according to name
 - [ ] Add a switch button for change sorting mechanism
 - [x] Add informing messages in case of no data
-- [ ] Add total visit count to extension logo
+- [x] Add total visit count to extension logo
 
 ## Credits
 

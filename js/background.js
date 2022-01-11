@@ -37,7 +37,11 @@ const addToHostList = async (model) => {
         hostList["hostList"] = [];
     }
     hostList.hostList.push(model)
-    chrome.storage.local.set({"hostList":hostList.hostList})
+    chrome.storage.local.set({"hostList":hostList.hostList});
+    const details = {
+        text : hostList.hostList.length.toString()
+    }
+    chrome.action.setBadgeText(details)
 
 }
 
@@ -91,6 +95,15 @@ const updateDateCounters = async () => {
             const [generatedDayToBe] = generateDay();
             setDay(generatedDayToBe);
         }, remainingMiliSeconds);
+    }
+
+    let hostList = await getHostList();
+    if (hostList.hostList) {
+        chrome.storage.local.set({"hostList":hostList.hostList});
+        const details = {
+            text : hostList.hostList.length.toString()
+        }
+        chrome.action.setBadgeText(details)
     }
 }
 
@@ -152,6 +165,9 @@ const storeTabState = async (tabId, tab) => {
         // console.log(willBeUpdated);
         if (willBeUpdated) {
             updateDomain(tabState)
+
+         
+            
         }
     }
 
