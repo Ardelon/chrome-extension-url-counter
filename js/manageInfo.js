@@ -1,9 +1,10 @@
 
 //#region Prepare and Serve Operations
 
-const generateListElement = async (parent, hostName, visitCount, logo ) => {
+const generateListElement = async (parent, hostName, visitCount, logo, dataDate ) => {
 
     const element = document.createElement("div");
+    const blockage = document.createElement("div");
     const logoDisplay = document.createElement("img");
     const header =  document.createElement("h4");
     const visitDisplay =  document.createElement("p");
@@ -11,6 +12,7 @@ const generateListElement = async (parent, hostName, visitCount, logo ) => {
 
 
     element.classList.add("list-element");
+    blockage.classList.add("blockage", "hide");
     logoDisplay.classList.add("logo");
     header.classList.add("header");
     visitDisplay.classList.add("visitDisplay")
@@ -23,36 +25,32 @@ const generateListElement = async (parent, hostName, visitCount, logo ) => {
 
     visitDisplay.innerText = visitCount;
 
+    blockage.addEventListener('click', (e) => {
+        e.preventDefault();
+        removeDeletedElement(element, hostName, dataDate);
 
-    const headerEvent = header.addEventListener('click', (e) => {
+        blockage.removeEventListener('click', (e) => {
+            e.preventDefault();
+            removeDeletedElement();
+        })
+    })
+
+    header.addEventListener('click', (e) => {
         e.preventDefault()
         goToSiteEventHandler(hostName);
     })
 
-    const logoEvent = logoDisplay.addEventListener('click', (e) => {
+    logoDisplay.addEventListener('click', (e) => {
         e.preventDefault()
         goToSiteEventHandler(hostName);
-    })
+    });
 
-    // logoEventListener(logoDisplay, hostName)
-
-    console.log(logoEvent);
-    console.log(headerEvent);
-
+    element.appendChild(blockage);
     element.appendChild(logoDisplay);
     element.appendChild(header);
     element.appendChild(visitDisplay);
 
     parent.appendChild(element);
-
-    const eventHolderObject = [
-
-        logoEvent,
-        headerEvent
-    ]
-    
-
-    return eventHolderObject
 
 }
 
@@ -126,26 +124,60 @@ const goToSiteEventHandler = (hostName) => {
     window.open(`https://${hostName}`, "_blank");
 }
 
+const removeDeletedElement = async (element, hostName, dataDate) => {
+    
+   
+
+    if (dataDate === 'today') {
+        clearSingleDomainToday(hostName)
+    } else {
+        clearSingleDomainPreviousDay(hostName)
+    }
+
+    element.remove();
+
+}
+
 //#endregion
 
 //#region Delete Operations
 
-const clearSingleDomainPreviousDay = async () => {
+const clearSingleDomainPreviousDay = async (hostName) => {
     const previousDayData = await chrome.storage.local.get("previousDay");
 
     if (previousDayData.previousDay) { 
 
         const hostList = previousDayData.previousDay.hostList;
+        console.log(previousDayData.previousDay);
+        console.log(hostList);
+
+        const newHostList = [];
+
+        hostList.forEach(element => {
+            if (element.hostName !== hostName) {
+                newHostList.push(element);
+            }
+        })
+
+        previousDayData.previousDay.hostList = newHostList;
+        chrome.storage.local.set({"previousDay" : previousDayData.previousDay})
     }
 };
 
-const clearSingleDomainToday = async () => {
+const clearSingleDomainToday = async (hostName) => {
     const hostList = await chrome.storage.local.get("hostList");
 
     if (hostList.hostList) {
 
-        const hostList1 = hostList.hostList
-    
+        const newHostList = [];
+
+        hostList.hostList.forEach(element => {
+            if (element.hostName !== hostName) {
+                newHostList.push(element);
+            }
+        })
+
+        chrome.storage.local.set({"hostList" : newHostList})
     }
 };
 

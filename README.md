@@ -11,8 +11,8 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 
 - [x] Build an option page
 - [ ] Cache loaded logos
-- [ ] Make host list elements deleteable
-- [ ] Add a clear button that resets all data
+- [x] Make host list elements deleteable
+- [x] Add a clear button that resets all data
 - [x] Preserve previous day's data for exporting
 - [ ] Add an export option as csv
 - [ ] Add an export option to a provided link

@@ -28,19 +28,19 @@ const renderDataHandler = async () => {
 
 const servePreviousDay = async () => {
     const previousDayData = await chrome.storage.local.get("previousDay");
+    clearElements(previousDayListContainer);
 
     if (previousDayData.previousDay) {
 
         const hostList = previousDayData.previousDay.hostList;
         const tabCount = previousDayData.tabCount;
         const data = await prepareData(hostList);
-        clearElements(previousDayListContainer);
         const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
         
         sortByVisitCount.forEach(hostName => {
             const visitCount = hostInformationObject[hostName].visitCount;
             const logo =  hostInformationObject[hostName].logo
-            generateListElement(previousDayListContainer, hostName, visitCount, logo)
+            generateListElement(previousDayListContainer, hostName, visitCount, logo, 'previousDay')
             
         });
     } else {
@@ -53,6 +53,7 @@ const servePreviousDay = async () => {
 
 const serveToday = async () => {
     const hostList = await chrome.storage.local.get("hostList");
+    clearElements(todayListContainer);
 
     if (hostList.hostList) {
 
@@ -60,13 +61,12 @@ const serveToday = async () => {
         const hostList1 = hostList.hostList
         const data = await prepareData(hostList1);
         
-        clearElements(todayListContainer);
         const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
         
         sortByVisitCount.forEach(async hostName => {
             const visitCount = hostInformationObject[hostName].visitCount;
             const logo =  hostInformationObject[hostName].logo
-            const logoEvent = await generateListElement(todayListContainer, hostName, visitCount, logo);
+            const logoEvent = await generateListElement(todayListContainer, hostName, visitCount, logo, 'today');
             todayEventList[hostName] = logoEvent;
             
         });
@@ -85,7 +85,7 @@ const serveToday = async () => {
 
 previousDayDeleteAllButton.addEventListener('click', async (e) => {
     e.preventDefault();
-    clearPreviousDayData();
+    await clearPreviousDayData();
     servePreviousDay();
      
     previousDayDeleteAllButton.removeEventListener('click', async (e) => {
@@ -95,8 +95,7 @@ previousDayDeleteAllButton.addEventListener('click', async (e) => {
 
 previousDayDeleteDomainButton.addEventListener('click', async (e) => {
     e.preventDefault();
-    const dataDate = 'previousDay';
-    addEventListenerToListElements(previousDayListContainer, removeDeletedElement, dataDate )
+    toggleBlockageElement(previousDayListContainer)
 
     previousDayDeleteDomainButton.removeEventListener('click', async (e) => {
         e.preventDefault();
@@ -105,7 +104,7 @@ previousDayDeleteDomainButton.addEventListener('click', async (e) => {
 
 todayDeleteAllButton.addEventListener('click', async (e) => {
     e.preventDefault();
-    clearTodayData();
+    await clearTodayData();
     serveToday();
 
     todayDeleteAllButton.removeEventListener('click', async (e) => {
@@ -115,8 +114,7 @@ todayDeleteAllButton.addEventListener('click', async (e) => {
 
 todayDeleteDomainButton.addEventListener('click', async (e) => {
     e.preventDefault();
-    const dataDate = 'today';
-    addEventListenerToListElements(todayListContainer, removeDeletedElement, dataDate)
+    toggleBlockageElement(todayListContainer)
 
     todayDeleteDomainButton.removeEventListener('click', async (e) => {
         e.preventDefault();
@@ -127,78 +125,23 @@ todayDeleteDomainButton.addEventListener('click', async (e) => {
 
 //#region Utilities
 
-const addEventListenerToListElements = (parent, event, dataDate) => {
+const toggleBlockageElement = (parent) => {
+
     const childrenHTMLCollection = parent.children;
     const childrenArray = [...childrenHTMLCollection];
 
     childrenArray.forEach(child => {
-        removeListElementChildrenEventListener(child);
-        // child.addEventListener('click', (e) => {
-        //     e.preventDefault();
-        //     event(child, dataDate);
-
-        //     child.removeEventListener('click', (e) => {
-        //         e.preventDefault();
-        //         event();
-        //     })
-        // })
-    })
-}
-
-const removeEventListenerFromListElements = (parent, event) => {
-    const childrenHTMLCollection = parent.children;
-    const childrenArray = [...childrenHTMLCollection];
-
-    childrenArray.forEach(child => {
-        child.removeEventListener('click', (e) => {
-            e.preventDefault();
-            event(child);
-
-        })
-    })
-}
-
-const removeDeletedElement = async (element, dataDate) => {
+        const childrenHTMLCollection = child.children;
+        const childrenArray = [...childrenHTMLCollection];
     
-  
-
-    if (dataDate === 'today') {
-        clearSingleDomainToday()
-    } else {
-        clearSingleDomainPreviousDay()
-    }
-
-    element.remove();
-
+        const blockage = childrenArray[0]
+        blockage.classList.toggle("hide");
+       
+    });
 }
 
-const removeListElementChildrenEventListener = (element) => {
-
-    const childrenHTMLCollection = element.children;
-    const childrenArray = [...childrenHTMLCollection];
-
-    const logo = childrenArray[0];
-    const header = childrenArray[1];
-    const hostName = header.innerText;
 
 
-    console.log(todayEventList[hostName][0]);
-
-    console.log(logo, header);
-
-    logo.removeEventListener('click', (e) => {
-        e.preventDefault()
-        todayEventList[hostName][0];
-    }, true);
-
-    header.removeEventListener('click', (e) => {
-        e.preventDefault()
-        todayEventList[hostName][1];
-    }, true);
-
-
-    
-}
 
 //#endregion
 

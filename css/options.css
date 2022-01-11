@@ -91,6 +91,17 @@ body {
     
 }
 
+.blockage {
+
+    width: 250px;
+    height: 50px;
+    position: absolute;
+    z-index: 9999999;
+    background-color: red ;
+    opacity: 0.2;
+
+}
+
 
 
 .logo {
@@ -98,7 +109,7 @@ body {
     width: 40px;
     top: 50%;
     transform: translate(15%, -50%);
-        cursor: pointer;
+    cursor: pointer;
   
 }
 
@@ -135,4 +146,8 @@ body {
     width: 125px;
     margin: 9px;
     height: 30px;
+}
+
+.hide {
+    display: none;
 }
