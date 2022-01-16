@@ -1,24 +1,29 @@
 
 body {
-    background-color: hsl(14.7,87.72%,55.29%); 
-    color: #0c0c0c;
+    background-color: #141e24;
+    color: #e96c4c;
     font-weight: bold;
+    padding: 10px;
 }
 
 .list-container {
-    width: 670px;
+    width: 700px;
     margin: auto;
+    display: flex;
+    border : 1px solid #fafafa;
 }
 
 .previous-day-container {
-    height: 530px;
-    width: 290px;
+    height: 700px;
+    width: 310px;
 
-    background-color: #fafafa;
+    /* background-color: #fafafa; */
 
     border-radius: 6px;
     margin : auto;
     float:left;
+    justify-content: center;
+    align-items: center;
     
     
 }
@@ -33,10 +38,10 @@ body {
 
 .today-container {
 
-    height: 530px;
-    width: 290px;
+    height: 700px;
+    width: 310px;
     overflow-x: auto;
-    background-color: #fafafa;
+    /* background-color: #fafafa; */
 
     border-radius: 6px;
     margin : auto;
@@ -52,11 +57,11 @@ body {
     height: 400px;
     width: 270px;
     overflow-x: auto;
-    background-color: #fafafa;
+    /* background-color: #fafafa; */
 
     border-radius: 6px;
     margin : auto;
-    border: 1px solid black;
+    border: 1px solid #fafafa;
 
 }
 
@@ -68,11 +73,10 @@ body {
     height: 400px;
     width: 270px;
     overflow-x: auto;
-    background-color: #fafafa;
-
+    /* background-color: #fafafa; */
     border-radius: 6px;
     margin : auto;
-    border: 1px solid black;
+    border: 1px solid #fafafa;
     
 }
 
@@ -84,7 +88,8 @@ body {
     width: 250px;
     height: 50px;
     margin: 5px auto;
-    background-color: #fafafa;
+    /* background-color: #fafafa; */
+    color: #fafafa;
     display: block;
     position: relative;
     border-radius: 5px;
@@ -117,7 +122,7 @@ body {
     transform: translate(10px, 10px);
     width: 150px;
     margin: auto;
-    color:#0c0c0c;
+    color:#fafafa;
     font-weight: bold;
     cursor: pointer;
     white-space: nowrap;
@@ -130,24 +135,56 @@ body {
     right: 5%;
     top: -15%;
     font-size: 20px;
-    color: #0c0c0c;
+    color: #fafafa;
+}
+
+.counter-container {
+    display: flex;
 }
 
 .previous-day-options-footer {
-    height: 50px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .today-options-footer {
     height: 60px;
-    align-items: "center";
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .delete-button {
-    width: 125px;
-    margin: 9px;
-    height: 30px;
+    border: 2px solid #316e7d;
+    box-sizing: border-box;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin: auto;
+    background-color: #316e7d;
+    width: 140px;
+
 }
 
 .hide {
     display: none;
+}
+
+.option-selection {
+    width: 600px;
+    margin: 10px auto 0;
+    background-color: white;
+    display: flex;
+    padding: 12.5px;
+}
+
+.count-indicator {
+    font-size: 17px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 150px;
 }

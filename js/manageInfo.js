@@ -1,7 +1,7 @@
 
 //#region Prepare and Serve Operations
 
-const generateListElement = async (parent, hostName, visitCount, logo, dataDate ) => {
+const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateEvent ) => {
 
     const element = document.createElement("div");
     const blockage = document.createElement("div");
@@ -28,6 +28,7 @@ const generateListElement = async (parent, hostName, visitCount, logo, dataDate 
     blockage.addEventListener('click', (e) => {
         e.preventDefault();
         removeDeletedElement(element, hostName, dataDate);
+        updateEvent();
 
         blockage.removeEventListener('click', (e) => {
             e.preventDefault();
@@ -54,12 +55,7 @@ const generateListElement = async (parent, hostName, visitCount, logo, dataDate 
 
 }
 
-// const logoEventListener = (logoDisplay, hostName) => {
-//     const logoEvent = logoDisplay.addEventListener('click', (e) => {
-//         e.preventDefault()
-//         goToSiteEventHandler(hostName);
-//     })
-// }
+
 
 const prepareData = async (hostList) => {
     // const hostList = await chrome.storage.local.get("hostList");
@@ -158,7 +154,7 @@ const clearSingleDomainPreviousDay = async (hostName) => {
                 newHostList.push(element);
             }
         })
-
+        previousDayData.previousDay.visitCount = newHostList.length
         previousDayData.previousDay.hostList = newHostList;
         chrome.storage.local.set({"previousDay" : previousDayData.previousDay})
     }

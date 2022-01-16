@@ -11,20 +11,27 @@
 <body>
     <div>
 
-        <div id="tab-count" class="tab-count">Tab Count : 0</div>
         
+        <div id="date-info" class="date-info">Today</div>
         <div id="list-container" class="list-container"></div>
-        <div id="total-visit" class="total-visit">Total Visit : 0</div>
+        <div id="tab-count" class="count-indicator">Tab Count : 0</div>
+        <div id="total-visit" class="count-indicator">Total Visit : 0</div>
     </div>
     <footer>
-        <button id="options-page-button">Options</button>
-        <a href="https://github.com/Ardelon/chrome-extension-url-counter" target="_blank">Github</a>
+        <div id="options-page-button" class="footer-buttons">Options</div>
+        <div class="footer-buttons">
+            <a href="https://github.com/Ardelon/chrome-extension-url-counter" target="_blank">
+                <img src=https://github.githubassets.com/favicons/favicon.svg width="30" height="30" color="white">
+                
+            </a>
+        </div>
         <!-- <label class="switch">
             <input type="checkbox">
             <span class="slider"></span>
         </label> -->
     </footer>
 
+    <script src="../js/manageOptions.js"></script>
     <script src="../js/manageInfo.js"></script>
     <script src="../js/popup.js"></script>
 </body>

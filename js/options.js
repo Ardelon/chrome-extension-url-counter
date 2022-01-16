@@ -3,14 +3,23 @@
 const previousDayListContainer = document.getElementById("previous-day-list");
 const todayListContainer = document.getElementById("today-list");
 
+const previousDayTabCount = document.getElementById("previous-day-tab-count");
+const previousDayVisitCount = document.getElementById("previous-day-total-visit");
+
+const todayTabCount = document.getElementById("today-tab-count");
+const todayVisitCount = document.getElementById("today-total-visit");
+
+
 const previousDayDeleteAllButton = document.getElementById("previous-day-delete-all");
 const previousDayDeleteDomainButton = document.getElementById("previous-day-delete-domain");
 
 const todayDeleteAllButton = document.getElementById("today-delete-all");
 const todayDeleteDomainButton = document.getElementById("today-delete-domain");
 
-let todayEventList = {};
-let previousDayEventList = {};
+const sortByHeader = document.getElementById("sort-by-header");
+const sortBySwitch = document.getElementById("sort-by-switch-input");
+const sortBySwitchSpan = document.getElementById("sort-by-switch-span");
+
 
 const getTabCount = async () => {
     return await chrome.storage.local.get("tabCount");
@@ -33,16 +42,34 @@ const servePreviousDay = async () => {
     if (previousDayData.previousDay) {
 
         const hostList = previousDayData.previousDay.hostList;
-        const tabCount = previousDayData.tabCount;
+        const tabCount = previousDayData.previousDay.tabCount;
         const data = await prepareData(hostList);
         const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
         
-        sortByVisitCount.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            generateListElement(previousDayListContainer, hostName, visitCount, logo, 'previousDay')
+        previousDayTabCount.innerHTML = `<p>Tab Count : ${tabCount || 0}</p>`;
+        const sortingOption = await getSortingOptions();
+
+        if (sortingOption === 'sortByName') {
             
-        });
+            sortByNameList.forEach(hostName => {
+                const visitCount = hostInformationObject[hostName].visitCount;
+                const logo =  hostInformationObject[hostName].logo
+                generateListElement(previousDayListContainer, hostName, visitCount, logo, 'previousDay', updatePreviousDayVisitCount)
+                
+            });
+        } else {
+
+            sortByVisitCount.forEach(hostName => {
+                const visitCount = hostInformationObject[hostName].visitCount;
+                const logo =  hostInformationObject[hostName].logo
+                generateListElement(previousDayListContainer, hostName, visitCount, logo, 'previousDay', updatePreviousDayVisitCount)
+                
+            });
+        }
+
+        
+        previousDayVisitCount.innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>` 
+     
     } else {
         const noDataWarning = document.createElement("h2")
         noDataWarning.innerText = "No data found";
@@ -53,23 +80,38 @@ const servePreviousDay = async () => {
 
 const serveToday = async () => {
     const hostList = await chrome.storage.local.get("hostList");
-    clearElements(todayListContainer);
+    const tabCount = await getTabCount();
 
+    clearElements(todayListContainer);
+    todayTabCount.innerHTML = `<p>Tab Count : ${tabCount.tabCount || 0}</p>`;
+    
     if (hostList.hostList) {
 
-        const tabCount = await getTabCount();
-        const hostList1 = hostList.hostList
-        const data = await prepareData(hostList1);
+        const data = await prepareData(hostList.hostList);
         
         const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
         
-        sortByVisitCount.forEach(async hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            const logoEvent = await generateListElement(todayListContainer, hostName, visitCount, logo, 'today');
-            todayEventList[hostName] = logoEvent;
+        const sortingOption = await getSortingOptions();
+
+        if (sortingOption === 'sortByName') {
             
-        });
+            sortByNameList.forEach(async hostName => {
+                const visitCount = hostInformationObject[hostName].visitCount;
+                const logo =  hostInformationObject[hostName].logo
+                generateListElement(todayListContainer, hostName, visitCount, logo, 'today', updateTodayVisitCount);
+                
+            });
+        } else {
+
+            sortByVisitCount.forEach(async hostName => {
+                const visitCount = hostInformationObject[hostName].visitCount;
+                const logo =  hostInformationObject[hostName].logo
+                generateListElement(todayListContainer, hostName, visitCount, logo, 'today', updateTodayVisitCount);
+                
+            });
+        }
+
+        todayVisitCount.innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>` 
 
     } else {
         const noDataWarning = document.createElement("h2")
@@ -78,6 +120,7 @@ const serveToday = async () => {
         todayListContainer.appendChild(noDataWarning)
     }
 }
+
 
 //#endregion
 
@@ -140,9 +183,80 @@ const toggleBlockageElement = (parent) => {
     });
 }
 
+const updateTodayVisitCount = async () => {
+    const hostList = await chrome.storage.local.get("hostList");
+
+    if (hostList.hostList) {
+
+        const data = await prepareData(hostList.hostList);
+        
+        const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
+        todayVisitCount.innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>` 
+    }
+}
+
+const updatePreviousDayVisitCount = async () => {
+    const previousDayData = await chrome.storage.local.get("previousDay");
+    
+    if (previousDayData.previousDay) {
+
+        const hostList = previousDayData.previousDay.hostList;
+        const data = await prepareData(hostList);
+        const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
+        previousDayVisitCount.innerHTML = `<p>Total Visit : ${sortByVisitCount.length || 0}</p>` 
+
+    }
+}
+
 
 
 
 //#endregion
 
+//#region Option Handlers 
+    const displayOptions = async () => {
+
+        await sortingOptionDisplay();
+        optionsHandlerImplementation();
+         
+    }
+
+    const sortingOptionDisplay = async () => {
+        
+        const sortingOption = await getSortingOptions();
+
+        if (sortingOption === 'sortByName') {
+            sortByHeader.innerHTML = `<p>Sort By Name</p>`;
+        } else {
+            sortByHeader.innerHTML = `<p>Sort By Visit Count</p>`;
+            sortBySwitch.checked = true
+        }
+    }
+
+    const optionsHandlerImplementation = async () => {
+
+        sortBySwitch.addEventListener('change', async (e) => {
+        
+            e.preventDefault();
+            if (!sortBySwitch.checked) {
+                setSortingOptions('sortByName');
+                sortByHeader.innerHTML = `<p>Sort By Name</p>`;
+            } else {
+                setSortingOptions('sortByVisitCount')
+                sortByHeader.innerHTML = `<p>Sort By Visit Count</p>`;
+            } 
+    
+            servePreviousDay();
+            serveToday();
+    
+            sortBySwitch.removeEventListener('click', (e) => {
+                e.preventDefault()
+            })
+        })
+    }
+
+
+//#endregion
+
 renderDataHandler();
+displayOptions();

@@ -7,6 +7,7 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="../css/options.css">
+    <link rel="stylesheet" href="../css/switchButton.css">
 </head>
 <body>
     
@@ -15,21 +16,44 @@
 
             <h1 class="container-header">Previous Day</h1>
             <div id="previous-day-list" class="previous-day-list"></div>
+            <div class="counter-container">
+
+                <div id="previous-day-tab-count" class="count-indicator">Tab Count : 0</div>
+                <div id="previous-day-total-visit" class="count-indicator">Total Visit : 0</div>
+            </div>
             <div id="previous-day-options-footer" class="previous-day-options-footer">
-                <button id="previous-day-delete-all" class="delete-button">Delete All</button>
-                <button id="previous-day-delete-domain" class="delete-button">Delete Domain</button>
+                <div id="previous-day-delete-all" class="delete-button"><p>Delete All</p></div>
+                <div id="previous-day-delete-domain" class="delete-button"><p>Delete Domain</p></div>
             </div>
         </div>
 
         <div class="today-container">
             <h1 class="container-header">Today</h1>
-            <div id="today-list" class="today-list"></div>            
+            <div id="today-list" class="today-list"></div> 
+            <div class="counter-container">
+
+                <div id="today-tab-count" class="count-indicator">Tab Count : 0</div>
+                <div id="today-total-visit" class="count-indicator">Total Visit : 0</div>    
+            </div>       
             <div id="today-options-footer" class="today-options-footer">
-                <button id="today-delete-all" class="delete-button">Delete All</button>
-                <button id="today-delete-domain" class="delete-button">Delete Domain</button>
+                <div id="today-delete-all" class="delete-button"><p>Delete All</p></div>
+                <div id="today-delete-domain" class="delete-button"><p>Delete Domain</p></div>
             </div>
         </div>
     </div>
+
+    <div id="option-selection" class="option-selection">
+        <div id="sort-control-container">
+
+            <label class="switch">
+                <input type="checkbox" id="sort-by-switch-input">
+                <span class="slider" id="sort-by-switch-span"></span>
+            </label>
+            <h2 id="sort-by-header"></h2>
+        </div>
+        
+    </div>
+    <script src="../js/manageOptions.js"></script>
     <script src="../js/manageInfo.js"></script>
     <script src="../js/options.js"></script>
 </body>

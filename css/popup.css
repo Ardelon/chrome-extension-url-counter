@@ -1,33 +1,58 @@
 body {
-    background-color: hsl(14.7,87.72%,55.29%); 
-    color: #0c0c0c;
+    background-color: #141e24;
+    color: #e96c4c;
     font-weight: bold;
-}
 
+    border: 2px solid white;
+    margin : 0;
+    padding: 8px;
+
+    /* font-family :'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+}
+/* hsl(14.7,87.72%,55.29%);  */
 /* hsl(33.94,81.82%,52.55%) */
 
 .list-container {
     height: 400px;
-    width: 270px;
+    width: 300px;
     overflow-x: auto;
-    background-color: #fafafa;
-
-    border-radius: 6px;
-    margin : 3px
+    /* background-color: #316e7d; */
+    border-top : 2px solid #316e7d;
+    /* border-radius: 6px; */
+    border-bottom : 2px solid #316e7d;
+    margin : 6px;
     
 }
 
-.tab-count {
-    font-size: 20px;
+.date-info {
+    font-size: 26px;
+    text-align: center;
+    margin:3px;
+}
+
+
+.count-indicator {
+    font-size: 17px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    display: flex;
+    width: 150px;
+    display: inline-block;
+}
+/* .tab-count {
+    font-size: 16px;
     text-align: center;
     margin:3px;
 }
 
 .total-visit {
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
     margin:3px;
-}
+    color: #e96c4c;
+} */
 
 .tab-count-button {
     width: 250px;
@@ -38,11 +63,15 @@ body {
     width: 250px;
     height: 50px;
     margin: 5px auto;
-    background-color: #fafafa;
+    /* background-color: #316e7d; */
     display: block;
     position: relative;
     border-radius: 5px;
     
+}
+
+.list-element:hover {
+    background-color: #316e7d;
 }
 
 
@@ -64,7 +93,7 @@ body {
     transform: translate(10px, 10px);
     width: 150px;
     margin: auto;
-    color:#0c0c0c;
+    color:#fafafa;
     font-weight: bold;
     cursor: pointer;
     white-space: nowrap;
@@ -77,9 +106,30 @@ body {
     right: 5%;
     top: -15%;
     font-size: 20px;
-    color: #0c0c0c;
+    color: #fafafa;
 }
 
 footer {
-    margin-top : 5px
+
+    align-items: stretch;
+    display: flex;
+    flex: none;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.footer-buttons {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+    border: 2px solid #316e7d;
+    box-sizing: border-box;
+    color: white;
+    font-size: 16px;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+    background-color: #316e7d;
 }

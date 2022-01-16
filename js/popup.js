@@ -16,16 +16,30 @@ const eventHandler = async () => {
     const data = await prepareData(hostList1);
     clearElements(listContainer);
     const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
-    tabCountDiv.innerText = `Tab Count : ${tabCount.tabCount || 0}`;
+    tabCountDiv.innerHTML = `<p>Tab Count : ${tabCount.tabCount || 0}</p>`;
+
+    const sortingOption = await getSortingOptions();
+
+    if (sortingOption === 'sortByName') {
     
-    sortByVisitCount.forEach(hostName => {
-        const visitCount = hostInformationObject[hostName].visitCount;
-        const logo =  hostInformationObject[hostName].logo
-        generateListElement(listContainer, hostName, visitCount, logo)
+        sortByNameList.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            generateListElement(listContainer, hostName, visitCount, logo)
 
-    });
+        });
 
-    totalVisitDisplay.innerText = `Total Visit : ${totalVisit}` 
+    } else {
+    
+        sortByVisitCount.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            generateListElement(listContainer, hostName, visitCount, logo)
+    
+        });
+    
+    } 
+    totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` 
 }
 
 const openOptionsPageEvent = () => {
