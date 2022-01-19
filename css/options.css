@@ -14,17 +14,15 @@ body {
 }
 
 .previous-day-container {
+
     height: 700px;
     width: 310px;
-
-    /* background-color: #fafafa; */
 
     border-radius: 6px;
     margin : auto;
     float:left;
     justify-content: center;
     align-items: center;
-    
     
 }
 
@@ -40,17 +38,14 @@ body {
 
     height: 700px;
     width: 310px;
-    overflow-x: auto;
-    /* background-color: #fafafa; */
 
     border-radius: 6px;
     margin : auto;
     float:right;
-
+    justify-content: center;
+    align-items: center;
+    
 }
-
-
-
 
 
 .previous-day-list {
@@ -172,12 +167,17 @@ body {
     display: none;
 }
 
-.option-selection {
+.option-selection-group {
     width: 600px;
     margin: 10px auto 0;
     background-color: white;
     display: flex;
     padding: 12.5px;
+}
+
+.option-selection-element {
+    display: flex;
+    align-items: center;
 }
 
 .count-indicator {

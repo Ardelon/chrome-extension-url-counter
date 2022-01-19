@@ -25,14 +25,14 @@ const generateListElement = async (parent, hostName, visitCount, logo, dataDate,
 
     visitDisplay.innerText = visitCount;
 
-    blockage.addEventListener('click', (e) => {
+    blockage.addEventListener('click', async (e) => {
         e.preventDefault();
-        removeDeletedElement(element, hostName, dataDate);
+        await removeDeletedElement(element, hostName, dataDate);
         updateEvent();
 
         blockage.removeEventListener('click', (e) => {
             e.preventDefault();
-            removeDeletedElement();
+      
         })
     })
 
@@ -125,9 +125,9 @@ const removeDeletedElement = async (element, hostName, dataDate) => {
    
 
     if (dataDate === 'today') {
-        clearSingleDomainToday(hostName)
+        await clearSingleDomainToday(hostName)
     } else {
-        clearSingleDomainPreviousDay(hostName)
+        await clearSingleDomainPreviousDay(hostName)
     }
 
     element.remove();
@@ -144,18 +144,17 @@ const clearSingleDomainPreviousDay = async (hostName) => {
     if (previousDayData.previousDay) { 
 
         const hostList = previousDayData.previousDay.hostList;
-        console.log(previousDayData.previousDay);
-        console.log(hostList);
 
         const newHostList = [];
 
-        hostList.forEach(element => {
+        hostList.forEach((element, index) => {
             if (element.hostName !== hostName) {
                 newHostList.push(element);
             }
-        })
+        });
         previousDayData.previousDay.visitCount = newHostList.length
         previousDayData.previousDay.hostList = newHostList;
+        console.log(previousDayData.previousDay);
         chrome.storage.local.set({"previousDay" : previousDayData.previousDay})
     }
 };
@@ -172,8 +171,8 @@ const clearSingleDomainToday = async (hostName) => {
                 newHostList.push(element);
             }
         })
-
-        chrome.storage.local.set({"hostList" : newHostList})
+        hostList.hostList = newHostList
+        chrome.storage.local.set({"hostList" : hostList.hostList})
     }
 };
 

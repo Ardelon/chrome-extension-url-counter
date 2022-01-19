@@ -152,7 +152,7 @@ const storeTabState = async (tabId, tab) => {
         favIcon : tab.favIconUrl || "../images/notFound.png"
     };
 
-    if (!tabState.url.includes("chrome://")) {
+    if (!tabState.url.includes("chrome://") && !tabState.url.includes("chrome-extension://") ) {
 
         
         let storedTabStateList = await getStoredTabStateList();

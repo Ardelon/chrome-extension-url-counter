@@ -75,6 +75,8 @@ const servePreviousDay = async () => {
         noDataWarning.innerText = "No data found";
         noDataWarning.style.textAlign = "center"
         previousDayListContainer.appendChild(noDataWarning)
+        previousDayVisitCount.innerHTML = `<p>Total Visit : 0</p>` ;
+        previousDayTabCount.innerHTML = `<p>Tab Count : 0</p>`;
     }
 }
 
@@ -118,6 +120,8 @@ const serveToday = async () => {
         noDataWarning.innerText = "No data found";
         noDataWarning.style.textAlign = "center"
         todayListContainer.appendChild(noDataWarning)
+        todayVisitCount.innerHTML = `<p>Total Visit : 0</p>` 
+
     }
 }
 
@@ -130,6 +134,7 @@ previousDayDeleteAllButton.addEventListener('click', async (e) => {
     e.preventDefault();
     await clearPreviousDayData();
     servePreviousDay();
+    updatePreviousDayVisitCount();
      
     previousDayDeleteAllButton.removeEventListener('click', async (e) => {
         e.preventDefault();
@@ -149,6 +154,7 @@ todayDeleteAllButton.addEventListener('click', async (e) => {
     e.preventDefault();
     await clearTodayData();
     serveToday();
+
 
     todayDeleteAllButton.removeEventListener('click', async (e) => {
         e.preventDefault();
@@ -199,11 +205,13 @@ const updatePreviousDayVisitCount = async () => {
     const previousDayData = await chrome.storage.local.get("previousDay");
     
     if (previousDayData.previousDay) {
+        console.log(previousDayData.previousDay);
+        console.log(previousDayData.previousDay.visitCount);
 
         const hostList = previousDayData.previousDay.hostList;
-        const data = await prepareData(hostList);
-        const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
-        previousDayVisitCount.innerHTML = `<p>Total Visit : ${sortByVisitCount.length || 0}</p>` 
+        // const data = await prepareData(hostList);
+        // const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
+        previousDayVisitCount.innerHTML = `<p>Total Visit : ${previousDayData.previousDay.visitCount || 0}</p>` 
 
     }
 }
