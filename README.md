@@ -19,7 +19,7 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [x] Add a switch button for change sorting mechanism
 - [x] Add informing messages in case of no data
 - [x] Add total visit count to extension logo
-- [ ] Add blacklist for not tracking specific websites
+- [x] Add blacklist for not tracking specific websites
 - [ ] Add an export option as csv
 - [ ] Show how many browser is opened
 - [ ] Make a new logo
