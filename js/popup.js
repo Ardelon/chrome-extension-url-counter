@@ -3,11 +3,16 @@ let tabCountDiv = document.getElementById("tab-count");
 let listContainer = document.getElementById("list-container");
 let totalVisitDisplay = document.getElementById("total-visit");
 const optionsPageButton = document.getElementById("options-page-button");
+const githubPageButton = document.getElementById("github-page-button");
+
+const dontSaveButton = document.getElementById("dont-save-button");
 
 
 const getTabCount = async () => {
     return await chrome.storage.local.get("tabCount");
 }
+
+
 
 const eventHandler = async () => {
     const hostList = await chrome.storage.local.get("hostList");
@@ -39,7 +44,9 @@ const eventHandler = async () => {
         });
     
     } 
-    totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` 
+    totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` ;
+
+
 }
 
 const openOptionsPageEvent = () => {
@@ -52,7 +59,43 @@ const openOptionsPageEvent = () => {
       }
 }
 
+
+
+
+
+const prepareDontSaveButton = async () => {
+    const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true})
+    const url  = currentTab[0].url
+    const [, , hostName ] = scrapeInformationFromUrl(url);
+    const notSavedSiteList = await getNotSavedSiteList();
+    
+
+    if (notSavedSiteList.notSavedSiteList && notSavedSiteList.notSavedSiteList.includes(hostName)) {
+        dontSaveButton.classList.add("this-site-will-not-be-saved")
+    }
+    
+
+    dontSaveButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
+        if (dontSaveButton.classList.contains("this-site-will-not-be-saved")) {
+            setNotSavedList(hostName)
+        } else {
+            setNotSavedList(hostName)
+        }
+        
+        dontSaveButton.classList.toggle("this-site-will-not-be-saved");
+    
+        dontSaveButton.removeEventListener('click', async (e) => {
+            e.preventDefault();
+        });
+        
+    });
+}
+
 eventHandler();
+prepareDontSaveButton();
+
 optionsPageButton.addEventListener('click', (e) => {
     e.preventDefault();
     openOptionsPageEvent()
@@ -60,4 +103,9 @@ optionsPageButton.addEventListener('click', (e) => {
         e.preventDefault();
         openOptionsPageEvent();
     })
-})
+});
+
+githubPageButton.addEventListener('click', (e => {
+    e.preventDefault();
+    openInNewTab("https://github.com/Ardelon/chrome-extension-url-counter")
+}));

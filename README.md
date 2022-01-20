@@ -10,24 +10,25 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 ## Task List
 
 - [x] Build an option page
-- [ ] Cache loaded logos
 - [x] Make host list elements deleteable
 - [x] Add a clear button that resets all data
 - [x] Preserve previous day's data for exporting
-- [ ] Add an export option as csv
-- [ ] Add an export option to a provided link
-- [ ] Show how many browser is opened
-- [ ] Make a logo
 - [x] Reference Github repo
-- [ ] Add Language selection
 - [x] Sort according to visit count
 - [x] Sort according to name
 - [x] Add a switch button for change sorting mechanism
 - [x] Add informing messages in case of no data
 - [x] Add total visit count to extension logo
+- [ ] Add blacklist for not tracking specific websites
+- [ ] Add an export option as csv
+- [ ] Show how many browser is opened
+- [ ] Make a new logo
+- [ ] Add Language selection
 - [ ] Track active tab times
-- [ ] Add dark theme
+- [ ] Add theme choice
 - [ ] Make sync with another devices
+- [ ] Cache loaded logos
+- [ ] Add an export option to a provided link
 
 ## Credits
 

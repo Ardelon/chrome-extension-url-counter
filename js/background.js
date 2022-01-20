@@ -138,6 +138,7 @@ const storeTabState = async (tabId, tab) => {
     // console.log('Store Tab State');
     const urlSet = scrapeInformationFromUrl(tab.url)
     let [fullUrl, protocol, hostName, pathname, search] = urlSet;
+    const notSavedSiteList = await getNotSavedSiteList();
 
     if (hostName.includes("www.")) {
         hostName = hostName.split("www.")[1];
@@ -152,7 +153,7 @@ const storeTabState = async (tabId, tab) => {
         favIcon : tab.favIconUrl || "../images/notFound.png"
     };
 
-    if (!tabState.url.includes("chrome://") && !tabState.url.includes("chrome-extension://") ) {
+    if (!tabState.url.includes("chrome://") && !tabState.url.includes("chrome-extension://") && !notSavedSiteList.notSavedSiteList.includes(tabState.hostName) ) {
 
         
         let storedTabStateList = await getStoredTabStateList();
@@ -181,6 +182,40 @@ const getStoredTabStateList = async () => {
 const setPreviousDay = async (previousDay) => {
     chrome.storage.local.set({"previousDay" : previousDay})
 }
+
+const getNotSavedSiteList = async () => {
+    const notSavedSiteList = await chrome.storage.local.get("notSavedSiteList");
+
+    if (!notSavedSiteList || !notSavedSiteList.notSavedSiteList) {
+        chrome.storage.local.set({"notSavedSiteList" : []});
+    } 
+
+    return notSavedSiteList || []
+}
+
+const setNotSavedList = async (urlPiece) => {
+
+    const notSavedSiteList = await chrome.storage.local.get("notSavedSiteList");
+    
+    if (!notSavedSiteList || !notSavedSiteList.notSavedSiteList) {
+        chrome.storage.local.set({"notSavedSiteList" : [urlPiece]});
+    } else {
+        if (!notSavedSiteList.notSavedSiteList.includes(urlPiece)) {
+            notSavedSiteList.notSavedSiteList.push(urlPiece);
+            chrome.storage.local.set({"notSavedSiteList" : notSavedSiteList.notSavedSiteList});   
+        } else {
+            for( let i = 0; i < notSavedSiteList.notSavedSiteList.length; i++){ 
+    
+                if ( notSavedSiteList.notSavedSiteList[i] === urlPiece) { 
+            
+                    notSavedSiteList.notSavedSiteList.splice(i, 1); 
+                }
+            
+            }
+            chrome.storage.local.set({"notSavedSiteList" : notSavedSiteList.notSavedSiteList});   
+        }
+    }
+}   
 
 
 //#endregion

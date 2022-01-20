@@ -190,3 +190,41 @@ const clearTodayData = async () => {
 };
 
 //#endregion
+
+//#region Storage Operations
+
+const getNotSavedSiteList = async () => {
+    const notSavedSiteList = await chrome.storage.local.get("notSavedSiteList");
+
+    if (!notSavedSiteList || !notSavedSiteList.notSavedSiteList) {
+        chrome.storage.local.set({"notSavedSiteList" : []});
+    } 
+
+    return notSavedSiteList || []
+}
+
+const setNotSavedList = async (urlPiece) => {
+
+    const notSavedSiteList = await chrome.storage.local.get("notSavedSiteList");
+    
+    if (!notSavedSiteList || !notSavedSiteList.notSavedSiteList) {
+        chrome.storage.local.set({"notSavedSiteList" : [urlPiece]});
+    } else {
+        if (!notSavedSiteList.notSavedSiteList.includes(urlPiece)) {
+            notSavedSiteList.notSavedSiteList.push(urlPiece);
+            chrome.storage.local.set({"notSavedSiteList" : notSavedSiteList.notSavedSiteList});   
+        } else {
+            for( let i = 0; i < notSavedSiteList.notSavedSiteList.length; i++){ 
+    
+                if ( notSavedSiteList.notSavedSiteList[i] === urlPiece) { 
+            
+                    notSavedSiteList.notSavedSiteList.splice(i, 1); 
+                }
+            
+            }
+            chrome.storage.local.set({"notSavedSiteList" : notSavedSiteList.notSavedSiteList});   
+        }
+    }
+}   
+
+//#endregion
