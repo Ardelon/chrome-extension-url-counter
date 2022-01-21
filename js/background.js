@@ -68,7 +68,7 @@ const storeStorage = async () => {
     }
 
     setPreviousDay(model);
-
+    addStoredDays(model);
 }
 
 const setDay = async (generatedDay) => {
@@ -87,15 +87,16 @@ const updateDateCounters = async () => {
 
     const [generatedDay, remainingMiliSeconds] = generateDay();
     const {day : savedDay} = await getDay();
-  
-    if (generatedDay !== savedDay) {
-        setDay(generatedDay)
-    } else {
-        setTimeout(() => {
-            const [generatedDayToBe] = generateDay();
-            setDay(generatedDayToBe);
-        }, remainingMiliSeconds);
-    }
+    console.log("Sol Invictus");
+    setDay(generatedDay)
+    // if (generatedDay !== savedDay) {
+    //     setDay(generatedDay)
+    // } else {
+    //     setTimeout(() => {
+    //         const [generatedDayToBe] = generateDay();
+    //         setDay(generatedDayToBe);
+    //     }, remainingMiliSeconds);
+    // }
 
     let hostList = await getHostList();
     if (hostList.hostList) {
@@ -216,6 +217,34 @@ const setBlackList = async (urlPiece, operation = "add") => {
         }
     }
 }   
+
+const getStoredDays = async () => {
+    const storedDays = await chrome.storage.local.get("storedDays");
+
+    if (!storedDays || !storedDays.storedDays) {
+        chrome.storage.local.set({"storedDays" : []});
+    }
+
+    return storedDays || [];
+}
+
+const addStoredDays = async (day) => {
+    const storedDays = await getStoredDays();
+    console.log(storedDays);
+    if (storedDays && storedDays.storedDays) {
+        if (storedDays.storedDays.length < 30) {
+            storedDays.storedDays.push(day);
+            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
+        } else {
+            storedDays.storedDays.shift();
+            storedDays.storedDays.push(day);
+            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
+        }
+    } else {
+        chrome.storage.local.set({"storedDays" : [day]})
+    }
+}
+
 
 
 //#endregion

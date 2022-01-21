@@ -20,7 +20,8 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [x] Add informing messages in case of no data
 - [x] Add total visit count to extension logo
 - [x] Add blacklist for not tracking specific websites
-- [ ] Store 30 days
+- [x] Store 30 days
+- [ ] Add option for save duration
 - [ ] Make days slideable
 - [ ] Make it keyboard use friendly
 - [ ] Add an export option as csv

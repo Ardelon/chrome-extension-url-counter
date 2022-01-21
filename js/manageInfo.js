@@ -230,4 +230,31 @@ const setBlackList = async (urlPiece, operation = "add") => {
     }
 }   
 
+const getStoredDays = async () => {
+    const storedDays = await chrome.storage.local.get("storedDays");
+
+    if (!storedDays || !storedDays.storedDays) {
+        chrome.storage.local.set({"storedDays" : []});
+    }
+
+    return storedDays || [];
+}
+
+const addStoredDays = async (day) => {
+    const storedDays = await getStoredDays();
+    
+    if (storedDays && storedDays.storedDays) {
+        if (storedDays.storedDays.length < 31) {
+            storedDays.storedDays.push(day);
+            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
+        } else {
+            storedDays.storedDays.shift();
+            storedDays.storedDays.push(day);
+            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
+        }
+    } else {
+        chrome.storage.local.set({"storedDays" : [storedDays.storedDays]})
+    }
+}
+
 //#endregion
