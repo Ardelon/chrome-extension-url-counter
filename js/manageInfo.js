@@ -154,7 +154,6 @@ const clearSingleDomainPreviousDay = async (hostName) => {
         });
         previousDayData.previousDay.visitCount = newHostList.length
         previousDayData.previousDay.hostList = newHostList;
-        console.log(previousDayData.previousDay);
         chrome.storage.local.set({"previousDay" : previousDayData.previousDay})
     }
 };
@@ -193,36 +192,40 @@ const clearTodayData = async () => {
 
 //#region Storage Operations
 
-const getNotSavedSiteList = async () => {
-    const notSavedSiteList = await chrome.storage.local.get("notSavedSiteList");
+const getBlackList = async () => {
+    const blackList = await chrome.storage.local.get("blackList");
 
-    if (!notSavedSiteList || !notSavedSiteList.notSavedSiteList) {
-        chrome.storage.local.set({"notSavedSiteList" : []});
+    if (!blackList || !blackList.blackList) {
+        chrome.storage.local.set({"blackList" : []});
     } 
 
-    return notSavedSiteList || []
+    return blackList || []
 }
 
-const setNotSavedList = async (urlPiece) => {
+const setBlackList = async (urlPiece, operation = "add") => {
 
-    const notSavedSiteList = await chrome.storage.local.get("notSavedSiteList");
+    const blackList = await chrome.storage.local.get("blackList");
     
-    if (!notSavedSiteList || !notSavedSiteList.notSavedSiteList) {
-        chrome.storage.local.set({"notSavedSiteList" : [urlPiece]});
+    if (!blackList || !blackList.blackList) {
+        chrome.storage.local.set({"blackList" : [urlPiece]});
     } else {
-        if (!notSavedSiteList.notSavedSiteList.includes(urlPiece)) {
-            notSavedSiteList.notSavedSiteList.push(urlPiece);
-            chrome.storage.local.set({"notSavedSiteList" : notSavedSiteList.notSavedSiteList});   
-        } else {
-            for( let i = 0; i < notSavedSiteList.notSavedSiteList.length; i++){ 
+        if (!blackList.blackList.includes(urlPiece) && operation === "add") {
+            blackList.blackList.push(urlPiece);
+            console.log(blackList.blackList);
+            const filteredBlackList = blackList.blackList.filter(onlyUnique);
+            blackList.blackList = filteredBlackList
+            console.log(blackList.blackList);
+            chrome.storage.local.set({"blackList" : blackList.blackList});   
+        } else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
+            for( let i = 0; i < blackList.blackList.length; i++){ 
     
-                if ( notSavedSiteList.notSavedSiteList[i] === urlPiece) { 
+                if ( blackList.blackList[i] === urlPiece) { 
             
-                    notSavedSiteList.notSavedSiteList.splice(i, 1); 
+                    blackList.blackList.splice(i, 1); 
                 }
             
             }
-            chrome.storage.local.set({"notSavedSiteList" : notSavedSiteList.notSavedSiteList});   
+            chrome.storage.local.set({"blackList" : blackList.blackList});   
         }
     }
 }   

@@ -20,15 +20,20 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [x] Add informing messages in case of no data
 - [x] Add total visit count to extension logo
 - [x] Add blacklist for not tracking specific websites
+- [ ] Store 30 days
+- [ ] Make days slideable
+- [ ] Make it keyboard use friendly
 - [ ] Add an export option as csv
 - [ ] Show how many browser is opened
 - [ ] Make a new logo
 - [ ] Add Language selection
 - [ ] Track active tab times
-- [ ] Add theme choice
+- [ ] Add light and dark theme
+- [ ] Add theme choice with different color palettes (neon, pastel, neutral, etc);
 - [ ] Make sync with another devices
 - [ ] Cache loaded logos
 - [ ] Add an export option to a provided link
+- [ ] Make it responsive
 
 ## Credits
 

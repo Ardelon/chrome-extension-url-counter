@@ -67,10 +67,10 @@ const prepareDontSaveButton = async () => {
     const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true})
     const url  = currentTab[0].url
     const [, , hostName ] = scrapeInformationFromUrl(url);
-    const notSavedSiteList = await getNotSavedSiteList();
+    const blackList = await getBlackList();
     
 
-    if (notSavedSiteList.notSavedSiteList && notSavedSiteList.notSavedSiteList.includes(hostName)) {
+    if (blackList.blackList && blackList.blackList.includes(hostName)) {
         dontSaveButton.classList.add("this-site-will-not-be-saved")
     }
     
@@ -79,9 +79,9 @@ const prepareDontSaveButton = async () => {
         e.preventDefault();
         
         if (dontSaveButton.classList.contains("this-site-will-not-be-saved")) {
-            setNotSavedList(hostName)
+            setBlackList(hostName, "remove")
         } else {
-            setNotSavedList(hostName)
+            setBlackList(hostName)
         }
         
         dontSaveButton.classList.toggle("this-site-will-not-be-saved");
