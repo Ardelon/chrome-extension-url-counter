@@ -1,5 +1,8 @@
 .list-container-holder {
     position: relative;
+    margin: auto;
+    display: flex;
+    width: 1000px;
 }
 
 .list-container-go-left-button {
@@ -16,8 +19,9 @@
     transform: translate(-50%, 0);
 }
 
-.list-container-new {
-    width: 720px;
+.list-container-belt {
+    width: 740px;
+    height: 760px;
     margin: auto;
     display: flex;
     border: 2px solid black;
@@ -27,21 +31,78 @@
     flex-direction: row;
 }
 
-.list-container-new::-webkit-scrollbar {
+.list-container-belt::-webkit-scrollbar {
     display: none;
 }
 
-.list-container-element {
+.belt-element {
 
     flex-shrink: 0;
     position: relative;
     height: 700px;
-    width: 310px;
+    width: 320px;
     justify-content: center;
     align-items: center;
     margin: 25px;
     display: block;
     float: left;
     box-sizing: border-box;
-    background-color: chartreuse;
+    overflow-x: auto;
+    border: 1px solid #fafafa;
+    border-radius: 6px;
+
+}
+
+.belt-element::-webkit-scrollbar {
+    display: none;
+}
+
+.belt-header {
+    text-align: center;
+}
+
+.belt-host-list-container {
+    height: 400px;
+    width: 270px;
+    overflow-x: auto;
+    /* background-color: #fafafa; */
+    border-radius: 6px;
+    margin : auto;
+    border: 1px solid #fafafa;
+}
+
+.belt-host-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.counter-container {
+    display: flex;
+}
+
+.count-indicator {
+    font-size: 17px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 150px;
+}
+
+.delete-buttons-container {
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.delete-button {
+    border: 2px solid #316e7d;
+    box-sizing: border-box;
+    color: #fafafa;
+    font-size: 16px;
+    text-align: center;
+    margin: auto;
+    background-color: #316e7d;
+    width: 140px;
+
 }

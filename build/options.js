@@ -21,7 +21,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".list-container-holder {\n  position: relative;\n}\n\n.list-container-go-left-button {\n  position: absolute;\n  top: 50%;\n  left: 5%;\n  transform: translate(-50%, 0);\n}\n\n.list-container-go-right-button {\n  position: absolute;\n  top: 50%;\n  right: 5%;\n  transform: translate(-50%, 0);\n}\n\n.list-container-new {\n  width: 720px;\n  margin: auto;\n  display: flex;\n  border: 2px solid black;\n  align-items: baseline;\n  overflow-x: auto;\n  overflow-y: auto;\n  flex-direction: row;\n}\n\n.list-container-new::-webkit-scrollbar {\n  display: none;\n}\n\n.list-container-element {\n  flex-shrink: 0;\n  position: relative;\n  height: 700px;\n  width: 310px;\n  justify-content: center;\n  align-items: center;\n  margin: 25px;\n  display: block;\n  float: left;\n  box-sizing: border-box;\n  background-color: chartreuse;\n}\n\n.switch {\n  position: relative;\n  display: inline-block;\n  width: 60px;\n  height: 34px;\n}\n\n.switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  -webkit-transition: 0.4s;\n  transition: 0.4s;\n}\n\n.slider:before {\n  position: absolute;\n  content: \"\";\n  height: 26px;\n  width: 26px;\n  left: 4px;\n  bottom: 4px;\n  background-color: white;\n  -webkit-transition: 0.4s;\n  transition: 0.4s;\n}\n\ninput:checked + .slider {\n  background-color: #2196F3;\n}\n\ninput:focus + .slider {\n  box-shadow: 0 0 1px #2196F3;\n}\n\ninput:checked + .slider:before {\n  -webkit-transform: translateX(26px);\n  -ms-transform: translateX(26px);\n  transform: translateX(26px);\n}\n\n/* Rounded sliders */\n.slider.round {\n  border-radius: 34px;\n}\n\n.slider.round:before {\n  border-radius: 50%;\n}\n\nbody {\n  background-color: #141e24;\n  color: #e96c4c;\n  font-weight: bold;\n  padding: 10px;\n}\n\n.list-container {\n  width: 700px;\n  margin: auto;\n  display: flex;\n  border: 1px solid #fafafa;\n}\n\n.previous-day-container {\n  height: 700px;\n  width: 310px;\n  border-radius: 6px;\n  margin: auto;\n  float: left;\n  justify-content: center;\n  align-items: center;\n}\n\n.previous-day-container::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.container-header {\n  text-align: center;\n}\n\n.today-container {\n  height: 700px;\n  width: 310px;\n  border-radius: 6px;\n  margin: auto;\n  float: right;\n  justify-content: center;\n  align-items: center;\n}\n\n.previous-day-list {\n  height: 400px;\n  width: 270px;\n  overflow-x: auto;\n  /* background-color: #fafafa; */\n  border-radius: 6px;\n  margin: auto;\n  border: 1px solid #fafafa;\n}\n\n.previous-day-list::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.today-list {\n  height: 400px;\n  width: 270px;\n  overflow-x: auto;\n  /* background-color: #fafafa; */\n  border-radius: 6px;\n  margin: auto;\n  border: 1px solid #fafafa;\n}\n\n.today-list::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.list-element {\n  width: 250px;\n  height: 50px;\n  margin: 5px auto;\n  /* background-color: #fafafa; */\n  color: #fafafa;\n  display: block;\n  position: relative;\n  border-radius: 5px;\n}\n\n.blockage {\n  width: 250px;\n  height: 50px;\n  position: absolute;\n  z-index: 9999999;\n  background-color: red;\n  opacity: 0.2;\n}\n\n.logo {\n  position: absolute;\n  width: 40px;\n  top: 50%;\n  transform: translate(15%, -50%);\n  cursor: pointer;\n}\n\n.header {\n  transform: translate(10px, 10px);\n  width: 150px;\n  margin: auto;\n  color: #fafafa;\n  font-weight: bold;\n  cursor: pointer;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.visitDisplay {\n  position: absolute;\n  right: 5%;\n  top: -15%;\n  font-size: 20px;\n  color: #fafafa;\n}\n\n.counter-container {\n  display: flex;\n}\n\n.previous-day-options-footer {\n  height: 60px;\n  align-items: center;\n  justify-content: center;\n  display: flex;\n}\n\n.today-options-footer {\n  height: 60px;\n  align-items: center;\n  justify-content: center;\n  display: flex;\n}\n\n.delete-button {\n  border: 2px solid #316e7d;\n  box-sizing: border-box;\n  color: #fafafa;\n  font-size: 16px;\n  text-align: center;\n  margin: auto;\n  background-color: #316e7d;\n  width: 140px;\n}\n\n.hide {\n  display: none;\n}\n\n.option-selection-group {\n  width: 600px;\n  margin: 10px auto 10px;\n  background-color: #fafafa;\n  display: flex;\n  padding: 12.5px;\n  flex-direction: column;\n}\n\n.option-selection-element {\n  display: flex;\n  align-items: center;\n  border-bottom: 2px solid #316e7d;\n  padding: 5px;\n  /* flex-direction: column; */\n}\n\n.count-indicator {\n  font-size: 17px;\n  text-align: center;\n  justify-content: center;\n  align-items: center;\n  margin: auto;\n  width: 150px;\n}\n\n.option-black-list {\n  display: block;\n  align-items: center;\n  flex-direction: column;\n  border-bottom: 2px solid #316e7d;\n  padding: 5px;\n}\n\n.black-list-header {\n  display: block;\n}\n\n.black-list-list {\n  display: block;\n  max-height: 300px;\n  min-height: 50px;\n  width: 100%;\n  border: 2px solid #316e7d;\n  border-radius: 6px;\n  padding: 5px;\n  box-sizing: border-box;\n  overflow-x: auto;\n  margin: 5px auto 5px;\n}\n\n.black-list-list::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.black-list-element {\n  display: block;\n  position: relative;\n  justify-content: center;\n  align-items: center;\n  margin: 2px auto 2px;\n  padding: 5px;\n  box-sizing: border-box;\n}\n\n.black-list-element-host-name {\n  display: inline-block;\n  margin-left: 10px;\n}\n\n.remove-from-black-list-button {\n  display: inline-block;\n  background-color: #316e7d;\n  position: absolute;\n  right: 10%;\n  top: 50%;\n  transform: translate(50%, -50%);\n  color: #fafafa;\n  font-size: 12px;\n  padding: 2px 25px 2px;\n}\n\n.host-name-input {\n  border: 2px solid #316e7d;\n  border-radius: 6px;\n  padding: 5px;\n  box-sizing: border-box;\n  font-size: 16px;\n  margin: 5px auto 5px;\n  max-height: 50px;\n  overflow-x: auto;\n}\n\n.host-name-input::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.add-black-list-button {\n  background-color: #316e7d;\n  padding: 1px;\n  margin: 5px auto 10px;\n  color: #fafafa;\n  text-align: center;\n  font-size: 20px;\n}", "",{"version":3,"sources":["webpack://./src/style/listContainer.scss","webpack://./src/style/options.scss","webpack://./src/style/switchButton.scss"],"names":[],"mappings":"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","sourcesContent":[".list-container-holder {\r\n    position: relative;\r\n}\r\n\r\n.list-container-go-left-button {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 5%;\r\n    transform: translate(-50%, 0);\r\n}\r\n\r\n.list-container-go-right-button {\r\n    position: absolute;\r\n    top: 50%;\r\n    right: 5%;\r\n    transform: translate(-50%, 0);\r\n}\r\n\r\n.list-container-new {\r\n    width: 720px;\r\n    margin: auto;\r\n    display: flex;\r\n    border: 2px solid black;\r\n    align-items: baseline;\r\n    overflow-x: auto;\r\n    overflow-y: auto;\r\n    flex-direction: row;\r\n}\r\n\r\n.list-container-new::-webkit-scrollbar {\r\n    display: none;\r\n}\r\n\r\n.list-container-element {\r\n\r\n    flex-shrink: 0;\r\n    position: relative;\r\n    height: 700px;\r\n    width: 310px;\r\n    justify-content: center;\r\n    align-items: center;\r\n    margin: 25px;\r\n    display: block;\r\n    float: left;\r\n    box-sizing: border-box;\r\n    background-color: chartreuse;\r\n}","@import 'listContainer';\r\n@import 'switchButton';\r\nbody {\r\n    background-color: #141e24;\r\n    color: #e96c4c;\r\n    font-weight: bold;\r\n    padding: 10px;\r\n}\r\n\r\n.list-container {\r\n    width: 700px;\r\n    margin: auto;\r\n    display: flex;\r\n    border : 1px solid #fafafa;\r\n}\r\n\r\n.previous-day-container {\r\n\r\n    height: 700px;\r\n    width: 310px;\r\n\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    float:left;\r\n    justify-content: center;\r\n    align-items: center;\r\n    \r\n}\r\n\r\n.previous-day-container::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.container-header {\r\n    text-align: center;\r\n}\r\n\r\n.today-container {\r\n\r\n    height: 700px;\r\n    width: 310px;\r\n\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    float:right;\r\n    justify-content: center;\r\n    align-items: center;\r\n    \r\n}\r\n\r\n\r\n.previous-day-list {\r\n    height: 400px;\r\n    width: 270px;\r\n    overflow-x: auto;\r\n    /* background-color: #fafafa; */\r\n\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    border: 1px solid #fafafa;\r\n\r\n}\r\n\r\n.previous-day-list::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.today-list {\r\n    height: 400px;\r\n    width: 270px;\r\n    overflow-x: auto;\r\n    /* background-color: #fafafa; */\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    border: 1px solid #fafafa;\r\n    \r\n}\r\n\r\n.today-list::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.list-element {\r\n    width: 250px;\r\n    height: 50px;\r\n    margin: 5px auto;\r\n    /* background-color: #fafafa; */\r\n    color: #fafafa;\r\n    display: block;\r\n    position: relative;\r\n    border-radius: 5px;\r\n    \r\n}\r\n\r\n.blockage {\r\n\r\n    width: 250px;\r\n    height: 50px;\r\n    position: absolute;\r\n    z-index: 9999999;\r\n    background-color: red ;\r\n    opacity: 0.2;\r\n\r\n}\r\n\r\n\r\n\r\n.logo {\r\n    position: absolute;\r\n    width: 40px;\r\n    top: 50%;\r\n    transform: translate(15%, -50%);\r\n    cursor: pointer;\r\n  \r\n}\r\n\r\n.header {\r\n    transform: translate(10px, 10px);\r\n    width: 150px;\r\n    margin: auto;\r\n    color:#fafafa;\r\n    font-weight: bold;\r\n    cursor: pointer;\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n}\r\n\r\n.visitDisplay {\r\n    position: absolute;\r\n    right: 5%;\r\n    top: -15%;\r\n    font-size: 20px;\r\n    color: #fafafa;\r\n}\r\n\r\n.counter-container {\r\n    display: flex;\r\n}\r\n\r\n.previous-day-options-footer {\r\n    height: 60px;\r\n    align-items: center;\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n\r\n.today-options-footer {\r\n    height: 60px;\r\n    align-items: center;\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n\r\n.delete-button {\r\n    border: 2px solid #316e7d;\r\n    box-sizing: border-box;\r\n    color: #fafafa;\r\n    font-size: 16px;\r\n    text-align: center;\r\n    margin: auto;\r\n    background-color: #316e7d;\r\n    width: 140px;\r\n\r\n}\r\n\r\n.hide {\r\n    display: none;\r\n}\r\n\r\n.option-selection-group {\r\n    width: 600px;\r\n    margin: 10px auto 10px;\r\n    background-color: #fafafa;\r\n    display: flex;\r\n    padding: 12.5px;\r\n    flex-direction: column;\r\n}\r\n\r\n.option-selection-element {\r\n    display: flex;\r\n    align-items: center;\r\n    border-bottom: 2px solid #316e7d ;\r\n    padding: 5px;\r\n    /* flex-direction: column; */\r\n}\r\n\r\n.count-indicator {\r\n    font-size: 17px;\r\n    text-align: center;\r\n    justify-content: center;\r\n    align-items: center;\r\n    margin: auto;\r\n    width: 150px;\r\n}\r\n\r\n.option-black-list {\r\n    display: block;\r\n    align-items: center;\r\n    flex-direction: column;\r\n    border-bottom: 2px solid #316e7d ;\r\n    padding: 5px;\r\n\r\n}\r\n\r\n.black-list-header {\r\n    display: block;\r\n}\r\n\r\n.black-list-list {\r\n    display: block;\r\n    max-height: 300px;\r\n    min-height: 50px;\r\n    width: 100%;\r\n    border: 2px solid #316e7d;\r\n    border-radius: 6px;\r\n    padding: 5px;\r\n    box-sizing: border-box;\r\n    overflow-x: auto;\r\n    margin : 5px auto 5px;\r\n}\r\n\r\n.black-list-list::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.black-list-element {\r\n    display: block;\r\n    position: relative;\r\n    justify-content: center;\r\n    align-items: center;\r\n    margin: 2px auto 2px;\r\n    padding : 5px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.black-list-element-host-name {\r\n    display: inline-block;\r\n    margin-left: 10px;\r\n}\r\n\r\n.remove-from-black-list-button {\r\n    display: inline-block;\r\n    background-color: #316e7d;\r\n    position: absolute;\r\n    right: 10%;\r\n    top : 50%;\r\n    transform: translate(50%, -50%);\r\n    color: #fafafa;\r\n    font-size: 12px;\r\n    padding: 2px 25px 2px;\r\n}\r\n\r\n.host-name-input {\r\n    border: 2px solid #316e7d;\r\n    border-radius: 6px;\r\n    padding: 5px;\r\n    box-sizing: border-box;\r\n    font-size: 16px;\r\n    margin: 5px auto 5px;\r\n    max-height: 50px;\r\n    overflow-x: auto;\r\n}\r\n\r\n.host-name-input::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.add-black-list-button {\r\n    background-color: #316e7d;\r\n    padding: 1px;\r\n    margin: 5px auto 10px;\r\n    color: #fafafa;\r\n    text-align: center;\r\n    font-size: 20px;\r\n}\r\n\r\n\r\n",".switch {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 60px;\r\n  height: 34px;\r\n}\r\n\r\n.switch input { \r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\r\n}\r\n\r\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background-color: #ccc;\r\n  -webkit-transition: .4s;\r\n  transition: .4s;\r\n}\r\n\r\n.slider:before {\r\n  position: absolute;\r\n  content: \"\";\r\n  height: 26px;\r\n  width: 26px;\r\n  left: 4px;\r\n  bottom: 4px;\r\n  background-color: white;\r\n  -webkit-transition: .4s;\r\n  transition: .4s;\r\n}\r\n\r\ninput:checked + .slider {\r\n  background-color: #2196F3;\r\n}\r\n\r\ninput:focus + .slider {\r\n  box-shadow: 0 0 1px #2196F3;\r\n}\r\n\r\ninput:checked + .slider:before {\r\n  -webkit-transform: translateX(26px);\r\n  -ms-transform: translateX(26px);\r\n  transform: translateX(26px);\r\n}\r\n\r\n/* Rounded sliders */\r\n.slider.round {\r\n  border-radius: 34px;\r\n}\r\n\r\n.slider.round:before {\r\n  border-radius: 50%;\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".list-container-holder {\n  position: relative;\n  margin: auto;\n  display: flex;\n  width: 1000px;\n}\n\n.list-container-go-left-button {\n  position: absolute;\n  top: 50%;\n  left: 5%;\n  transform: translate(-50%, 0);\n}\n\n.list-container-go-right-button {\n  position: absolute;\n  top: 50%;\n  right: 5%;\n  transform: translate(-50%, 0);\n}\n\n.list-container-belt {\n  width: 740px;\n  height: 760px;\n  margin: auto;\n  display: flex;\n  border: 2px solid black;\n  align-items: baseline;\n  overflow-x: auto;\n  overflow-y: auto;\n  flex-direction: row;\n}\n\n.list-container-belt::-webkit-scrollbar {\n  display: none;\n}\n\n.belt-element {\n  flex-shrink: 0;\n  position: relative;\n  height: 700px;\n  width: 320px;\n  justify-content: center;\n  align-items: center;\n  margin: 25px;\n  display: block;\n  float: left;\n  box-sizing: border-box;\n  overflow-x: auto;\n  border: 1px solid #fafafa;\n  border-radius: 6px;\n}\n\n.belt-element::-webkit-scrollbar {\n  display: none;\n}\n\n.belt-header {\n  text-align: center;\n}\n\n.belt-host-list-container {\n  height: 400px;\n  width: 270px;\n  overflow-x: auto;\n  /* background-color: #fafafa; */\n  border-radius: 6px;\n  margin: auto;\n  border: 1px solid #fafafa;\n}\n\n.belt-host-list-container::-webkit-scrollbar {\n  display: none;\n}\n\n.counter-container {\n  display: flex;\n}\n\n.count-indicator {\n  font-size: 17px;\n  text-align: center;\n  justify-content: center;\n  align-items: center;\n  margin: auto;\n  width: 150px;\n}\n\n.delete-buttons-container {\n  height: 60px;\n  align-items: center;\n  justify-content: center;\n  display: flex;\n}\n\n.delete-button {\n  border: 2px solid #316e7d;\n  box-sizing: border-box;\n  color: #fafafa;\n  font-size: 16px;\n  text-align: center;\n  margin: auto;\n  background-color: #316e7d;\n  width: 140px;\n}\n\n.switch {\n  position: relative;\n  display: inline-block;\n  width: 60px;\n  height: 34px;\n}\n\n.switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  -webkit-transition: 0.4s;\n  transition: 0.4s;\n}\n\n.slider:before {\n  position: absolute;\n  content: \"\";\n  height: 26px;\n  width: 26px;\n  left: 4px;\n  bottom: 4px;\n  background-color: white;\n  -webkit-transition: 0.4s;\n  transition: 0.4s;\n}\n\ninput:checked + .slider {\n  background-color: #2196F3;\n}\n\ninput:focus + .slider {\n  box-shadow: 0 0 1px #2196F3;\n}\n\ninput:checked + .slider:before {\n  -webkit-transform: translateX(26px);\n  -ms-transform: translateX(26px);\n  transform: translateX(26px);\n}\n\n/* Rounded sliders */\n.slider.round {\n  border-radius: 34px;\n}\n\n.slider.round:before {\n  border-radius: 50%;\n}\n\nbody {\n  background-color: #141e24;\n  color: #e96c4c;\n  font-weight: bold;\n  padding: 10px;\n}\n\n.list-container {\n  width: 700px;\n  margin: auto;\n  display: flex;\n  border: 1px solid #fafafa;\n}\n\n.previous-day-container {\n  height: 700px;\n  width: 310px;\n  border-radius: 6px;\n  margin: auto;\n  float: left;\n  justify-content: center;\n  align-items: center;\n}\n\n.previous-day-container::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.container-header {\n  text-align: center;\n}\n\n.today-container {\n  height: 700px;\n  width: 310px;\n  border-radius: 6px;\n  margin: auto;\n  float: right;\n  justify-content: center;\n  align-items: center;\n}\n\n.previous-day-list {\n  height: 400px;\n  width: 270px;\n  overflow-x: auto;\n  /* background-color: #fafafa; */\n  border-radius: 6px;\n  margin: auto;\n  border: 1px solid #fafafa;\n}\n\n.previous-day-list::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.today-list {\n  height: 400px;\n  width: 270px;\n  overflow-x: auto;\n  /* background-color: #fafafa; */\n  border-radius: 6px;\n  margin: auto;\n  border: 1px solid #fafafa;\n}\n\n.today-list::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.list-element {\n  width: 250px;\n  height: 50px;\n  margin: 5px auto;\n  /* background-color: #fafafa; */\n  color: #fafafa;\n  display: block;\n  position: relative;\n  border-radius: 5px;\n}\n\n.blockage {\n  width: 250px;\n  height: 50px;\n  position: absolute;\n  z-index: 9999999;\n  background-color: red;\n  opacity: 0.2;\n}\n\n.logo {\n  position: absolute;\n  width: 40px;\n  top: 50%;\n  transform: translate(15%, -50%);\n  cursor: pointer;\n}\n\n.header {\n  transform: translate(10px, 10px);\n  width: 150px;\n  margin: auto;\n  color: #fafafa;\n  font-weight: bold;\n  cursor: pointer;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.visitDisplay {\n  position: absolute;\n  right: 5%;\n  top: -15%;\n  font-size: 20px;\n  color: #fafafa;\n}\n\n.counter-container {\n  display: flex;\n}\n\n.previous-day-options-footer {\n  height: 60px;\n  align-items: center;\n  justify-content: center;\n  display: flex;\n}\n\n.today-options-footer {\n  height: 60px;\n  align-items: center;\n  justify-content: center;\n  display: flex;\n}\n\n.delete-button {\n  border: 2px solid #316e7d;\n  box-sizing: border-box;\n  color: #fafafa;\n  font-size: 16px;\n  text-align: center;\n  margin: auto;\n  background-color: #316e7d;\n  width: 140px;\n}\n\n.hide {\n  display: none;\n}\n\n.option-selection-group {\n  width: 600px;\n  margin: 10px auto 10px;\n  background-color: #fafafa;\n  display: flex;\n  padding: 12.5px;\n  flex-direction: column;\n}\n\n.option-selection-element {\n  display: flex;\n  align-items: center;\n  border-bottom: 2px solid #316e7d;\n  padding: 5px;\n  /* flex-direction: column; */\n}\n\n.count-indicator {\n  font-size: 17px;\n  text-align: center;\n  justify-content: center;\n  align-items: center;\n  margin: auto;\n  width: 150px;\n}\n\n.option-black-list {\n  display: block;\n  align-items: center;\n  flex-direction: column;\n  border-bottom: 2px solid #316e7d;\n  padding: 5px;\n}\n\n.black-list-header {\n  display: block;\n}\n\n.black-list-list {\n  display: block;\n  max-height: 300px;\n  min-height: 50px;\n  width: 100%;\n  border: 2px solid #316e7d;\n  border-radius: 6px;\n  padding: 5px;\n  box-sizing: border-box;\n  overflow-x: auto;\n  margin: 5px auto 5px;\n}\n\n.black-list-list::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.black-list-element {\n  display: block;\n  position: relative;\n  justify-content: center;\n  align-items: center;\n  margin: 2px auto 2px;\n  padding: 5px;\n  box-sizing: border-box;\n}\n\n.black-list-element-host-name {\n  display: inline-block;\n  margin-left: 10px;\n}\n\n.remove-from-black-list-button {\n  display: inline-block;\n  background-color: #316e7d;\n  position: absolute;\n  right: 10%;\n  top: 50%;\n  transform: translate(50%, -50%);\n  color: #fafafa;\n  font-size: 12px;\n  padding: 2px 25px 2px;\n}\n\n.host-name-input {\n  border: 2px solid #316e7d;\n  border-radius: 6px;\n  padding: 5px;\n  box-sizing: border-box;\n  font-size: 16px;\n  margin: 5px auto 5px;\n  max-height: 50px;\n  overflow-x: auto;\n}\n\n.host-name-input::-webkit-scrollbar {\n  display: none;\n  /* for Chrome, Safari, and Opera */\n}\n\n.add-black-list-button {\n  background-color: #316e7d;\n  padding: 1px;\n  margin: 5px auto 10px;\n  color: #fafafa;\n  text-align: center;\n  font-size: 20px;\n}", "",{"version":3,"sources":["webpack://./src/style/listContainer.scss","webpack://./src/style/options.scss","webpack://./src/style/switchButton.scss"],"names":[],"mappings":"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","sourcesContent":[".list-container-holder {\r\n    position: relative;\r\n    margin: auto;\r\n    display: flex;\r\n    width: 1000px;\r\n}\r\n\r\n.list-container-go-left-button {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 5%;\r\n    transform: translate(-50%, 0);\r\n}\r\n\r\n.list-container-go-right-button {\r\n    position: absolute;\r\n    top: 50%;\r\n    right: 5%;\r\n    transform: translate(-50%, 0);\r\n}\r\n\r\n.list-container-belt {\r\n    width: 740px;\r\n    height: 760px;\r\n    margin: auto;\r\n    display: flex;\r\n    border: 2px solid black;\r\n    align-items: baseline;\r\n    overflow-x: auto;\r\n    overflow-y: auto;\r\n    flex-direction: row;\r\n}\r\n\r\n.list-container-belt::-webkit-scrollbar {\r\n    display: none;\r\n}\r\n\r\n.belt-element {\r\n\r\n    flex-shrink: 0;\r\n    position: relative;\r\n    height: 700px;\r\n    width: 320px;\r\n    justify-content: center;\r\n    align-items: center;\r\n    margin: 25px;\r\n    display: block;\r\n    float: left;\r\n    box-sizing: border-box;\r\n    overflow-x: auto;\r\n    border: 1px solid #fafafa;\r\n    border-radius: 6px;\r\n\r\n}\r\n\r\n.belt-element::-webkit-scrollbar {\r\n    display: none;\r\n}\r\n\r\n.belt-header {\r\n    text-align: center;\r\n}\r\n\r\n.belt-host-list-container {\r\n    height: 400px;\r\n    width: 270px;\r\n    overflow-x: auto;\r\n    /* background-color: #fafafa; */\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    border: 1px solid #fafafa;\r\n}\r\n\r\n.belt-host-list-container::-webkit-scrollbar {\r\n    display: none;\r\n}\r\n\r\n.counter-container {\r\n    display: flex;\r\n}\r\n\r\n.count-indicator {\r\n    font-size: 17px;\r\n    text-align: center;\r\n    justify-content: center;\r\n    align-items: center;\r\n    margin: auto;\r\n    width: 150px;\r\n}\r\n\r\n.delete-buttons-container {\r\n    height: 60px;\r\n    align-items: center;\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n\r\n.delete-button {\r\n    border: 2px solid #316e7d;\r\n    box-sizing: border-box;\r\n    color: #fafafa;\r\n    font-size: 16px;\r\n    text-align: center;\r\n    margin: auto;\r\n    background-color: #316e7d;\r\n    width: 140px;\r\n\r\n}","@import 'listContainer';\r\n@import 'switchButton';\r\nbody {\r\n    background-color: #141e24;\r\n    color: #e96c4c;\r\n    font-weight: bold;\r\n    padding: 10px;\r\n}\r\n\r\n.list-container {\r\n    width: 700px;\r\n    margin: auto;\r\n    display: flex;\r\n    border : 1px solid #fafafa;\r\n}\r\n\r\n.previous-day-container {\r\n\r\n    height: 700px;\r\n    width: 310px;\r\n\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    float:left;\r\n    justify-content: center;\r\n    align-items: center;\r\n    \r\n}\r\n\r\n.previous-day-container::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.container-header {\r\n    text-align: center;\r\n}\r\n\r\n.today-container {\r\n\r\n    height: 700px;\r\n    width: 310px;\r\n\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    float:right;\r\n    justify-content: center;\r\n    align-items: center;\r\n    \r\n}\r\n\r\n\r\n.previous-day-list {\r\n    height: 400px;\r\n    width: 270px;\r\n    overflow-x: auto;\r\n    /* background-color: #fafafa; */\r\n\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    border: 1px solid #fafafa;\r\n\r\n}\r\n\r\n.previous-day-list::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.today-list {\r\n    height: 400px;\r\n    width: 270px;\r\n    overflow-x: auto;\r\n    /* background-color: #fafafa; */\r\n    border-radius: 6px;\r\n    margin : auto;\r\n    border: 1px solid #fafafa;\r\n    \r\n}\r\n\r\n.today-list::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.list-element {\r\n    width: 250px;\r\n    height: 50px;\r\n    margin: 5px auto;\r\n    /* background-color: #fafafa; */\r\n    color: #fafafa;\r\n    display: block;\r\n    position: relative;\r\n    border-radius: 5px;\r\n    \r\n}\r\n\r\n.blockage {\r\n\r\n    width: 250px;\r\n    height: 50px;\r\n    position: absolute;\r\n    z-index: 9999999;\r\n    background-color: red ;\r\n    opacity: 0.2;\r\n\r\n}\r\n\r\n\r\n\r\n.logo {\r\n    position: absolute;\r\n    width: 40px;\r\n    top: 50%;\r\n    transform: translate(15%, -50%);\r\n    cursor: pointer;\r\n  \r\n}\r\n\r\n.header {\r\n    transform: translate(10px, 10px);\r\n    width: 150px;\r\n    margin: auto;\r\n    color:#fafafa;\r\n    font-weight: bold;\r\n    cursor: pointer;\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n}\r\n\r\n.visitDisplay {\r\n    position: absolute;\r\n    right: 5%;\r\n    top: -15%;\r\n    font-size: 20px;\r\n    color: #fafafa;\r\n}\r\n\r\n.counter-container {\r\n    display: flex;\r\n}\r\n\r\n.previous-day-options-footer {\r\n    height: 60px;\r\n    align-items: center;\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n\r\n.today-options-footer {\r\n    height: 60px;\r\n    align-items: center;\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n\r\n.delete-button {\r\n    border: 2px solid #316e7d;\r\n    box-sizing: border-box;\r\n    color: #fafafa;\r\n    font-size: 16px;\r\n    text-align: center;\r\n    margin: auto;\r\n    background-color: #316e7d;\r\n    width: 140px;\r\n\r\n}\r\n\r\n.hide {\r\n    display: none;\r\n}\r\n\r\n.option-selection-group {\r\n    width: 600px;\r\n    margin: 10px auto 10px;\r\n    background-color: #fafafa;\r\n    display: flex;\r\n    padding: 12.5px;\r\n    flex-direction: column;\r\n}\r\n\r\n.option-selection-element {\r\n    display: flex;\r\n    align-items: center;\r\n    border-bottom: 2px solid #316e7d ;\r\n    padding: 5px;\r\n    /* flex-direction: column; */\r\n}\r\n\r\n.count-indicator {\r\n    font-size: 17px;\r\n    text-align: center;\r\n    justify-content: center;\r\n    align-items: center;\r\n    margin: auto;\r\n    width: 150px;\r\n}\r\n\r\n.option-black-list {\r\n    display: block;\r\n    align-items: center;\r\n    flex-direction: column;\r\n    border-bottom: 2px solid #316e7d ;\r\n    padding: 5px;\r\n\r\n}\r\n\r\n.black-list-header {\r\n    display: block;\r\n}\r\n\r\n.black-list-list {\r\n    display: block;\r\n    max-height: 300px;\r\n    min-height: 50px;\r\n    width: 100%;\r\n    border: 2px solid #316e7d;\r\n    border-radius: 6px;\r\n    padding: 5px;\r\n    box-sizing: border-box;\r\n    overflow-x: auto;\r\n    margin : 5px auto 5px;\r\n}\r\n\r\n.black-list-list::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.black-list-element {\r\n    display: block;\r\n    position: relative;\r\n    justify-content: center;\r\n    align-items: center;\r\n    margin: 2px auto 2px;\r\n    padding : 5px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.black-list-element-host-name {\r\n    display: inline-block;\r\n    margin-left: 10px;\r\n}\r\n\r\n.remove-from-black-list-button {\r\n    display: inline-block;\r\n    background-color: #316e7d;\r\n    position: absolute;\r\n    right: 10%;\r\n    top : 50%;\r\n    transform: translate(50%, -50%);\r\n    color: #fafafa;\r\n    font-size: 12px;\r\n    padding: 2px 25px 2px;\r\n}\r\n\r\n.host-name-input {\r\n    border: 2px solid #316e7d;\r\n    border-radius: 6px;\r\n    padding: 5px;\r\n    box-sizing: border-box;\r\n    font-size: 16px;\r\n    margin: 5px auto 5px;\r\n    max-height: 50px;\r\n    overflow-x: auto;\r\n}\r\n\r\n.host-name-input::-webkit-scrollbar {\r\n    display: none; /* for Chrome, Safari, and Opera */\r\n}\r\n\r\n.add-black-list-button {\r\n    background-color: #316e7d;\r\n    padding: 1px;\r\n    margin: 5px auto 10px;\r\n    color: #fafafa;\r\n    text-align: center;\r\n    font-size: 20px;\r\n}\r\n\r\n\r\n",".switch {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 60px;\r\n  height: 34px;\r\n}\r\n\r\n.switch input { \r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\r\n}\r\n\r\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background-color: #ccc;\r\n  -webkit-transition: .4s;\r\n  transition: .4s;\r\n}\r\n\r\n.slider:before {\r\n  position: absolute;\r\n  content: \"\";\r\n  height: 26px;\r\n  width: 26px;\r\n  left: 4px;\r\n  bottom: 4px;\r\n  background-color: white;\r\n  -webkit-transition: .4s;\r\n  transition: .4s;\r\n}\r\n\r\ninput:checked + .slider {\r\n  background-color: #2196F3;\r\n}\r\n\r\ninput:focus + .slider {\r\n  box-shadow: 0 0 1px #2196F3;\r\n}\r\n\r\ninput:checked + .slider:before {\r\n  -webkit-transform: translateX(26px);\r\n  -ms-transform: translateX(26px);\r\n  transform: translateX(26px);\r\n}\r\n\r\n/* Rounded sliders */\r\n.slider.round {\r\n  border-radius: 34px;\r\n}\r\n\r\n.slider.round:before {\r\n  border-radius: 50%;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17765,10 +17765,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _manageInfo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./manageInfo */ "./src/js/manageInfo.js");
+/* harmony import */ var _manageOptions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./manageOptions */ "./src/js/manageOptions.js");
 
 
 
-const listContainer = document.getElementById("list-container-new");
+
+const listContainer = document.getElementById("list-container-belt");
 const goLeftButton = document.getElementById("list-container-go-left-button");
 const goRightButton = document.getElementById("list-container-go-right-button")
 
@@ -17777,12 +17779,9 @@ const renderSlider = async () => {
 
     if (storedDays && storedDays.storedDays) {
 
-        storedDays.storedDays.forEach((storedDay, index) => {
-            const dayContainer = document.createElement("div");
-            dayContainer.classList.add("list-container-element");
-            dayContainer.id = `day-container-${index}`
-            dayContainer.innerText = storedDay.day;
-            listContainer.appendChild(dayContainer);
+        storedDays.storedDays.forEach(async (storedDay, index) => {
+            const day = await generateDayContainer(storedDay, index);
+            listContainer.appendChild(day)
         });
     }
 }
@@ -17812,16 +17811,13 @@ const slideVisionMethod2 = (direction) => {
     const driver = {
         'left' : () => {
       
-            console.log('left');
-            const belt = document.getElementById(`list-container-new`)   
+            const belt = document.getElementById(`list-container-belt`)   
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
             target = Math.max(belt.scrollLeft - horizontalAmount, 0);
-            console.log(belt.scrollLeft, target);
             interval = setInterval(() => {
                 belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
-                console.log(belt.scrollLeft, target, horizontalAmount);
                 if (belt.scrollLeft === target) {
                     clearInterval(interval)
                 }
@@ -17829,18 +17825,14 @@ const slideVisionMethod2 = (direction) => {
         },
         'right' : () => {
 
-            console.log('right');
-            const belt = document.getElementById(`list-container-new`)   
+            const belt = document.getElementById(`list-container-belt`)   
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
             target = Math.min(belt.scrollLeft + horizontalAmount, belt.scrollWidth - belt.clientWidth);
-            console.log(belt.scrollLeft, target);
 
             interval = setInterval(() => {
                 belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
-                console.log(Math.min(belt.scrollLeft + horizontalAmount/frame, target));
-                console.log(belt.scrollLeft, target, horizontalAmount);
                 if (belt.scrollLeft === target) {
                     clearInterval(interval)
                 }
@@ -17848,7 +17840,6 @@ const slideVisionMethod2 = (direction) => {
         },
         'up' : () => {
 
-            console.log('up');
             selectedBelt = Math.max(selectedBelt - 1, 0);
             const belt = document.getElementById(`selected-belt-${selectedBelt}`);
             const style = window.getComputedStyle(belt);
@@ -17864,7 +17855,6 @@ const slideVisionMethod2 = (direction) => {
         },
         'down' : () => {
 
-            console.log('down');
             selectedBelt = Math.min(selectedBelt + 1, 30);
             const belt = document.getElementById(`selected-belt-${selectedBelt}`);
             const style = window.getComputedStyle(belt);
@@ -17888,6 +17878,86 @@ const slideVisionMethod2 = (direction) => {
     }
 }
 
+const generateDayContainer = async (storedDay, index) => {
+
+    const dayContainer = document.createElement("div");
+    dayContainer.classList.add("belt-element");
+    dayContainer.id = `day-container-${index}`;
+
+    const dayHeader = document.createElement("h1");
+    dayHeader.innerText = storedDay.day;
+    dayHeader.classList.add("belt-header");
+
+    const counterContainer = document.createElement("div");
+    counterContainer.classList.add("counter-container");
+
+    const tabCount = document.createElement("div");
+    tabCount.classList.add("count-indicator");
+    tabCount.innerHTML = `<p>Tab Count : ${storedDay.tabCount || 0}</p>`;
+
+    const totalVisitCount = document.createElement("div");
+    totalVisitCount.classList.add("count-indicator");
+
+    const dayList = document.createElement("div");
+    dayList.classList.add("belt-host-list-container");
+
+    const deleteButtonsContainer = document.createElement("div");
+    deleteButtonsContainer.classList.add("delete-buttons-container");
+
+    const deleteAllButton = document.createElement("div");
+    deleteAllButton.innerHTML = "<p>Delete All</p>"
+    deleteAllButton.classList.add("delete-button");
+
+    const deleteDomaintButton = document.createElement("div");
+    deleteDomaintButton.innerHTML = "<p>Delete Domain</p>";
+    deleteDomaintButton.classList.add("delete-button");
+
+    const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDay.hostList);
+
+    const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+    const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
+
+    const willBeReplaced = () => {
+        console.log('will be replaced');
+    }
+    if (sortingOption === 'sortByName') {
+            
+        sortByNameList.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, 'previousDay', willBeReplaced)
+            
+        });
+    } else {
+
+        sortByVisitCount.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, 'previousDay', willBeReplaced)
+            
+        });
+    }
+
+    
+    
+    
+    totalVisitCount.innerHTML =  `<p>Total Visit : ${totalVisit || 0}</p>`;
+    
+    
+    counterContainer.appendChild(tabCount);
+    counterContainer.appendChild(totalVisitCount);
+    
+    deleteButtonsContainer.appendChild(deleteAllButton);
+    deleteButtonsContainer.appendChild(deleteDomaintButton);
+    
+    dayContainer.appendChild(dayHeader);
+    dayContainer.appendChild(dayList);
+    dayContainer.appendChild(counterContainer);
+    dayContainer.appendChild(deleteButtonsContainer)
+
+    return dayContainer
+
+}
 
 /***/ }),
 
@@ -17915,6 +17985,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getStoredDays": () => (/* binding */ getStoredDays),
 /* harmony export */   "addStoredDays": () => (/* binding */ addStoredDays)
 /* harmony export */ });
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utilities */ "./src/js/utilities.js");
 
 //#region Prepare and Serve Operations
 
@@ -18042,9 +18113,9 @@ const removeDeletedElement = async (element, hostName, dataDate) => {
    
 
     if (dataDate === 'today') {
-        await clearSingleDomainToday(hostName)
+        // await clearSingleDomainToday(hostName)
     } else {
-        await clearSingleDomainPreviousDay(hostName)
+        // await clearSingleDomainPreviousDay(hostName)
     }
 
     element.remove();
@@ -18128,10 +18199,8 @@ const setBlackList = async (urlPiece, operation = "add") => {
     } else {
         if (!blackList.blackList.includes(urlPiece) && operation === "add") {
             blackList.blackList.push(urlPiece);
-            console.log(blackList.blackList);
-            const filteredBlackList = blackList.blackList.filter(onlyUnique);
+            const filteredBlackList = blackList.blackList.filter(_utilities__WEBPACK_IMPORTED_MODULE_0__.onlyUnique);
             blackList.blackList = filteredBlackList
-            console.log(blackList.blackList);
             chrome.storage.local.set({"blackList" : blackList.blackList});   
         } else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
             for( let i = 0; i < blackList.blackList.length; i++){ 
@@ -18212,6 +18281,40 @@ const setSortingOptions = async (sortValue) => {
         chrome.storage.local.set({"options" : {sortBy : 'sortByName'}})
     }
 }
+
+/***/ }),
+
+/***/ "./src/js/utilities.js":
+/*!*****************************!*\
+  !*** ./src/js/utilities.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "openInNewTab": () => (/* binding */ openInNewTab),
+/* harmony export */   "scrapeInformationFromUrl": () => (/* binding */ scrapeInformationFromUrl),
+/* harmony export */   "onlyUnique": () => (/* binding */ onlyUnique)
+/* harmony export */ });
+const openInNewTab = (url) => {
+    window.open(url, '_blank').focus();
+}
+
+const scrapeInformationFromUrl = (fullUrl) => {
+    const url = new URL(fullUrl);
+    return [fullUrl, url.protocol, url.hostname, url.pathname, url.search]
+};
+
+const onlyUnique = (value, index, self) => {
+    return self.indexOf(value) === index;
+    // Use with filter to make an array unique
+
+    // var a = ['a', 1, 'a', 2, '1'];
+    // var unique = a.filter(onlyUnique);
+}
+
+
 
 /***/ })
 

@@ -1,4 +1,4 @@
-
+import { onlyUnique } from "./utilities";
 //#region Prepare and Serve Operations
 
 export const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateEvent ) => {
@@ -125,9 +125,9 @@ export const removeDeletedElement = async (element, hostName, dataDate) => {
    
 
     if (dataDate === 'today') {
-        await clearSingleDomainToday(hostName)
+        // await clearSingleDomainToday(hostName)
     } else {
-        await clearSingleDomainPreviousDay(hostName)
+        // await clearSingleDomainPreviousDay(hostName)
     }
 
     element.remove();
@@ -211,10 +211,8 @@ export const setBlackList = async (urlPiece, operation = "add") => {
     } else {
         if (!blackList.blackList.includes(urlPiece) && operation === "add") {
             blackList.blackList.push(urlPiece);
-            console.log(blackList.blackList);
             const filteredBlackList = blackList.blackList.filter(onlyUnique);
             blackList.blackList = filteredBlackList
-            console.log(blackList.blackList);
             chrome.storage.local.set({"blackList" : blackList.blackList});   
         } else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
             for( let i = 0; i < blackList.blackList.length; i++){ 

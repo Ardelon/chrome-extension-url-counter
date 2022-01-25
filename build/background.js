@@ -230,7 +230,6 @@ const getStoredDays = async () => {
 
 const addStoredDays = async (day) => {
     const storedDays = await getStoredDays();
-    console.log(storedDays);
     if (storedDays && storedDays.storedDays) {
         if (storedDays.storedDays.length < 30) {
             storedDays.storedDays.push(day);

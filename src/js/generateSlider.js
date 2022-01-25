@@ -1,7 +1,8 @@
 import _ from 'lodash'
-import { getStoredDays } from './manageInfo';
+import { getStoredDays, prepareData, generateListElement } from './manageInfo';
+import { getSortingOptions } from './manageOptions';
 
-const listContainer = document.getElementById("list-container-new");
+const listContainer = document.getElementById("list-container-belt");
 const goLeftButton = document.getElementById("list-container-go-left-button");
 const goRightButton = document.getElementById("list-container-go-right-button")
 
@@ -10,12 +11,9 @@ export const renderSlider = async () => {
 
     if (storedDays && storedDays.storedDays) {
 
-        storedDays.storedDays.forEach((storedDay, index) => {
-            const dayContainer = document.createElement("div");
-            dayContainer.classList.add("list-container-element");
-            dayContainer.id = `day-container-${index}`
-            dayContainer.innerText = storedDay.day;
-            listContainer.appendChild(dayContainer);
+        storedDays.storedDays.forEach(async (storedDay, index) => {
+            const day = await generateDayContainer(storedDay, index);
+            listContainer.appendChild(day)
         });
     }
 }
@@ -45,16 +43,13 @@ const slideVisionMethod2 = (direction) => {
     const driver = {
         'left' : () => {
       
-            console.log('left');
-            const belt = document.getElementById(`list-container-new`)   
+            const belt = document.getElementById(`list-container-belt`)   
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
             target = Math.max(belt.scrollLeft - horizontalAmount, 0);
-            console.log(belt.scrollLeft, target);
             interval = setInterval(() => {
                 belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
-                console.log(belt.scrollLeft, target, horizontalAmount);
                 if (belt.scrollLeft === target) {
                     clearInterval(interval)
                 }
@@ -62,18 +57,14 @@ const slideVisionMethod2 = (direction) => {
         },
         'right' : () => {
 
-            console.log('right');
-            const belt = document.getElementById(`list-container-new`)   
+            const belt = document.getElementById(`list-container-belt`)   
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
             target = Math.min(belt.scrollLeft + horizontalAmount, belt.scrollWidth - belt.clientWidth);
-            console.log(belt.scrollLeft, target);
 
             interval = setInterval(() => {
                 belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
-                console.log(Math.min(belt.scrollLeft + horizontalAmount/frame, target));
-                console.log(belt.scrollLeft, target, horizontalAmount);
                 if (belt.scrollLeft === target) {
                     clearInterval(interval)
                 }
@@ -81,7 +72,6 @@ const slideVisionMethod2 = (direction) => {
         },
         'up' : () => {
 
-            console.log('up');
             selectedBelt = Math.max(selectedBelt - 1, 0);
             const belt = document.getElementById(`selected-belt-${selectedBelt}`);
             const style = window.getComputedStyle(belt);
@@ -97,7 +87,6 @@ const slideVisionMethod2 = (direction) => {
         },
         'down' : () => {
 
-            console.log('down');
             selectedBelt = Math.min(selectedBelt + 1, 30);
             const belt = document.getElementById(`selected-belt-${selectedBelt}`);
             const style = window.getComputedStyle(belt);
@@ -119,4 +108,85 @@ const slideVisionMethod2 = (direction) => {
     } else {
         console.log('No or wrong direction');
     }
+}
+
+const generateDayContainer = async (storedDay, index) => {
+
+    const dayContainer = document.createElement("div");
+    dayContainer.classList.add("belt-element");
+    dayContainer.id = `day-container-${index}`;
+
+    const dayHeader = document.createElement("h1");
+    dayHeader.innerText = storedDay.day;
+    dayHeader.classList.add("belt-header");
+
+    const counterContainer = document.createElement("div");
+    counterContainer.classList.add("counter-container");
+
+    const tabCount = document.createElement("div");
+    tabCount.classList.add("count-indicator");
+    tabCount.innerHTML = `<p>Tab Count : ${storedDay.tabCount || 0}</p>`;
+
+    const totalVisitCount = document.createElement("div");
+    totalVisitCount.classList.add("count-indicator");
+
+    const dayList = document.createElement("div");
+    dayList.classList.add("belt-host-list-container");
+
+    const deleteButtonsContainer = document.createElement("div");
+    deleteButtonsContainer.classList.add("delete-buttons-container");
+
+    const deleteAllButton = document.createElement("div");
+    deleteAllButton.innerHTML = "<p>Delete All</p>"
+    deleteAllButton.classList.add("delete-button");
+
+    const deleteDomaintButton = document.createElement("div");
+    deleteDomaintButton.innerHTML = "<p>Delete Domain</p>";
+    deleteDomaintButton.classList.add("delete-button");
+
+    const data = await prepareData(storedDay.hostList);
+
+    const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+    const sortingOption = await getSortingOptions();
+
+    const willBeReplaced = () => {
+        console.log('will be replaced');
+    }
+    if (sortingOption === 'sortByName') {
+            
+        sortByNameList.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            generateListElement(dayList, hostName, visitCount, logo, 'previousDay', willBeReplaced)
+            
+        });
+    } else {
+
+        sortByVisitCount.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            generateListElement(dayList, hostName, visitCount, logo, 'previousDay', willBeReplaced)
+            
+        });
+    }
+
+    
+    
+    
+    totalVisitCount.innerHTML =  `<p>Total Visit : ${totalVisit || 0}</p>`;
+    
+    
+    counterContainer.appendChild(tabCount);
+    counterContainer.appendChild(totalVisitCount);
+    
+    deleteButtonsContainer.appendChild(deleteAllButton);
+    deleteButtonsContainer.appendChild(deleteDomaintButton);
+    
+    dayContainer.appendChild(dayHeader);
+    dayContainer.appendChild(dayList);
+    dayContainer.appendChild(counterContainer);
+    dayContainer.appendChild(deleteButtonsContainer)
+
+    return dayContainer
+
 }
