@@ -1,4 +1,4 @@
-const getSortingOptions = async () => {
+export const getSortingOptions = async () => {
     
     const options = await chrome.storage.local.get("options");
     if (options.options) {
@@ -10,7 +10,7 @@ const getSortingOptions = async () => {
     }
 }
 
-const setSortingOptions = async (sortValue) => {
+export const setSortingOptions = async (sortValue) => {
     const options = await chrome.storage.local.get("options")
 
     if (options && options.options) {

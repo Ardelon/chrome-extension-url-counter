@@ -1,7 +1,7 @@
 
 //#region Prepare and Serve Operations
 
-const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateEvent ) => {
+export const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateEvent ) => {
 
     const element = document.createElement("div");
     const blockage = document.createElement("div");
@@ -57,7 +57,7 @@ const generateListElement = async (parent, hostName, visitCount, logo, dataDate,
 
 
 
-const prepareData = async (hostList) => {
+export const prepareData = async (hostList) => {
     // const hostList = await chrome.storage.local.get("hostList");
     let uniqueHostNameList = [];
     let sortByNameList = []
@@ -91,7 +91,7 @@ const prepareData = async (hostList) => {
 
 }
 
-const generateSortForVisitCount = (object) => {
+export const generateSortForVisitCount = (object) => {
 
     const keys = Object.keys(object);
     const sortingKeyList = [];
@@ -112,15 +112,15 @@ const generateSortForVisitCount = (object) => {
 
 };
 
-const clearElements = (element) => {
+export const clearElements = (element) => {
     element.innerHTML = "";
 }
 
-const goToSiteEventHandler = (hostName) => {
+export const goToSiteEventHandler = (hostName) => {
     window.open(`https://${hostName}`, "_blank");
 }
 
-const removeDeletedElement = async (element, hostName, dataDate) => {
+export const removeDeletedElement = async (element, hostName, dataDate) => {
     
    
 
@@ -138,7 +138,7 @@ const removeDeletedElement = async (element, hostName, dataDate) => {
 
 //#region Delete Operations
 
-const clearSingleDomainPreviousDay = async (hostName) => {
+export const clearSingleDomainPreviousDay = async (hostName) => {
     const previousDayData = await chrome.storage.local.get("previousDay");
 
     if (previousDayData.previousDay) { 
@@ -158,7 +158,7 @@ const clearSingleDomainPreviousDay = async (hostName) => {
     }
 };
 
-const clearSingleDomainToday = async (hostName) => {
+export const clearSingleDomainToday = async (hostName) => {
     const hostList = await chrome.storage.local.get("hostList");
 
     if (hostList.hostList) {
@@ -175,11 +175,11 @@ const clearSingleDomainToday = async (hostName) => {
     }
 };
 
-const clearPreviousDayData = async () => {
+export const clearPreviousDayData = async () => {
     chrome.storage.local.set({"previousDay" : null})
 };
 
-const clearTodayData = async () => {
+export const clearTodayData = async () => {
 
     chrome.storage.local.set({"hostList" : null})
     // chrome.storage.local.set({"day" : null})
@@ -192,7 +192,7 @@ const clearTodayData = async () => {
 
 //#region Storage Operations
 
-const getBlackList = async () => {
+export const getBlackList = async () => {
     const blackList = await chrome.storage.local.get("blackList");
 
     if (!blackList || !blackList.blackList) {
@@ -202,7 +202,7 @@ const getBlackList = async () => {
     return blackList || []
 }
 
-const setBlackList = async (urlPiece, operation = "add") => {
+export const setBlackList = async (urlPiece, operation = "add") => {
 
     const blackList = await chrome.storage.local.get("blackList");
     
@@ -230,7 +230,7 @@ const setBlackList = async (urlPiece, operation = "add") => {
     }
 }   
 
-const getStoredDays = async () => {
+export const getStoredDays = async () => {
     const storedDays = await chrome.storage.local.get("storedDays");
 
     if (!storedDays || !storedDays.storedDays) {
@@ -240,7 +240,7 @@ const getStoredDays = async () => {
     return storedDays || [];
 }
 
-const addStoredDays = async (day) => {
+export const addStoredDays = async (day) => {
     const storedDays = await getStoredDays();
     
     if (storedDays && storedDays.storedDays) {

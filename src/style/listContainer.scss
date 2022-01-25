@@ -1,0 +1,47 @@
+.list-container-holder {
+    position: relative;
+}
+
+.list-container-go-left-button {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translate(-50%, 0);
+}
+
+.list-container-go-right-button {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translate(-50%, 0);
+}
+
+.list-container-new {
+    width: 720px;
+    margin: auto;
+    display: flex;
+    border: 2px solid black;
+    align-items: baseline;
+    overflow-x: auto;
+    overflow-y: auto;
+    flex-direction: row;
+}
+
+.list-container-new::-webkit-scrollbar {
+    display: none;
+}
+
+.list-container-element {
+
+    flex-shrink: 0;
+    position: relative;
+    height: 700px;
+    width: 310px;
+    justify-content: center;
+    align-items: center;
+    margin: 25px;
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    background-color: chartreuse;
+}

@@ -1,3 +1,18 @@
+import '../style/options.scss';
+
+import {renderSlider} from './generateSlider';
+import {getSortingOptions, setSortingOptions} from './manageOptions';
+import {
+    generateListElement, 
+    prepareData, 
+    clearElements, 
+    clearPreviousDayData,
+    clearTodayData,
+    getBlackList,
+    setBlackList,
+    getStoredDays,
+} from './manageInfo';
+
 //#region Elements
 
 const previousDayListContainer = document.getElementById("previous-day-list");
@@ -347,6 +362,7 @@ const updatePreviousDayVisitCount = async () => {
 renderDataHandler();
 displayOptions();
 displayBlackListElements();
+renderSlider();
 
 // hostNameInput.addEventListener('input', (e) => {
 //     e.preventDefault()

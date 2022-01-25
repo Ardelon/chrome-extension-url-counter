@@ -1,3 +1,16 @@
+import '../style/popup.scss';
+
+import {openInNewTab, scrapeInformationFromUrl} from './utilities';
+import {getSortingOptions} from './manageOptions';
+import {
+    generateListElement, 
+    prepareData, 
+    clearElements, 
+    getBlackList,
+    setBlackList,
+} from './manageInfo';
+
+
 // let tabCountButton = document.getElementById("tab-count-button");
 let tabCountDiv = document.getElementById("tab-count");
 let listContainer = document.getElementById("list-container");

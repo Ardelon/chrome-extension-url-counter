@@ -1,0 +1,32 @@
+{
+  "name": "chrome-extension-url-counter",
+  "version": "1.0.0",
+  "description": "Count opened urls and show them under hostname.",
+  "main": "fikirler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ardelon/chrome-extension-url-counter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ardelon/chrome-extension-url-counter/issues"
+  },
+  "homepage": "https://github.com/Ardelon/chrome-extension-url-counter#readme",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "sass": "^1.49.0"
+  },
+  "devDependencies": {
+    "css-loader": "^6.5.1",
+    "sass-loader": "^12.4.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.67.0",
+    "webpack-cli": "^4.9.1"
+  }
+}
