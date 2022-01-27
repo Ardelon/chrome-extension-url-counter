@@ -1,7 +1,7 @@
 import { onlyUnique } from "./utilities";
 //#region Prepare and Serve Operations
 
-export const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateEvent ) => {
+export const generateListElement = async (parent, hostName, visitCount, logo, dataDate ) => {
 
     const element = document.createElement("div");
     const blockage = document.createElement("div");
@@ -28,7 +28,7 @@ export const generateListElement = async (parent, hostName, visitCount, logo, da
     blockage.addEventListener('click', async (e) => {
         e.preventDefault();
         await removeDeletedElement(element, hostName, dataDate);
-        updateEvent();
+        clearDomainData(dataDate, hostName);
 
         blockage.removeEventListener('click', (e) => {
             e.preventDefault();
@@ -54,8 +54,6 @@ export const generateListElement = async (parent, hostName, visitCount, logo, da
     parent.appendChild(element);
 
 }
-
-
 
 export const prepareData = async (hostList) => {
     // const hostList = await chrome.storage.local.get("hostList");
@@ -188,6 +186,31 @@ export const clearTodayData = async () => {
     chrome.storage.local.set({"storedTabStateList" : null})
 };
 
+export const clearDomainData = async (date, hostName) => {
+
+    const storedDays = await getStoredDays();
+
+    if (storedDays.storedDays) {
+        storedDays.storedDays.forEach((storedDay, index) => {
+            if (storedDay.day === date) {
+                const newHostList = [];
+                console.log(storedDay);
+                storedDay.hostList.forEach(element =>{
+                    if (element.hostName !== hostName) {
+                        newHostList.push(element);
+                    }
+                });
+                storedDay.hostList = newHostList;                
+            }
+        });
+        chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+    }
+
+}
+
+export const clearAllData = async (date) => {
+
+}
 //#endregion
 
 //#region Storage Operations

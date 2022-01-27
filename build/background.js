@@ -88,15 +88,14 @@ const updateDateCounters = async () => {
     const [generatedDay, remainingMiliSeconds] = generateDay();
     const {day : savedDay} = await getDay();
     console.log("Sol Invictus");
-    setDay(generatedDay)
-    // if (generatedDay !== savedDay) {
-    //     setDay(generatedDay)
-    // } else {
-    //     setTimeout(() => {
-    //         const [generatedDayToBe] = generateDay();
-    //         setDay(generatedDayToBe);
-    //     }, remainingMiliSeconds);
-    // }
+    if (generatedDay !== savedDay) {
+        setDay(generatedDay)
+    } else {
+        setTimeout(() => {
+            const [generatedDayToBe] = generateDay();
+            setDay(generatedDayToBe);
+        }, remainingMiliSeconds);
+    }
 
     let hostList = await getHostList();
     if (hostList.hostList) {
@@ -231,13 +230,34 @@ const getStoredDays = async () => {
 const addStoredDays = async (day) => {
     const storedDays = await getStoredDays();
     if (storedDays && storedDays.storedDays) {
-        if (storedDays.storedDays.length < 30) {
-            storedDays.storedDays.push(day);
+        let isIncluded = false;
+        let storedDayIndex = -1
+        storedDays.storedDays.forEach((storedDay, index) => {
+            if (storedDay.day === day.day) {
+                isIncluded = true;
+                storedDayIndex = index
+            }
+        });
+
+        if (isIncluded) {
+            storedDay = storedDays.storedDays[storedDayIndex];
+            console.log(storedDay);
+            storedDay.hostList = storedDay.hostList.concat(day.hostList);
+            storedDay.tabCount += day.tabCount;
+            storedDay.sessionCount += day.sessionCount;
+            console.log(storedDay);
+            storedDays.storedDays[storedDayIndex] = storedDay;
             chrome.storage.local.set({"storedDays" : storedDays.storedDays})
         } else {
-            storedDays.storedDays.shift();
-            storedDays.storedDays.push(day);
-            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
+
+            if (storedDays.storedDays.length < 30) {
+                storedDays.storedDays.push(day);
+                chrome.storage.local.set({"storedDays" : storedDays.storedDays})
+            } else {
+                storedDays.storedDays.shift();
+                storedDays.storedDays.push(day);
+                chrome.storage.local.set({"storedDays" : storedDays.storedDays})
+            }
         }
     } else {
         chrome.storage.local.set({"storedDays" : [day]})

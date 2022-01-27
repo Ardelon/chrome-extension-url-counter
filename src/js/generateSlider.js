@@ -149,15 +149,12 @@ const generateDayContainer = async (storedDay, index) => {
     const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
     const sortingOption = await getSortingOptions();
 
-    const willBeReplaced = () => {
-        console.log('will be replaced');
-    }
     if (sortingOption === 'sortByName') {
             
         sortByNameList.forEach(hostName => {
             const visitCount = hostInformationObject[hostName].visitCount;
             const logo =  hostInformationObject[hostName].logo
-            generateListElement(dayList, hostName, visitCount, logo, 'previousDay', willBeReplaced)
+            generateListElement(dayList, hostName, visitCount, logo, storedDay.day)
             
         });
     } else {
@@ -165,15 +162,23 @@ const generateDayContainer = async (storedDay, index) => {
         sortByVisitCount.forEach(hostName => {
             const visitCount = hostInformationObject[hostName].visitCount;
             const logo =  hostInformationObject[hostName].logo
-            generateListElement(dayList, hostName, visitCount, logo, 'previousDay', willBeReplaced)
+            generateListElement(dayList, hostName, visitCount, logo, storedDay.day)
             
         });
     }
 
-    
-    
-    
     totalVisitCount.innerHTML =  `<p>Total Visit : ${totalVisit || 0}</p>`;
+
+    deleteDomaintButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const blockageList = [...dayList.getElementsByClassName("hide")];
+        blockageList.forEach(blockage => {
+            blockage.classList.remove("hide");
+        })
+        deleteDomaintButton.removeEventListener('click', async (e) => {
+            e.preventDefault();
+        })
+    })
     
     
     counterContainer.appendChild(tabCount);
@@ -190,3 +195,7 @@ const generateDayContainer = async (storedDay, index) => {
     return dayContainer
 
 }
+
+
+
+

@@ -50,11 +50,11 @@ const getTabCount = async () => {
 
 //#region render Data
 
-const renderDataHandler = async () => {
-    servePreviousDay();
-    serveToday();
+// const renderDataHandler = async () => {
+//     servePreviousDay();
+//     serveToday();
 
-};
+// };
 
 const servePreviousDay = async () => {
     const previousDayData = await chrome.storage.local.get("previousDay");
@@ -151,45 +151,45 @@ const serveToday = async () => {
 
 //#region Button Event Listeners
 
-previousDayDeleteAllButton.addEventListener('click', async (e) => {
-    e.preventDefault();
-    await clearPreviousDayData();
-    servePreviousDay();
-    updatePreviousDayVisitCount();
+// previousDayDeleteAllButton.addEventListener('click', async (e) => {
+//     e.preventDefault();
+//     await clearPreviousDayData();
+//     servePreviousDay();
+//     updatePreviousDayVisitCount();
      
-    previousDayDeleteAllButton.removeEventListener('click', async (e) => {
-        e.preventDefault();
-    })
-})
+//     previousDayDeleteAllButton.removeEventListener('click', async (e) => {
+//         e.preventDefault();
+//     })
+// })
 
-previousDayDeleteDomainButton.addEventListener('click', async (e) => {
-    e.preventDefault();
-    toggleBlockageElement(previousDayListContainer)
+// previousDayDeleteDomainButton.addEventListener('click', async (e) => {
+//     e.preventDefault();
+//     toggleBlockageElement(previousDayListContainer)
 
-    previousDayDeleteDomainButton.removeEventListener('click', async (e) => {
-        e.preventDefault();
-    })
-})
+//     previousDayDeleteDomainButton.removeEventListener('click', async (e) => {
+//         e.preventDefault();
+//     })
+// })
 
-todayDeleteAllButton.addEventListener('click', async (e) => {
-    e.preventDefault();
-    await clearTodayData();
-    serveToday();
+// todayDeleteAllButton.addEventListener('click', async (e) => {
+//     e.preventDefault();
+//     await clearTodayData();
+//     serveToday();
 
 
-    todayDeleteAllButton.removeEventListener('click', async (e) => {
-        e.preventDefault();
-    })
-})
+//     todayDeleteAllButton.removeEventListener('click', async (e) => {
+//         e.preventDefault();
+//     })
+// })
 
-todayDeleteDomainButton.addEventListener('click', async (e) => {
-    e.preventDefault();
-    toggleBlockageElement(todayListContainer)
+// todayDeleteDomainButton.addEventListener('click', async (e) => {
+//     e.preventDefault();
+//     toggleBlockageElement(todayListContainer)
 
-    todayDeleteDomainButton.removeEventListener('click', async (e) => {
-        e.preventDefault();
-    })
-})
+//     todayDeleteDomainButton.removeEventListener('click', async (e) => {
+//         e.preventDefault();
+//     })
+// })
 
 //#endregion
 
@@ -359,7 +359,7 @@ const updatePreviousDayVisitCount = async () => {
 
 //#endregion
 
-renderDataHandler();
+// renderDataHandler();
 displayOptions();
 displayBlackListElements();
 renderSlider();
