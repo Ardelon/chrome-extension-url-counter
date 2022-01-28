@@ -1,7 +1,7 @@
 import { onlyUnique } from "./utilities";
 //#region Prepare and Serve Operations
 
-export const generateListElement = async (parent, hostName, visitCount, logo, dataDate ) => {
+export const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
 
     const element = document.createElement("div");
     const blockage = document.createElement("div");
@@ -28,7 +28,8 @@ export const generateListElement = async (parent, hostName, visitCount, logo, da
     blockage.addEventListener('click', async (e) => {
         e.preventDefault();
         await removeDeletedElement(element, hostName, dataDate);
-        clearDomainData(dataDate, hostName);
+        await clearDomainData(dataDate, hostName);
+        updateTabCount(dataDate)
 
         blockage.removeEventListener('click', (e) => {
             e.preventDefault();
@@ -120,71 +121,12 @@ export const goToSiteEventHandler = (hostName) => {
 
 export const removeDeletedElement = async (element, hostName, dataDate) => {
     
-   
-
-    if (dataDate === 'today') {
-        // await clearSingleDomainToday(hostName)
-    } else {
-        // await clearSingleDomainPreviousDay(hostName)
-    }
-
     element.remove();
-
 }
 
 //#endregion
 
 //#region Delete Operations
-
-export const clearSingleDomainPreviousDay = async (hostName) => {
-    const previousDayData = await chrome.storage.local.get("previousDay");
-
-    if (previousDayData.previousDay) { 
-
-        const hostList = previousDayData.previousDay.hostList;
-
-        const newHostList = [];
-
-        hostList.forEach((element, index) => {
-            if (element.hostName !== hostName) {
-                newHostList.push(element);
-            }
-        });
-        previousDayData.previousDay.visitCount = newHostList.length
-        previousDayData.previousDay.hostList = newHostList;
-        chrome.storage.local.set({"previousDay" : previousDayData.previousDay})
-    }
-};
-
-export const clearSingleDomainToday = async (hostName) => {
-    const hostList = await chrome.storage.local.get("hostList");
-
-    if (hostList.hostList) {
-
-        const newHostList = [];
-
-        hostList.hostList.forEach(element => {
-            if (element.hostName !== hostName) {
-                newHostList.push(element);
-            }
-        })
-        hostList.hostList = newHostList
-        chrome.storage.local.set({"hostList" : hostList.hostList})
-    }
-};
-
-export const clearPreviousDayData = async () => {
-    chrome.storage.local.set({"previousDay" : null})
-};
-
-export const clearTodayData = async () => {
-
-    chrome.storage.local.set({"hostList" : null})
-    // chrome.storage.local.set({"day" : null})
-    chrome.storage.local.set({"sessionCount" : null});
-    chrome.storage.local.set({"tabCount" : null});
-    chrome.storage.local.set({"storedTabStateList" : null})
-};
 
 export const clearDomainData = async (date, hostName) => {
 
@@ -194,7 +136,6 @@ export const clearDomainData = async (date, hostName) => {
         storedDays.storedDays.forEach((storedDay, index) => {
             if (storedDay.day === date) {
                 const newHostList = [];
-                console.log(storedDay);
                 storedDay.hostList.forEach(element =>{
                     if (element.hostName !== hostName) {
                         newHostList.push(element);
@@ -208,7 +149,13 @@ export const clearDomainData = async (date, hostName) => {
 
 }
 
-export const clearAllData = async (date) => {
+export const clearAllData = async (dayDate) => {
+
+    const storedDays = await getStoredDays();
+    const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
+
+    storedDays.storedDays.splice(storedDayIndex,1);
+    await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
 
 }
 //#endregion

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { getStoredDays, prepareData, generateListElement } from './manageInfo';
+import { getStoredDays, prepareData, generateListElement, clearAllData } from './manageInfo';
 import { getSortingOptions } from './manageOptions';
 
 const listContainer = document.getElementById("list-container-belt");
@@ -10,7 +10,7 @@ export const renderSlider = async () => {
     const storedDays = await getStoredDays();
 
     if (storedDays && storedDays.storedDays) {
-
+        listContainer.innerHTML = null;
         storedDays.storedDays.forEach(async (storedDay, index) => {
             const day = await generateDayContainer(storedDay, index);
             listContainer.appendChild(day)
@@ -128,7 +128,7 @@ const generateDayContainer = async (storedDay, index) => {
     tabCount.innerHTML = `<p>Tab Count : ${storedDay.tabCount || 0}</p>`;
 
     const totalVisitCount = document.createElement("div");
-    totalVisitCount.classList.add("count-indicator");
+    totalVisitCount.classList.add("count-indicator", "total-visit-count");
 
     const dayList = document.createElement("div");
     dayList.classList.add("belt-host-list-container");
@@ -154,7 +154,7 @@ const generateDayContainer = async (storedDay, index) => {
         sortByNameList.forEach(hostName => {
             const visitCount = hostInformationObject[hostName].visitCount;
             const logo =  hostInformationObject[hostName].logo
-            generateListElement(dayList, hostName, visitCount, logo, storedDay.day)
+            generateListElement(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount)
             
         });
     } else {
@@ -162,7 +162,7 @@ const generateDayContainer = async (storedDay, index) => {
         sortByVisitCount.forEach(hostName => {
             const visitCount = hostInformationObject[hostName].visitCount;
             const logo =  hostInformationObject[hostName].logo
-            generateListElement(dayList, hostName, visitCount, logo, storedDay.day)
+            generateListElement(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount)
             
         });
     }
@@ -172,10 +172,27 @@ const generateDayContainer = async (storedDay, index) => {
     deleteDomaintButton.addEventListener('click', async (e) => {
         e.preventDefault();
         const blockageList = [...dayList.getElementsByClassName("hide")];
-        blockageList.forEach(blockage => {
-            blockage.classList.remove("hide");
-        })
+        if (blockageList.length) {
+
+            blockageList.forEach(blockage => {
+                blockage.classList.remove("hide");
+            });
+        } else {
+            console.log("selam")
+            reGenerateDay(storedDay.day, index);
+        }
         deleteDomaintButton.removeEventListener('click', async (e) => {
+            e.preventDefault();
+        })
+    })
+
+    deleteAllButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        await clearAllData(storedDay.day);
+        renderSlider();
+
+        deleteAllButton.removeEventListener('click', async (e) => {
             e.preventDefault();
         })
     })
@@ -195,6 +212,62 @@ const generateDayContainer = async (storedDay, index) => {
     return dayContainer
 
 }
+
+const reGenerateDay = async (dayDate) => {
+
+    const storedDays = await getStoredDays();
+    const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
+    const storedDay = storedDays.storedDays[storedDayIndex];
+
+    const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
+    const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
+    const beltHostListContainerCollection = dayContainer.getElementsByClassName("belt-host-list-container");
+    const beltHostListContainer = beltHostListContainerCollection[0];
+
+    beltHostListContainer.innerHTML = null;
+
+    const data = await prepareData(storedDay.hostList);
+
+    const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+
+    const sortingOption = await getSortingOptions();
+
+    if (sortingOption === 'sortByName') {
+            
+        sortByNameList.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            generateListElement(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount)
+            
+        });
+    } else {
+
+        sortByVisitCount.forEach(hostName => {
+            const visitCount = hostInformationObject[hostName].visitCount;
+            const logo =  hostInformationObject[hostName].logo
+            generateListElement(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount)
+            
+        });
+    }
+
+    totalVisitCounterCollection[0].innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
+}
+
+const updateTabCount = async (dayDate) => {
+    const storedDays = await getStoredDays();
+    const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
+    
+    const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
+    const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
+
+    const data = await prepareData(storedDays.storedDays[storedDayIndex].hostList);
+
+    const [,, totalVisit ] = data;
+
+    totalVisitCounterCollection[0].innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
+
+}
+
 
 
 

@@ -67,7 +67,6 @@ const storeStorage = async () => {
         hostList : hostList.hostList
     }
 
-    setPreviousDay(model);
     addStoredDays(model);
 }
 
@@ -179,9 +178,7 @@ const getStoredTabStateList = async () => {
     return await chrome.storage.local.get("storedTabStateList")
 };
 
-const setPreviousDay = async (previousDay) => {
-    chrome.storage.local.set({"previousDay" : previousDay})
-}
+
 
 const getBlackList = async () => {
     const blackList = await chrome.storage.local.get("blackList");
