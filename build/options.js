@@ -17760,7 +17760,8 @@ module.exports = styleTagTransform;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderSlider": () => (/* binding */ renderSlider)
+/* harmony export */   "renderSlider": () => (/* binding */ renderSlider),
+/* harmony export */   "scrollBeltToEnd": () => (/* binding */ scrollBeltToEnd)
 /* harmony export */ });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
@@ -17779,10 +17780,11 @@ const renderSlider = async () => {
 
     if (storedDays && storedDays.storedDays) {
         listContainer.innerHTML = null;
-        storedDays.storedDays.forEach(async (storedDay, index) => {
+        await storedDays.storedDays.forEach(async (storedDay, index) => {
             const day = await generateDayContainer(storedDay, index);
             listContainer.appendChild(day)
         });
+        
     }
 }
 
@@ -17815,7 +17817,9 @@ const slideVisionMethod2 = (direction) => {
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
-            target = Math.max(belt.scrollLeft - horizontalAmount, 0);
+            const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+            target = Math.max((elementIndex - 1) * horizontalAmount, 0);
+            console.log(elementIndex, target);
             interval = setInterval(() => {
                 belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
                 if (belt.scrollLeft === target) {
@@ -17828,8 +17832,9 @@ const slideVisionMethod2 = (direction) => {
             const belt = document.getElementById(`list-container-belt`)   
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
-            horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
-            target = Math.min(belt.scrollLeft + horizontalAmount, belt.scrollWidth - belt.clientWidth);
+            horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
+            const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+            target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
 
             interval = setInterval(() => {
                 belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
@@ -17958,7 +17963,7 @@ const generateDayContainer = async (storedDay, index) => {
         e.preventDefault();
 
         await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.clearAllData)(storedDay.day);
-        renderSlider();
+        await renderSlider();
 
         deleteAllButton.removeEventListener('click', async (e) => {
             e.preventDefault();
@@ -18036,6 +18041,14 @@ const updateTabCount = async (dayDate) => {
 
 }
 
+const scrollBeltToEnd = () => {
+
+    const belt = document.getElementById(`list-container-belt`)   ;
+    const firstChild = belt.firstElementChild;
+    const style = window.getComputedStyle(firstChild);
+    belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
+
+}
 
 
 
@@ -18531,7 +18544,8 @@ const inputPlaceholder = "Write a link"
             } 
     
             //TODO Update Data Here
-            (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
+            await (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
+
     
             sortBySwitch.removeEventListener('click', (e) => {
                 e.preventDefault()
@@ -18612,10 +18626,16 @@ const inputPlaceholder = "Write a link"
 //#endregion
 
 // renderDataHandler();
-displayOptions();
-displayBlackListElements();
-(0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
 
+const loaderForAsync = async () => {
+
+    await (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
+    await displayOptions();
+    await displayBlackListElements();
+    (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.scrollBeltToEnd)()
+}
+
+loaderForAsync();
 })();
 
 /******/ })()

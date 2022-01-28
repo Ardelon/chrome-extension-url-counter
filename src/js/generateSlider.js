@@ -11,10 +11,11 @@ export const renderSlider = async () => {
 
     if (storedDays && storedDays.storedDays) {
         listContainer.innerHTML = null;
-        storedDays.storedDays.forEach(async (storedDay, index) => {
+        await storedDays.storedDays.forEach(async (storedDay, index) => {
             const day = await generateDayContainer(storedDay, index);
             listContainer.appendChild(day)
         });
+        
     }
 }
 
@@ -47,7 +48,9 @@ const slideVisionMethod2 = (direction) => {
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
-            target = Math.max(belt.scrollLeft - horizontalAmount, 0);
+            const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+            target = Math.max((elementIndex - 1) * horizontalAmount, 0);
+            console.log(elementIndex, target);
             interval = setInterval(() => {
                 belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
                 if (belt.scrollLeft === target) {
@@ -60,8 +63,9 @@ const slideVisionMethod2 = (direction) => {
             const belt = document.getElementById(`list-container-belt`)   
             const firstChild = belt.firstElementChild;
             const style = window.getComputedStyle(firstChild);
-            horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
-            target = Math.min(belt.scrollLeft + horizontalAmount, belt.scrollWidth - belt.clientWidth);
+            horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
+            const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+            target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
 
             interval = setInterval(() => {
                 belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
@@ -190,7 +194,7 @@ const generateDayContainer = async (storedDay, index) => {
         e.preventDefault();
 
         await clearAllData(storedDay.day);
-        renderSlider();
+        await renderSlider();
 
         deleteAllButton.removeEventListener('click', async (e) => {
             e.preventDefault();
@@ -268,6 +272,14 @@ const updateTabCount = async (dayDate) => {
 
 }
 
+export const scrollBeltToEnd = () => {
+
+    const belt = document.getElementById(`list-container-belt`)   ;
+    const firstChild = belt.firstElementChild;
+    const style = window.getComputedStyle(firstChild);
+    belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
+
+}
 
 
 

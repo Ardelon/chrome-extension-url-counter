@@ -1,6 +1,6 @@
 import '../style/options.scss';
 
-import {renderSlider} from './generateSlider';
+import {renderSlider, scrollBeltToEnd} from './generateSlider';
 import {getSortingOptions, setSortingOptions} from './manageOptions';
 import {
     getBlackList,
@@ -59,7 +59,8 @@ const inputPlaceholder = "Write a link"
             } 
     
             //TODO Update Data Here
-            renderSlider();
+            await renderSlider();
+
     
             sortBySwitch.removeEventListener('click', (e) => {
                 e.preventDefault()
@@ -140,6 +141,13 @@ const inputPlaceholder = "Write a link"
 //#endregion
 
 // renderDataHandler();
-displayOptions();
-displayBlackListElements();
-renderSlider();
+
+const loaderForAsync = async () => {
+
+    await renderSlider();
+    await displayOptions();
+    await displayBlackListElements();
+    scrollBeltToEnd()
+}
+
+loaderForAsync();
