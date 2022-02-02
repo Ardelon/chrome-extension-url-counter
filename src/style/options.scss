@@ -92,12 +92,13 @@ body {
 }
 
 .option-selection-group {
-    width: 600px;
+    width: 700px;
     margin: 10px auto 10px;
     background-color: #fafafa;
     display: flex;
     padding: 12.5px;
     flex-direction: column;
+    border-radius: 6px;
 }
 
 .option-selection-element {
@@ -106,8 +107,24 @@ body {
     border-bottom: 2px solid #316e7d ;
     padding: 5px;
     /* flex-direction: column; */
+
+
+}
+.options-header {
+    display: flex; 
+    color: gray;
+    width: 250px;
+    font-size: 26px;
 }
 
+.left {
+    left : 5%;
+}
+
+.right {
+    right: calc(5% - 250px);
+    text-align: right;
+}
 .count-indicator {
     font-size: 17px;
     text-align: center;

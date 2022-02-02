@@ -3,6 +3,10 @@
   display: inline-block;
   width: 60px;
   height: 34px;
+  top : 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
 }
 
 .switch input { 
@@ -36,11 +40,11 @@
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #316e7d;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #316e7d;
 }
 
 input:checked + .slider:before {
@@ -56,4 +60,8 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.flamio {
+  color: #e96c4c ;
 }

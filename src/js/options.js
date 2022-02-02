@@ -1,4 +1,4 @@
-import '../style/options.scss';
+import '../style/index.scss';
 
 import {renderSlider, scrollBeltToEnd} from './generateSlider';
 import {getSortingOptions, setSortingOptions} from './manageOptions';
@@ -10,7 +10,8 @@ import {
 //#region Elements
 
 
-const sortByHeader = document.getElementById("sort-by-header");
+const sortByName = document.getElementById("sort-by-name");
+const sortByVisitCount = document.getElementById("sort-by-visit-count");
 const sortBySwitch = document.getElementById("sort-by-switch-input");
 const sortBySwitchSpan = document.getElementById("sort-by-switch-span");
 
@@ -38,9 +39,11 @@ const inputPlaceholder = "Write a link"
         const sortingOption = await getSortingOptions();
 
         if (sortingOption === 'sortByName') {
-            sortByHeader.innerHTML = `<p>Sort By Name</p>`;
+            sortByName.classList.add("flamio");
+            sortByVisitCount.classList.remove("flamio");
         } else {
-            sortByHeader.innerHTML = `<p>Sort By Visit Count</p>`;
+            sortByName.classList.remove("flamio");
+            sortByVisitCount.classList.add("flamio");
             sortBySwitch.checked = true
         }
     }
@@ -52,10 +55,12 @@ const inputPlaceholder = "Write a link"
             e.preventDefault();
             if (!sortBySwitch.checked) {
                 setSortingOptions('sortByName');
-                sortByHeader.innerHTML = `<p>Sort By Name</p>`;
+                sortByName.classList.add("flamio");
+                sortByVisitCount.classList.remove("flamio");
             } else {
                 setSortingOptions('sortByVisitCount')
-                sortByHeader.innerHTML = `<p>Sort By Visit Count</p>`;
+                sortByName.classList.remove("flamio");
+                sortByVisitCount.classList.add("flamio");
             } 
     
             //TODO Update Data Here

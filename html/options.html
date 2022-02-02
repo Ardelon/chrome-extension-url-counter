@@ -12,17 +12,23 @@
     
     <div class="list-container-holder">
         <div id=list-container-belt class="list-container-belt"></div>
-        <div id="list-container-go-left-button" class="list-container-go-left-button">Go Left</div>
-        <div id="list-container-go-right-button" class="list-container-go-right-button">Go Right</div>
+        <div id="list-container-go-left-button" class="list-container-go-left-button">
+            <div class="upper-line"></div>
+            <div class="lower-line"></div>
+        </div>
+        <div id="list-container-go-right-button" class="list-container-go-right-button">
+            <div class="upper-line"></div>
+            <div class="lower-line"></div>
+        </div>
     </div>
     <div id="option-selection" class="option-selection-group">
         <div id="sort-control-container" class="option-selection-element">
-
             <label class="switch">
                 <input type="checkbox" id="sort-by-switch-input">
                 <span class="slider" id="sort-by-switch-span"></span>
             </label>
-            <h1 id="sort-by-header" style="display: inline-block; margin-left:10px"></h1>
+            <div id ="sort-by-name" class="options-header left">Sort By Name</div>
+            <div id="sort-by-visit-count" class="options-header right">Sort By Visit Count</div>
         </div>
         
         <div id="black-list-container" class="option-black-list">

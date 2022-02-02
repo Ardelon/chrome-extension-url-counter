@@ -74,6 +74,7 @@ body {
 
 .list-element:hover {
     background-color: #316e7d;
+    cursor: pointer;
 }
 
 
@@ -134,6 +135,11 @@ footer {
     justify-content: center;
     margin: 2px;
     background-color: #316e7d;
+}
+
+.footer-buttons:hover {
+    background-color: #51c1dd;
+    cursor: pointer;
 }
 
 .this-site-will-not-be-saved {

@@ -32,6 +32,27 @@ goLeftButton.addEventListener('click', thLeft)
 
 goRightButton.addEventListener('click', thRight);
 
+listContainer.addEventListener('scroll', (e) => {
+    e.preventDefault();
+    
+    if (listContainer.scrollLeft >= listContainer.scrollWidth - listContainer.clientWidth) {
+        goRightButton.classList.add("hide");
+    } else {
+        goRightButton.classList.remove("hide");
+    }
+
+    if (listContainer.scrollLeft <= 0) {
+        goLeftButton.classList.add("hide");
+    } else {
+        goLeftButton.classList.remove("hide");
+    }
+
+
+    goRightButton.removeEventListener('scroll', (e) => {
+        e.preventDefault();
+    })
+} )
+
 const slideVisionMethod2 = (direction) => {
 
     let frame = 64; 
@@ -50,7 +71,7 @@ const slideVisionMethod2 = (direction) => {
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
             const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
             target = Math.max((elementIndex - 1) * horizontalAmount, 0);
-            console.log(elementIndex, target);
+
             interval = setInterval(() => {
                 belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
                 if (belt.scrollLeft === target) {
@@ -66,7 +87,7 @@ const slideVisionMethod2 = (direction) => {
             horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
             const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
             target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
-
+           
             interval = setInterval(() => {
                 belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
                 if (belt.scrollLeft === target) {
@@ -278,6 +299,7 @@ export const scrollBeltToEnd = () => {
     const firstChild = belt.firstElementChild;
     const style = window.getComputedStyle(firstChild);
     belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
+    goRightButton.classList.add("hide");
 
 }
 
