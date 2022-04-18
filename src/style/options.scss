@@ -106,6 +106,8 @@ body {
     align-items: center;
     border-bottom: 2px solid #316e7d ;
     padding: 5px;
+    position: relative;
+    min-height: 50px;
     /* flex-direction: column; */
 
 
@@ -115,6 +117,7 @@ body {
     color: gray;
     width: 250px;
     font-size: 26px;
+    position: absolute;
 }
 
 .left {
@@ -122,7 +125,7 @@ body {
 }
 
 .right {
-    right: calc(5% - 250px);
+    right: 5%;
     text-align: right;
 }
 .count-indicator {
@@ -189,6 +192,7 @@ body {
     color: #fafafa;
     font-size: 12px;
     padding: 2px 25px 2px;
+    border-radius: 6px;
 }
 
 .host-name-input {
@@ -213,6 +217,25 @@ body {
     color: #fafafa;
     text-align: center;
     font-size: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    &:hover {
+        background-color: #51c1dd;
+    }
+}
+
+.json-button {
+    display: inline-block;
+    background-color: #316e7d;
+    color: #fafafa;
+    font-size: 16px;
+    padding: 5px 35px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: #51c1dd;
+    }
 }
 
 

@@ -9,13 +9,29 @@ const goRightButton = document.getElementById("list-container-go-right-button")
 export const renderSlider = async () => {
     const storedDays = await getStoredDays();
 
-    if (storedDays && storedDays.storedDays) {
+    if (storedDays && storedDays.storedDays && storedDays.storedDays.length) {
         listContainer.innerHTML = null;
+        if (storedDays.storedDays.length === 1) {
+            const day = await generateDayContainer({}, 0);
+            listContainer.appendChild(day)
+        }
         await storedDays.storedDays.forEach(async (storedDay, index) => {
             const day = await generateDayContainer(storedDay, index);
             listContainer.appendChild(day)
         });
         
+    } else {
+        listContainer.innerHTML = null;
+        const day = await generateDayContainer({}, 0);
+        const day1 = await generateDayContainer({}, 0);
+        
+        listContainer.appendChild(day)
+        listContainer.appendChild(day1)
+    }
+
+    if (listContainer.children.length <= 2) {
+        goRightButton.classList.add("hide");  
+        goLeftButton.classList.add("hide");
     }
 }
 
@@ -65,65 +81,83 @@ const slideVisionMethod2 = (direction) => {
     const driver = {
         'left' : () => {
       
-            const belt = document.getElementById(`list-container-belt`)   
-            const firstChild = belt.firstElementChild;
-            const style = window.getComputedStyle(firstChild);
-            horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
-            const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
-            target = Math.max((elementIndex - 1) * horizontalAmount, 0);
+            const belt = document.getElementById(`list-container-belt`)   ;
+            if (belt) {
 
-            interval = setInterval(() => {
-                belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
-                if (belt.scrollLeft === target) {
-                    clearInterval(interval)
+                const firstChild = belt.firstElementChild;
+                if (firstChild) {
+
+                    const style = window.getComputedStyle(firstChild);
+                    horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
+                    const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+                    target = Math.max((elementIndex - 1) * horizontalAmount, 0);
+                    
+                    interval = setInterval(() => {
+                        belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
+                        if (belt.scrollLeft === target) {
+                            clearInterval(interval)
+                        }
+                    }, frameRate);
                 }
-            }, frameRate);
+            }
         },
         'right' : () => {
 
             const belt = document.getElementById(`list-container-belt`)   
-            const firstChild = belt.firstElementChild;
-            const style = window.getComputedStyle(firstChild);
-            horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
-            const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
-            target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
-           
-            interval = setInterval(() => {
-                belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
-                if (belt.scrollLeft === target) {
-                    clearInterval(interval)
+            if (belt) {
+
+                const firstChild = belt.firstElementChild;
+                if (firstChild) {
+
+                    const style = window.getComputedStyle(firstChild);
+                    horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
+                    const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+                    target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
+                    
+                    interval = setInterval(() => {
+                        belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
+                        if (belt.scrollLeft === target) {
+                            clearInterval(interval)
+                        }
+                    }, frameRate);
                 }
-            }, frameRate);
+            }
         },
         'up' : () => {
 
             selectedBelt = Math.max(selectedBelt - 1, 0);
             const belt = document.getElementById(`selected-belt-${selectedBelt}`);
-            const style = window.getComputedStyle(belt);
-            verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height)
-            target = Math.max(mainContainer.scrollTop - verticalAmount, 0);
-            
-            interval = setInterval(() => {
-                mainContainer.scrollTop = Math.max(mainContainer.scrollTop - Math.max(verticalAmount/frame, 1), target)
-                if (mainContainer.scrollTop === target) {
-                    clearInterval(interval)
-                }
-            }, frameRate);
+            if (belt) {
+
+                const style = window.getComputedStyle(belt);
+                verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height)
+                target = Math.max(mainContainer.scrollTop - verticalAmount, 0);
+                
+                interval = setInterval(() => {
+                    mainContainer.scrollTop = Math.max(mainContainer.scrollTop - Math.max(verticalAmount/frame, 1), target)
+                    if (mainContainer.scrollTop === target) {
+                        clearInterval(interval)
+                    }
+                }, frameRate);
+            }
         },
         'down' : () => {
 
             selectedBelt = Math.min(selectedBelt + 1, 30);
             const belt = document.getElementById(`selected-belt-${selectedBelt}`);
-            const style = window.getComputedStyle(belt);
-            verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height)
-            target = Math.min(mainContainer.scrollTop + verticalAmount, mainContainer.scrollHeight - mainContainer.clientHeight)
-
-            interval = setInterval(() => {
-                mainContainer.scrollTop = Math.min(mainContainer.scrollTop + Math.max(verticalAmount/frame, 1), target)
-                if (mainContainer.scrollTop === target) {
-                    clearInterval(interval)
-                }
-            }, frameRate);
+            if (belt) {
+                const style = window.getComputedStyle(belt);
+                
+                verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height)
+                target = Math.min(mainContainer.scrollTop + verticalAmount, mainContainer.scrollHeight - mainContainer.clientHeight)
+                
+                interval = setInterval(() => {
+                    mainContainer.scrollTop = Math.min(mainContainer.scrollTop + Math.max(verticalAmount/frame, 1), target)
+                    if (mainContainer.scrollTop === target) {
+                        clearInterval(interval)
+                    }
+                }, frameRate);
+            }
         }
     }
 
@@ -142,7 +176,7 @@ const generateDayContainer = async (storedDay, index) => {
     dayContainer.id = `day-container-${index}`;
 
     const dayHeader = document.createElement("h1");
-    dayHeader.innerText = storedDay.day;
+    dayHeader.innerText = storedDay.day || "No Data";
     dayHeader.classList.add("belt-header");
 
     const counterContainer = document.createElement("div");
@@ -296,10 +330,13 @@ const updateTabCount = async (dayDate) => {
 export const scrollBeltToEnd = () => {
 
     const belt = document.getElementById(`list-container-belt`)   ;
-    const firstChild = belt.firstElementChild;
-    const style = window.getComputedStyle(firstChild);
-    belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
-    goRightButton.classList.add("hide");
+    if (belt) {
+
+        const firstChild = belt.firstElementChild;
+        const style = window.getComputedStyle(firstChild);
+        belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
+        goRightButton.classList.add("hide");
+    }
 
 }
 

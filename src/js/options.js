@@ -6,6 +6,7 @@ import {
     getBlackList,
     setBlackList,
 } from './manageInfo';
+import { exportFormat } from './utilities';
 
 //#region Elements
 
@@ -22,6 +23,10 @@ const addBlackListButton = document.getElementById("add-black-list-button");
 
 const inputPlaceholder = "Write a link"
 
+const csvExportButton = document.getElementById("csv-export-button");
+const jsonExportButton = document.getElementById("json-export-button");
+const excelExportButton = document.getElementById("excel-export-button");
+
 
 //#endregion
 
@@ -30,7 +35,8 @@ const inputPlaceholder = "Write a link"
 
         await sortingOptionDisplay();
         optionsHandlerImplementation();
-        hostNameInput.innerText = inputPlaceholder
+        hostNameInput.innerText = inputPlaceholder;
+        exportOptionLoader()
          
     }
 
@@ -92,14 +98,44 @@ const inputPlaceholder = "Write a link"
             });
         });
 
-        addBlackListButton.addEventListener('click', (e) => {
+        addBlackListButton.addEventListener('click', async (e) => {
             e.preventDefault();
             const hostName = hostNameInput.innerText;
             if (hostName.length && hostName !== inputPlaceholder) {
-                setBlackList(hostName)
+                await setBlackList(hostName)
+                displayBlackListElements()
             }
           
         })
+    }
+
+    const exportOptionLoader = async () => {
+        // csvExportButton.addEventListener('click', async (e) => {
+        //     e.preventDefault();
+        //     exportFormat('csv')
+        //     csvExportButton.removeEventListener('click', async (e) => {
+        //         e.preventDefault
+        //         exportFormat('csv')
+        //     })
+        // })
+
+        jsonExportButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            exportFormat('json' )
+            jsonExportButton.removeEventListener('click', async (e) => {
+                e.preventDefault
+                exportFormat('json')
+            })
+        })
+
+        // excelExportButton.addEventListener('click', async (e) => {
+        //     e.preventDefault();
+        //     exportFormat('excel')
+        //     excelExportButton.removeEventListener('click', async (e) => {
+        //         e.preventDefault
+        //         exportFormat('excel')
+        //     })
+        // })
     }
 
     const generateBlackListElement = async (hostName) => {
@@ -132,15 +168,19 @@ const inputPlaceholder = "Write a link"
     }
 
     const displayBlackListElements = async () => {
+        console.log("displayBlackListElements");
         const blackList = await getBlackList();
-
+        blackListList.innerHTML = null
         if (blackList && blackList.blackList && blackList.blackList.length) {
+            console.log(blackList.blackList.length);
             blackList.blackList.forEach(async (hostName) => {
                 const generatedElement = await generateBlackListElement(hostName);
                 blackListList.appendChild(generatedElement);
             });
         }
     }
+
+    
 
 
 //#endregion
