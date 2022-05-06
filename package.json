@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-url-counter",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Count opened urls and show them under hostname.",
   "main": "fikirler.js",
   "scripts": {
