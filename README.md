@@ -38,7 +38,8 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [ ] Cache loaded logos
 - [ ] Add an export option to a provided link
 - [ ] Make options page responsive
-
+- [ ] Hourly new tab count
+- [ ] Average tab lifespan
 ## Credits
 
 ## How to contribute to the project

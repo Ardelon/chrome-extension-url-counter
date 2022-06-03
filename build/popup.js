@@ -555,128 +555,128 @@ __webpack_require__.r(__webpack_exports__);
 
 //#region Prepare and Serve Operations
 
-const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
+const generateListElement = (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
 
-    const element = document.createElement("div");
-    const blockage = document.createElement("div");
-    const logoDisplay = document.createElement("img");
-    const header =  document.createElement("h4");
-    const visitDisplay =  document.createElement("p");
+	const element = document.createElement("div");
+	const blockage = document.createElement("div");
+	const logoDisplay = document.createElement("img");
+	const header =  document.createElement("h4");
+	const visitDisplay =  document.createElement("p");
 
 
 
-    element.classList.add("list-element");
-    blockage.classList.add("blockage", "hide");
-    logoDisplay.classList.add("logo");
-    header.classList.add("header");
-    visitDisplay.classList.add("visitDisplay")
+	element.classList.add("list-element");
+	blockage.classList.add("blockage", "hide");
+	logoDisplay.classList.add("logo");
+	header.classList.add("header");
+	visitDisplay.classList.add("visitDisplay");
 
-    if (logo.split("extension://").length > 1) {
-        logo = "../images/notFound.png"
-    }
-    logoDisplay.src = logo
-    header.innerText = hostName//`${hostName.substring(0,25)}`;
+	if (logo.split("extension://").length > 1) {
+		logo = "../images/notFound.png";
+	}
+	logoDisplay.src = logo;
+	header.innerText = hostName;//`${hostName.substring(0,25)}`;
 
-    visitDisplay.innerText = visitCount;
+	visitDisplay.innerText = visitCount;
 
-    blockage.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await removeDeletedElement(element, hostName, dataDate);
-        await clearDomainData(dataDate, hostName);
-        updateTabCount(dataDate)
+	blockage.addEventListener("click", async (e) => {
+		e.preventDefault();
+		await removeDeletedElement(element, hostName, dataDate);
+		await clearDomainData(dataDate, hostName);
+		updateTabCount(dataDate);
 
-        blockage.removeEventListener('click', (e) => {
-            e.preventDefault();
+		blockage.removeEventListener("click", (e) => {
+			e.preventDefault();
       
-        })
-    })
+		});
+	});
 
-    header.addEventListener('click', (e) => {
-        e.preventDefault()
-        goToSiteEventHandler(hostName);
-    })
+	header.addEventListener("click", (e) => {
+		e.preventDefault();
+		goToSiteEventHandler(hostName);
+	});
 
-    logoDisplay.addEventListener('click', (e) => {
-        e.preventDefault()
-        goToSiteEventHandler(hostName);
-    });
+	logoDisplay.addEventListener("click", (e) => {
+		e.preventDefault();
+		goToSiteEventHandler(hostName);
+	});
 
-    element.appendChild(blockage);
-    element.appendChild(logoDisplay);
-    element.appendChild(header);
-    element.appendChild(visitDisplay);
+	element.appendChild(blockage);
+	element.appendChild(logoDisplay);
+	element.appendChild(header);
+	element.appendChild(visitDisplay);
 
-    parent.appendChild(element);
+	parent.appendChild(element);
 
-}
+};
 
-const prepareData = async (hostList) => {
-    // const hostList = await chrome.storage.local.get("hostList");
-    let uniqueHostNameList = [];
-    let sortByNameList = []
-    const hostInformationObject = {};
-    let totalVisit = 0
-    if (hostList) {
-        totalVisit = hostList.length
+const prepareData = (hostList) => {
+	// const hostList = await chrome.storage.local.get("hostList");
+	const uniqueHostNameList = [];
+	const sortByNameList = [];
+	const hostInformationObject = {};
+	let totalVisit = 0;
+	if (hostList) {
+		totalVisit = hostList.length;
         
-        hostList.forEach(host => {
-            if (!uniqueHostNameList.includes(host.siteName)) {
-                uniqueHostNameList.push(host.siteName);
-                sortByNameList.push(host.siteName)
-                hostInformationObject[host.siteName] = {
-                    visitCount : 1,
-                    logo : host.favIcon || "../images/notFound.png"
-                }
-            } else {
-                hostInformationObject[host.siteName].visitCount++
-                if (host.favIcon !== "../images/notFound.png") {
-                    hostInformationObject[host.siteName].logo = host.favIcon;
-                }
+		hostList.forEach(host => {
+			if (!uniqueHostNameList.includes(host.siteName)) {
+				uniqueHostNameList.push(host.siteName);
+				sortByNameList.push(host.siteName);
+				hostInformationObject[host.siteName] = {
+					visitCount : 1,
+					logo : host.favIcon || "../images/notFound.png"
+				};
+			} else {
+				hostInformationObject[host.siteName].visitCount++;
+				if (host.favIcon !== "../images/notFound.png") {
+					hostInformationObject[host.siteName].logo = host.favIcon;
+				}
                 
-            }
-        });   
-    }
-    sortByNameList.sort();
-    const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
+			}
+		});   
+	}
+	sortByNameList.sort();
+	const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
 
-    return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ]
+	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ];
 
 
-}
+};
 
 const generateSortForVisitCount = (object) => {
 
-    const keys = Object.keys(object);
-    const sortingKeyList = [];
-    const sortedList = [];
+	const keys = Object.keys(object);
+	const sortingKeyList = [];
+	const sortedList = [];
 
-    keys.forEach(key => {
-        const visitCount = object[key].visitCount
-        const sortingKey = `${'0'.repeat(6-String(visitCount).length)}${visitCount}+${key}`
-        sortingKeyList.push(sortingKey)        
-    });
-    sortingKeyList.sort();
-    sortingKeyList.reverse();
+	keys.forEach(key => {
+		const visitCount = object[key].visitCount;
+		const sortingKey = `${"0".repeat(6-String(visitCount).length)}${visitCount}+${key}`;
+		sortingKeyList.push(sortingKey);        
+	});
+	sortingKeyList.sort();
+	sortingKeyList.reverse();
 
-    sortingKeyList.forEach(key => {
-        sortedList.push(key.split("+")[1]);
-    })
-    return sortedList
+	sortingKeyList.forEach(key => {
+		sortedList.push(key.split("+")[1]);
+	});
+	return sortedList;
 
 };
 
 const clearElements = (element) => {
-    element.innerHTML = "";
-}
+	element.innerHTML = "";
+};
 
 const goToSiteEventHandler = (hostName) => {
-    window.open(`https://${hostName}`, "_blank");
-}
+	window.open(`https://${hostName}`, "_blank");
+};
 
-const removeDeletedElement = async (element, hostName, dataDate) => {
+const removeDeletedElement = (element) => {
     
-    element.remove();
-}
+	element.remove();
+};
 
 //#endregion
 
@@ -684,100 +684,120 @@ const removeDeletedElement = async (element, hostName, dataDate) => {
 
 const clearDomainData = async (date, hostName) => {
 
-    const storedDays = await getStoredDays();
+	const storedDays = await getStoredDays();
 
-    if (storedDays.storedDays) {
-        storedDays.storedDays.forEach((storedDay, index) => {
-            if (storedDay.day === date) {
-                const newHostList = [];
-                storedDay.hostList.forEach(element =>{
-                    if (element.hostName !== hostName) {
-                        newHostList.push(element);
-                    }
-                });
-                storedDay.hostList = newHostList;                
-            }
-        });
-        chrome.storage.local.set({"storedDays" : storedDays.storedDays});
-    }
+	if (storedDays.storedDays) {
+		storedDays.storedDays.forEach((storedDay) => {
+			if (storedDay.day === date) {
+				const newHostList = [];
+				storedDay.hostList.forEach(element =>{
+					if (element.hostName !== hostName) {
+						newHostList.push(element);
+					}
+				});
+				storedDay.hostList = newHostList;                
+			}
+		});
+		chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+	}
 
-}
+};
 
 const clearAllData = async (dayDate) => {
 
-    const storedDays = await getStoredDays();
-    const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
+	const storedDays = await getStoredDays();
+	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
 
-    storedDays.storedDays.splice(storedDayIndex,1);
-    await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+	storedDays.storedDays.splice(storedDayIndex,1);
+	await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
 
-}
+};
 //#endregion
 
 //#region Storage Operations
 
 const getBlackList = async () => {
-    const blackList = await chrome.storage.local.get("blackList");
+	const blackList = await chrome.storage.local.get("blackList");
 
-    if (!blackList || !blackList.blackList) {
-        chrome.storage.local.set({"blackList" : []});
-    } 
+	if (!blackList || !blackList.blackList) {
+		chrome.storage.local.set({"blackList" : []});
+	} 
 
-    return blackList || []
-}
+	return blackList || [];
+};
 
 const setBlackList = async (urlPiece, operation = "add") => {
 
-    const blackList = await chrome.storage.local.get("blackList");
+	const blackList = await chrome.storage.local.get("blackList");
     
-    if (!blackList || !blackList.blackList) {
-        chrome.storage.local.set({"blackList" : [urlPiece]});
-    } else {
-        if (!blackList.blackList.includes(urlPiece) && operation === "add") {
-            blackList.blackList.push(urlPiece);
-            const filteredBlackList = blackList.blackList.filter(_utilities__WEBPACK_IMPORTED_MODULE_0__.onlyUnique);
-            blackList.blackList = filteredBlackList
-            chrome.storage.local.set({"blackList" : blackList.blackList});   
-        } else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
-            for( let i = 0; i < blackList.blackList.length; i++){ 
+	if (!blackList || !blackList.blackList) {
+		chrome.storage.local.set({"blackList" : [urlPiece]});
+	} else {
+		if (!blackList.blackList.includes(urlPiece) && operation === "add") {
+			blackList.blackList.push(urlPiece);
+			const filteredBlackList = blackList.blackList.filter(_utilities__WEBPACK_IMPORTED_MODULE_0__.onlyUnique);
+			blackList.blackList = filteredBlackList;
+			chrome.storage.local.set({"blackList" : blackList.blackList});   
+		} else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
+			for( let i = 0; i < blackList.blackList.length; i++){ 
     
-                if ( blackList.blackList[i] === urlPiece) { 
+				if ( blackList.blackList[i] === urlPiece) { 
             
-                    blackList.blackList.splice(i, 1); 
-                }
+					blackList.blackList.splice(i, 1); 
+				}
             
-            }
-            chrome.storage.local.set({"blackList" : blackList.blackList});   
-        }
-    }
-}   
+			}
+			chrome.storage.local.set({"blackList" : blackList.blackList});   
+		}
+	}
+};   
 
 const getStoredDays = async () => {
-    const storedDays = await chrome.storage.local.get("storedDays");
+	const storedDays = await chrome.storage.local.get("storedDays");
 
-    if (!storedDays || !storedDays.storedDays) {
-        chrome.storage.local.set({"storedDays" : []});
-    }
+	if (!storedDays || !storedDays.storedDays) {
+		chrome.storage.local.set({"storedDays" : []});
+	}
 
-    return storedDays || [];
-}
+	return storedDays || [];
+};
 
 const addStoredDays = async (day) => {
-    const storedDays = await getStoredDays();
+	const storedDays = await getStoredDays();
     
-    if (storedDays && storedDays.storedDays) {
-        if (storedDays.storedDays.length < 31) {
-            storedDays.storedDays.push(day);
-            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
-        } else {
-            storedDays.storedDays.shift();
-            storedDays.storedDays.push(day);
-            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
-        }
-    } else {
-        chrome.storage.local.set({"storedDays" : [storedDays.storedDays]})
-    }
-}
+	console.log(day);
+
+	if (storedDays && storedDays.storedDays) {
+
+		let storedDayIndex = -1;
+		const today = await chrome.storage.local.get("day");
+		storedDays.storedDays.forEach((day, index) => {
+			if (day.day === today.day) {
+				storedDayIndex = index;
+			}
+		});
+		if (storedDayIndex > -1) {
+			const updatedDay = {
+				day: day.day,
+				sessionCount : storedDays.storedDays[storedDayIndex].sessionCount ? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount : day.sessionCount,
+				tabCount : storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
+				hostList : storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
+			};
+			storedDays.storedDays[storedDayIndex] = updatedDay;
+			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			// const updatedDay = {storedDays.storedDays[storedDayIndex], ...day}
+		} else if (storedDays.storedDays.length < 31) {
+			storedDays.storedDays.push(day);
+			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+		} else {
+			storedDays.storedDays.shift();
+			storedDays.storedDays.push(day);
+			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+		}
+	} else {
+		chrome.storage.local.set({"storedDays" : [storedDays.storedDays]});
+	}
+};
 
 //#endregion
 
@@ -796,26 +816,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const getSortingOptions = async () => {
     
-    const options = await chrome.storage.local.get("options");
-    if (options.options) {
+	const options = await chrome.storage.local.get("options");
+	if (options.options) {
 
-        const sortBy = options.options.sortBy;
-        return sortBy || 'sortByName'
-    } else {
-        return 'sortByName';
-    }
-}
+		const sortBy = options.options.sortBy;
+		return sortBy || "sortByName";
+	} else {
+		return "sortByName";
+	}
+};
 
 const setSortingOptions = async (sortValue) => {
-    const options = await chrome.storage.local.get("options")
+	const options = await chrome.storage.local.get("options");
 
-    if (options && options.options) {
-        options.options.sortBy = sortValue;
-        chrome.storage.local.set({"options" : options.options})
-    } else {
-        chrome.storage.local.set({"options" : {sortBy : 'sortByName'}})
-    }
-}
+	if (options && options.options) {
+		options.options.sortBy = sortValue;
+		chrome.storage.local.set({"options" : options.options});
+	} else {
+		chrome.storage.local.set({"options" : {sortBy : "sortByName"}});
+	}
+};
 
 /***/ }),
 
@@ -836,56 +856,56 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const openInNewTab = (url) => {
-    window.open(url, '_blank').focus();
-}
+	window.open(url, "_blank").focus();
+};
 
 const scrapeInformationFromUrl = (fullUrl) => {
-    const url = new URL(fullUrl);
-    return [fullUrl, url.protocol, url.hostname, url.pathname, url.search]
+	const url = new URL(fullUrl);
+	return [fullUrl, url.protocol, url.hostname, url.pathname, url.search];
 };
 
 const onlyUnique = (value, index, self) => {
-    return self.indexOf(value) === index;
-    // Use with filter to make an array unique
+	return self.indexOf(value) === index;
+	// Use with filter to make an array unique
 
-    // var a = ['a', 1, 'a', 2, '1'];
-    // var unique = a.filter(onlyUnique);
-}
+	// var a = ['a', 1, 'a', 2, '1'];
+	// var unique = a.filter(onlyUnique);
+};
 
 const exportFormat = async (format) => {
-    const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_0__.getStoredDays)();
+	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_0__.getStoredDays)();
 
 
-    if (format === "json") {
+	if (format === "json") {
 
-        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-        var a = document.createElement('a');
-        a.setAttribute("href",     dataStr     );
-        a.setAttribute("download", "scene.json");
-        a.click();
+		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
+		var a = document.createElement("a");
+		a.setAttribute("href",     dataStr     );
+		a.setAttribute("download", "scene.json");
+		a.click();
 
-    }
+	}
 
-    // if (format === "csv") {
+	// if (format === "csv") {
 
-    //     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-    //     var a = document.createElement('a');
-    //     a.setAttribute("href",     dataStr     );
-    //     a.setAttribute("download", "scene.json");
-    //     a.click();
+	//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
+	//     var a = document.createElement('a');
+	//     a.setAttribute("href",     dataStr     );
+	//     a.setAttribute("download", "scene.json");
+	//     a.click();
 
-    // }
+	// }
 
-    // if (format === "excel") {
+	// if (format === "excel") {
 
-    //     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-    //     var a = document.createElement('a');
-    //     a.setAttribute("href",     dataStr     );
-    //     a.setAttribute("download", "scene.json");
-    //     a.click();
+	//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
+	//     var a = document.createElement('a');
+	//     a.setAttribute("href",     dataStr     );
+	//     a.setAttribute("download", "scene.json");
+	//     a.click();
 
-    // }
-}
+	// }
+};
 
 
 
@@ -978,9 +998,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // let tabCountButton = document.getElementById("tab-count-button");
-let tabCountDiv = document.getElementById("tab-count");
-let listContainer = document.getElementById("list-container");
-let totalVisitDisplay = document.getElementById("total-visit");
+const tabCountDiv = document.getElementById("tab-count");
+const listContainer = document.getElementById("list-container");
+const totalVisitDisplay = document.getElementById("total-visit");
 const optionsPageButton = document.getElementById("options-page-button");
 const githubPageButton = document.getElementById("github-page-button");
 
@@ -988,106 +1008,133 @@ const dontSaveButton = document.getElementById("dont-save-button");
 
 
 const getTabCount = async () => {
-    return await chrome.storage.local.get("tabCount");
-}
+	return await chrome.storage.local.get("tabCount");
+};
 
 
 
 const eventHandler = async () => {
-    const hostList = await chrome.storage.local.get("hostList");
-    const tabCount = await getTabCount();
-    const hostList1 = hostList.hostList
-    const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.prepareData)(hostList1);
-    (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.clearElements)(listContainer);
-    const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
-    tabCountDiv.innerHTML = `<p>Tab Count : ${tabCount.tabCount || 0}</p>`;
+	const hostList = await chrome.storage.local.get("hostList");
+	const tabCount = await getTabCount();
+	const hostList1 = hostList.hostList;
+	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.prepareData)(hostList1);
+	(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.clearElements)(listContainer);
+	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+	tabCountDiv.innerHTML = `<p>Tab Count : ${tabCount.tabCount || 0}</p>`;
 
-    const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
+	const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
 
-    if (sortingOption === 'sortByName') {
+	if (sortingOption === "sortByName") {
     
-        sortByNameList.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.generateListElement)(listContainer, hostName, visitCount, logo)
+		sortByNameList.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.generateListElement)(listContainer, hostName, visitCount, logo);
 
-        });
+		});
 
-    } else {
+	} else {
     
-        sortByVisitCount.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.generateListElement)(listContainer, hostName, visitCount, logo)
+		sortByVisitCount.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.generateListElement)(listContainer, hostName, visitCount, logo);
     
-        });
+		});
     
-    } 
-    totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` ;
+	} 
+	totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` ;
 
 
-}
+};
 
 const openOptionsPageEvent = () => {
 
     
-    if (chrome.runtime.openOptionsPage) {
-        chrome.runtime.openOptionsPage();
-      } else {
-        window.open(chrome.runtime.getURL('options.html'));
-      }
-}
+	if (chrome.runtime.openOptionsPage) {
+		chrome.runtime.openOptionsPage();
+	} else {
+		window.open(chrome.runtime.getURL("options.html"));
+	}
+};
 
 
 
 
 
 const prepareDontSaveButton = async () => {
-    const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true})
-    const url  = currentTab[0].url
-    const [, , hostName ] = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.scrapeInformationFromUrl)(url);
-    const blackList = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.getBlackList)();
+	const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true});
+	const url  = currentTab[0].url;
+	const [, , hostName ] = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.scrapeInformationFromUrl)(url);
+	const blackList = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.getBlackList)();
     
 
-    if (blackList.blackList && blackList.blackList.includes(hostName)) {
-        dontSaveButton.classList.add("this-site-will-not-be-saved")
-    }
+	if (blackList.blackList && blackList.blackList.includes(hostName)) {
+		dontSaveButton.classList.add("this-site-will-not-be-saved");
+	}
     
 
-    dontSaveButton.addEventListener('click', async (e) => {
-        e.preventDefault();
+	dontSaveButton.addEventListener("click",  (e) => {
+		e.preventDefault();
         
-        if (dontSaveButton.classList.contains("this-site-will-not-be-saved")) {
-            (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName, "remove")
-        } else {
-            (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName)
-        }
+		if (dontSaveButton.classList.contains("this-site-will-not-be-saved")) {
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName, "remove");
+		} else {
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName);
+		}
         
-        dontSaveButton.classList.toggle("this-site-will-not-be-saved");
+		dontSaveButton.classList.toggle("this-site-will-not-be-saved");
     
-        dontSaveButton.removeEventListener('click', async (e) => {
-            e.preventDefault();
-        });
+		dontSaveButton.removeEventListener("click",  (e) => {
+			e.preventDefault();
+		});
         
-    });
-}
+	});
+};
 
 eventHandler();
 prepareDontSaveButton();
 
-optionsPageButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    openOptionsPageEvent()
-    optionsPageButton.removeEventListener('click', (e) => {
-        e.preventDefault();
-        openOptionsPageEvent();
-    })
+optionsPageButton.addEventListener("click", (e) => {
+	e.preventDefault();
+	openOptionsPageEvent();
+	optionsPageButton.removeEventListener("click", (e) => {
+		e.preventDefault();
+		openOptionsPageEvent();
+	});
 });
 
-githubPageButton.addEventListener('click', (e => {
-    e.preventDefault();
-    (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.openInNewTab)("https://github.com/Ardelon/chrome-extension-url-counter")
+githubPageButton.addEventListener("click", (e => {
+	e.preventDefault();
+	(0,_utilities__WEBPACK_IMPORTED_MODULE_1__.openInNewTab)("https://github.com/Ardelon/chrome-extension-url-counter");
 }));
+
+// document.getElementById("add-stored-days").addEventListener("click", async (e) => {
+// 	e.preventDefault();
+// 	const hostList = await chrome.storage.local.get("hostList");
+// 	const day = await chrome.storage.local.get("day");
+// 	const sessionCount = await chrome.storage.local.get("sessionCount");
+// 	const tabCount = await chrome.storage.local.get("tabCount");
+// 	// const storedTabStateList = await chrome.storage.local.get("storedTabStateList")
+    
+// 	const model = {
+// 		day : day.day,
+// 		sessionCount : sessionCount.sessionCount,
+// 		tabCount : tabCount.tabCount,
+// 		hostList : hostList.hostList
+// 	};
+
+// 	addStoredDays(model);
+
+// 	chrome.storage.local.set({"hostList" : null});
+// 	chrome.storage.local.set({"day" : null});
+// 	chrome.storage.local.set({"sessionCount" : null});
+// 	chrome.storage.local.set({"tabCount" : null});
+// 	chrome.storage.local.set({"storedTabStateList" : null});
+// 	// console.log(day);
+
+// 	// document.getElementById("console-display").innerText = `${day}`;
+// });
 
 })();
 

@@ -1,20 +1,20 @@
-import '../style/popup.scss';
+import "../style/popup.scss";
 
-import {openInNewTab, scrapeInformationFromUrl} from './utilities';
-import {getSortingOptions} from './manageOptions';
+import {openInNewTab, scrapeInformationFromUrl} from "./utilities";
+import {getSortingOptions} from "./manageOptions";
 import {
-    generateListElement, 
-    prepareData, 
-    clearElements, 
-    getBlackList,
-    setBlackList,
-} from './manageInfo';
+	generateListElement, 
+	prepareData, 
+	clearElements, 
+	getBlackList,
+	setBlackList,	
+} from "./manageInfo";
 
 
 // let tabCountButton = document.getElementById("tab-count-button");
-let tabCountDiv = document.getElementById("tab-count");
-let listContainer = document.getElementById("list-container");
-let totalVisitDisplay = document.getElementById("total-visit");
+const tabCountDiv = document.getElementById("tab-count");
+const listContainer = document.getElementById("list-container");
+const totalVisitDisplay = document.getElementById("total-visit");
 const optionsPageButton = document.getElementById("options-page-button");
 const githubPageButton = document.getElementById("github-page-button");
 
@@ -22,103 +22,130 @@ const dontSaveButton = document.getElementById("dont-save-button");
 
 
 const getTabCount = async () => {
-    return await chrome.storage.local.get("tabCount");
-}
+	return await chrome.storage.local.get("tabCount");
+};
 
 
 
 const eventHandler = async () => {
-    const hostList = await chrome.storage.local.get("hostList");
-    const tabCount = await getTabCount();
-    const hostList1 = hostList.hostList
-    const data = await prepareData(hostList1);
-    clearElements(listContainer);
-    const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data
-    tabCountDiv.innerHTML = `<p>Tab Count : ${tabCount.tabCount || 0}</p>`;
+	const hostList = await chrome.storage.local.get("hostList");
+	const tabCount = await getTabCount();
+	const hostList1 = hostList.hostList;
+	const data = await prepareData(hostList1);
+	clearElements(listContainer);
+	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+	tabCountDiv.innerHTML = `<p>Tab Count : ${tabCount.tabCount || 0}</p>`;
 
-    const sortingOption = await getSortingOptions();
+	const sortingOption = await getSortingOptions();
 
-    if (sortingOption === 'sortByName') {
+	if (sortingOption === "sortByName") {
     
-        sortByNameList.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            generateListElement(listContainer, hostName, visitCount, logo)
+		sortByNameList.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			generateListElement(listContainer, hostName, visitCount, logo);
 
-        });
+		});
 
-    } else {
+	} else {
     
-        sortByVisitCount.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            generateListElement(listContainer, hostName, visitCount, logo)
+		sortByVisitCount.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			generateListElement(listContainer, hostName, visitCount, logo);
     
-        });
+		});
     
-    } 
-    totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` ;
+	} 
+	totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` ;
 
 
-}
+};
 
 const openOptionsPageEvent = () => {
 
     
-    if (chrome.runtime.openOptionsPage) {
-        chrome.runtime.openOptionsPage();
-      } else {
-        window.open(chrome.runtime.getURL('options.html'));
-      }
-}
+	if (chrome.runtime.openOptionsPage) {
+		chrome.runtime.openOptionsPage();
+	} else {
+		window.open(chrome.runtime.getURL("options.html"));
+	}
+};
 
 
 
 
 
 const prepareDontSaveButton = async () => {
-    const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true})
-    const url  = currentTab[0].url
-    const [, , hostName ] = scrapeInformationFromUrl(url);
-    const blackList = await getBlackList();
+	const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true});
+	const url  = currentTab[0].url;
+	const [, , hostName ] = scrapeInformationFromUrl(url);
+	const blackList = await getBlackList();
     
 
-    if (blackList.blackList && blackList.blackList.includes(hostName)) {
-        dontSaveButton.classList.add("this-site-will-not-be-saved")
-    }
+	if (blackList.blackList && blackList.blackList.includes(hostName)) {
+		dontSaveButton.classList.add("this-site-will-not-be-saved");
+	}
     
 
-    dontSaveButton.addEventListener('click', async (e) => {
-        e.preventDefault();
+	dontSaveButton.addEventListener("click",  (e) => {
+		e.preventDefault();
         
-        if (dontSaveButton.classList.contains("this-site-will-not-be-saved")) {
-            setBlackList(hostName, "remove")
-        } else {
-            setBlackList(hostName)
-        }
+		if (dontSaveButton.classList.contains("this-site-will-not-be-saved")) {
+			setBlackList(hostName, "remove");
+		} else {
+			setBlackList(hostName);
+		}
         
-        dontSaveButton.classList.toggle("this-site-will-not-be-saved");
+		dontSaveButton.classList.toggle("this-site-will-not-be-saved");
     
-        dontSaveButton.removeEventListener('click', async (e) => {
-            e.preventDefault();
-        });
+		dontSaveButton.removeEventListener("click",  (e) => {
+			e.preventDefault();
+		});
         
-    });
-}
+	});
+};
 
 eventHandler();
 prepareDontSaveButton();
 
-optionsPageButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    openOptionsPageEvent()
-    optionsPageButton.removeEventListener('click', (e) => {
-        e.preventDefault();
-        openOptionsPageEvent();
-    })
+optionsPageButton.addEventListener("click", (e) => {
+	e.preventDefault();
+	openOptionsPageEvent();
+	optionsPageButton.removeEventListener("click", (e) => {
+		e.preventDefault();
+		openOptionsPageEvent();
+	});
 });
 
-githubPageButton.addEventListener('click', (e => {
-    e.preventDefault();
-    openInNewTab("https://github.com/Ardelon/chrome-extension-url-counter")
+githubPageButton.addEventListener("click", (e => {
+	e.preventDefault();
+	openInNewTab("https://github.com/Ardelon/chrome-extension-url-counter");
 }));
+
+// document.getElementById("add-stored-days").addEventListener("click", async (e) => {
+// 	e.preventDefault();
+// 	const hostList = await chrome.storage.local.get("hostList");
+// 	const day = await chrome.storage.local.get("day");
+// 	const sessionCount = await chrome.storage.local.get("sessionCount");
+// 	const tabCount = await chrome.storage.local.get("tabCount");
+// 	// const storedTabStateList = await chrome.storage.local.get("storedTabStateList")
+    
+// 	const model = {
+// 		day : day.day,
+// 		sessionCount : sessionCount.sessionCount,
+// 		tabCount : tabCount.tabCount,
+// 		hostList : hostList.hostList
+// 	};
+
+// 	addStoredDays(model);
+
+// 	chrome.storage.local.set({"hostList" : null});
+// 	chrome.storage.local.set({"day" : null});
+// 	chrome.storage.local.set({"sessionCount" : null});
+// 	chrome.storage.local.set({"tabCount" : null});
+// 	chrome.storage.local.set({"storedTabStateList" : null});
+// 	// console.log(day);
+
+// 	// document.getElementById("console-display").innerText = `${day}`;
+// });

@@ -17773,341 +17773,339 @@ __webpack_require__.r(__webpack_exports__);
 
 const listContainer = document.getElementById("list-container-belt");
 const goLeftButton = document.getElementById("list-container-go-left-button");
-const goRightButton = document.getElementById("list-container-go-right-button")
+const goRightButton = document.getElementById("list-container-go-right-button");
 
 const renderSlider = async () => {
-    const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
+	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
 
-    if (storedDays && storedDays.storedDays && storedDays.storedDays.length) {
-        listContainer.innerHTML = null;
-        if (storedDays.storedDays.length === 1) {
-            const day = await generateDayContainer({}, 0);
-            listContainer.appendChild(day)
-        }
-        await storedDays.storedDays.forEach(async (storedDay, index) => {
-            const day = await generateDayContainer(storedDay, index);
-            listContainer.appendChild(day)
-        });
+	if (storedDays && storedDays.storedDays && storedDays.storedDays.length) {
+		listContainer.innerHTML = null;
+		if (storedDays.storedDays.length === 1) {
+			const day = await generateDayContainer({}, 0);
+			listContainer.appendChild(day);
+		}
+		await storedDays.storedDays.forEach(async (storedDay, index) => {
+			const day = await generateDayContainer(storedDay, index);
+			listContainer.appendChild(day);
+		});
         
-    } else {
-        listContainer.innerHTML = null;
-        const day = await generateDayContainer({}, 0);
-        const day1 = await generateDayContainer({}, 0);
+	} else {
+		listContainer.innerHTML = null;
+		const day = await generateDayContainer({}, 0);
+		const day1 = await generateDayContainer({}, 0);
         
-        listContainer.appendChild(day)
-        listContainer.appendChild(day1)
-    }
+		listContainer.appendChild(day);
+		listContainer.appendChild(day1);
+	}
 
-    if (listContainer.children.length <= 2) {
-        goRightButton.classList.add("hide");  
-        goLeftButton.classList.add("hide");
-    }
-}
+	if (listContainer.children.length <= 2) {
+		goRightButton.classList.add("hide");  
+		goLeftButton.classList.add("hide");
+	}
+};
 
 const thLeft = lodash__WEBPACK_IMPORTED_MODULE_0___default().throttle(function() {
-    slideVisionMethod2('left')
+	slideVisionMethod2("left");
 }, 800);
 
 const thRight = lodash__WEBPACK_IMPORTED_MODULE_0___default().throttle(function() {
-    slideVisionMethod2('right')
+	slideVisionMethod2("right");
 }, 800);
 
-goLeftButton.addEventListener('click', thLeft)
+goLeftButton.addEventListener("click", thLeft);
 
 
-goRightButton.addEventListener('click', thRight);
+goRightButton.addEventListener("click", thRight);
 
-listContainer.addEventListener('scroll', (e) => {
-    e.preventDefault();
+listContainer.addEventListener("scroll", (e) => {
+	e.preventDefault();
     
-    if (listContainer.scrollLeft >= listContainer.scrollWidth - listContainer.clientWidth) {
-        goRightButton.classList.add("hide");
-    } else {
-        goRightButton.classList.remove("hide");
-    }
+	if (listContainer.scrollLeft >= listContainer.scrollWidth - listContainer.clientWidth) {
+		goRightButton.classList.add("hide");
+	} else {
+		goRightButton.classList.remove("hide");
+	}
 
-    if (listContainer.scrollLeft <= 0) {
-        goLeftButton.classList.add("hide");
-    } else {
-        goLeftButton.classList.remove("hide");
-    }
+	if (listContainer.scrollLeft <= 0) {
+		goLeftButton.classList.add("hide");
+	} else {
+		goLeftButton.classList.remove("hide");
+	}
 
 
-    goRightButton.removeEventListener('scroll', (e) => {
-        e.preventDefault();
-    })
-} )
+	goRightButton.removeEventListener("scroll", (e) => {
+		e.preventDefault();
+	});
+} );
 
 const slideVisionMethod2 = (direction) => {
 
-    let frame = 64; 
-    let frameRate = 6; // miliseconds
-    let interval;
-    let target;
-    let horizontalAmount;
-    let verticalAmount;
-    clearInterval(interval);
-    const driver = {
-        'left' : () => {
+	const frame = 64; 
+	const frameRate = 6; // miliseconds
+	let interval;
+	let target;
+	let horizontalAmount;
+	let verticalAmount;
+	clearInterval(interval);
+	const driver = {
+		"left" : () => {
       
-            const belt = document.getElementById(`list-container-belt`)   ;
-            if (belt) {
+			const belt = document.getElementById("list-container-belt")   ;
+			if (belt) {
 
-                const firstChild = belt.firstElementChild;
-                if (firstChild) {
+				const firstChild = belt.firstElementChild;
+				if (firstChild) {
 
-                    const style = window.getComputedStyle(firstChild);
-                    horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width)
-                    const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
-                    target = Math.max((elementIndex - 1) * horizontalAmount, 0);
+					const style = window.getComputedStyle(firstChild);
+					horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
+					const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+					target = Math.max((elementIndex - 1) * horizontalAmount, 0);
                     
-                    interval = setInterval(() => {
-                        belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
-                        if (belt.scrollLeft === target) {
-                            clearInterval(interval)
-                        }
-                    }, frameRate);
-                }
-            }
-        },
-        'right' : () => {
+					interval = setInterval(() => {
+						belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
+						if (belt.scrollLeft === target) {
+							clearInterval(interval);
+						}
+					}, frameRate);
+				}
+			}
+		},
+		"right" : () => {
 
-            const belt = document.getElementById(`list-container-belt`)   
-            if (belt) {
+			const belt = document.getElementById("list-container-belt");   
+			if (belt) {
 
-                const firstChild = belt.firstElementChild;
-                if (firstChild) {
+				const firstChild = belt.firstElementChild;
+				if (firstChild) {
 
-                    const style = window.getComputedStyle(firstChild);
-                    horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
-                    const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
-                    target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
+					const style = window.getComputedStyle(firstChild);
+					horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
+					const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
+					target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
                     
-                    interval = setInterval(() => {
-                        belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
-                        if (belt.scrollLeft === target) {
-                            clearInterval(interval)
-                        }
-                    }, frameRate);
-                }
-            }
-        },
-        'up' : () => {
+					interval = setInterval(() => {
+						belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
+						if (belt.scrollLeft === target) {
+							clearInterval(interval);
+						}
+					}, frameRate);
+				}
+			}
+		},
+		"up" : () => {
 
-            selectedBelt = Math.max(selectedBelt - 1, 0);
-            const belt = document.getElementById(`selected-belt-${selectedBelt}`);
-            if (belt) {
+			const selectedBelt = Math.max(selectedBelt - 1, 0);
+			const belt = document.getElementById(`selected-belt-${selectedBelt}`);
+			if (belt) {
 
-                const style = window.getComputedStyle(belt);
-                verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height)
-                target = Math.max(mainContainer.scrollTop - verticalAmount, 0);
+				const style = window.getComputedStyle(belt);
+				verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height);
+				target = Math.max(mainContainer.scrollTop - verticalAmount, 0);
                 
-                interval = setInterval(() => {
-                    mainContainer.scrollTop = Math.max(mainContainer.scrollTop - Math.max(verticalAmount/frame, 1), target)
-                    if (mainContainer.scrollTop === target) {
-                        clearInterval(interval)
-                    }
-                }, frameRate);
-            }
-        },
-        'down' : () => {
+				interval = setInterval(() => {
+					mainContainer.scrollTop = Math.max(mainContainer.scrollTop - Math.max(verticalAmount/frame, 1), target);
+					if (mainContainer.scrollTop === target) {
+						clearInterval(interval);
+					}
+				}, frameRate);
+			}
+		},
+		"down" : () => {
 
-            selectedBelt = Math.min(selectedBelt + 1, 30);
-            const belt = document.getElementById(`selected-belt-${selectedBelt}`);
-            if (belt) {
-                const style = window.getComputedStyle(belt);
+			const selectedBelt = Math.min(selectedBelt + 1, 30);
+			const belt = document.getElementById(`selected-belt-${selectedBelt}`);
+			if (belt) {
+				const style = window.getComputedStyle(belt);
                 
-                verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height)
-                target = Math.min(mainContainer.scrollTop + verticalAmount, mainContainer.scrollHeight - mainContainer.clientHeight)
+				verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height);
+				target = Math.min(mainContainer.scrollTop + verticalAmount, mainContainer.scrollHeight - mainContainer.clientHeight);
                 
-                interval = setInterval(() => {
-                    mainContainer.scrollTop = Math.min(mainContainer.scrollTop + Math.max(verticalAmount/frame, 1), target)
-                    if (mainContainer.scrollTop === target) {
-                        clearInterval(interval)
-                    }
-                }, frameRate);
-            }
-        }
-    }
+				interval = setInterval(() => {
+					mainContainer.scrollTop = Math.min(mainContainer.scrollTop + Math.max(verticalAmount/frame, 1), target);
+					if (mainContainer.scrollTop === target) {
+						clearInterval(interval);
+					}
+				}, frameRate);
+			}
+		}
+	};
 
-    const driverKeys = Object.keys(driver);
-    if (driverKeys.includes(direction)) {
-        driver[direction]();
-    } else {
-        console.log('No or wrong direction');
-    }
-}
+	const driverKeys = Object.keys(driver);
+	if (driverKeys.includes(direction)) {
+		driver[direction]();
+	} else {
+		console.log("No or wrong direction");
+	}
+};
 
 const generateDayContainer = async (storedDay, index) => {
 
-    const dayContainer = document.createElement("div");
-    dayContainer.classList.add("belt-element");
-    dayContainer.id = `day-container-${index}`;
+	const dayContainer = document.createElement("div");
+	dayContainer.classList.add("belt-element");
+	dayContainer.id = `day-container-${index}`;
 
-    const dayHeader = document.createElement("h1");
-    dayHeader.innerText = storedDay.day || "No Data";
-    dayHeader.classList.add("belt-header");
+	const dayHeader = document.createElement("h1");
+	dayHeader.innerText = storedDay.day || "No Data";
+	dayHeader.classList.add("belt-header");
 
-    const counterContainer = document.createElement("div");
-    counterContainer.classList.add("counter-container");
+	const counterContainer = document.createElement("div");
+	counterContainer.classList.add("counter-container");
 
-    const tabCount = document.createElement("div");
-    tabCount.classList.add("count-indicator");
-    tabCount.innerHTML = `<p>Tab Count : ${storedDay.tabCount || 0}</p>`;
+	const tabCount = document.createElement("div");
+	tabCount.classList.add("count-indicator");
+	tabCount.innerHTML = `<p>Tab Count : ${storedDay.tabCount || 0}</p>`;
 
-    const totalVisitCount = document.createElement("div");
-    totalVisitCount.classList.add("count-indicator", "total-visit-count");
+	const totalVisitCount = document.createElement("div");
+	totalVisitCount.classList.add("count-indicator", "total-visit-count");
 
-    const dayList = document.createElement("div");
-    dayList.classList.add("belt-host-list-container");
+	const dayList = document.createElement("div");
+	dayList.classList.add("belt-host-list-container");
 
-    const deleteButtonsContainer = document.createElement("div");
-    deleteButtonsContainer.classList.add("delete-buttons-container");
+	const deleteButtonsContainer = document.createElement("div");
+	deleteButtonsContainer.classList.add("delete-buttons-container");
 
-    const deleteAllButton = document.createElement("div");
-    deleteAllButton.innerHTML = "<p>Delete All</p>"
-    deleteAllButton.classList.add("delete-button");
+	const deleteAllButton = document.createElement("div");
+	deleteAllButton.innerHTML = "<p>Delete All</p>";
+	deleteAllButton.classList.add("delete-button");
 
-    const deleteDomaintButton = document.createElement("div");
-    deleteDomaintButton.innerHTML = "<p>Delete Domain</p>";
-    deleteDomaintButton.classList.add("delete-button");
+	const deleteDomaintButton = document.createElement("div");
+	deleteDomaintButton.innerHTML = "<p>Delete Domain</p>";
+	deleteDomaintButton.classList.add("delete-button");
 
-    const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDay.hostList);
+	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDay.hostList);
 
-    const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
-    const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
+	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+	const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
 
-    if (sortingOption === 'sortByName') {
+	if (sortingOption === "sortByName") {
             
-        sortByNameList.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount)
+		sortByNameList.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount);
             
-        });
-    } else {
+		});
+	} else {
 
-        sortByVisitCount.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount)
+		sortByVisitCount.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount);
             
-        });
-    }
+		});
+	}
 
-    totalVisitCount.innerHTML =  `<p>Total Visit : ${totalVisit || 0}</p>`;
+	totalVisitCount.innerHTML =  `<p>Total Visit : ${totalVisit || 0}</p>`;
 
-    deleteDomaintButton.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const blockageList = [...dayList.getElementsByClassName("hide")];
-        if (blockageList.length) {
+	deleteDomaintButton.addEventListener("click",  (e) => {
+		e.preventDefault();
+		const blockageList = [...dayList.getElementsByClassName("hide")];
+		if (blockageList.length) {
 
-            blockageList.forEach(blockage => {
-                blockage.classList.remove("hide");
-            });
-        } else {
-            console.log("selam")
-            reGenerateDay(storedDay.day, index);
-        }
-        deleteDomaintButton.removeEventListener('click', async (e) => {
-            e.preventDefault();
-        })
-    })
+			blockageList.forEach(blockage => {
+				blockage.classList.remove("hide");
+			});
+		} else {
+			console.log("selam");
+			reGenerateDay(storedDay.day, index);
+		}
+		deleteDomaintButton.removeEventListener("click",  (e) => {
+			e.preventDefault();
+		});
+	});
 
-    deleteAllButton.addEventListener('click', async (e) => {
-        e.preventDefault();
+	deleteAllButton.addEventListener("click", async (e) => {
+		e.preventDefault();
 
-        await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.clearAllData)(storedDay.day);
-        await renderSlider();
+		await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.clearAllData)(storedDay.day);
+		await renderSlider();
 
-        deleteAllButton.removeEventListener('click', async (e) => {
-            e.preventDefault();
-        })
-    })
+		deleteAllButton.removeEventListener("click", (e) => {
+			e.preventDefault();
+		});
+	});
     
     
-    counterContainer.appendChild(tabCount);
-    counterContainer.appendChild(totalVisitCount);
+	counterContainer.appendChild(tabCount);
+	counterContainer.appendChild(totalVisitCount);
     
-    deleteButtonsContainer.appendChild(deleteAllButton);
-    deleteButtonsContainer.appendChild(deleteDomaintButton);
+	deleteButtonsContainer.appendChild(deleteAllButton);
+	deleteButtonsContainer.appendChild(deleteDomaintButton);
     
-    dayContainer.appendChild(dayHeader);
-    dayContainer.appendChild(dayList);
-    dayContainer.appendChild(counterContainer);
-    dayContainer.appendChild(deleteButtonsContainer)
+	dayContainer.appendChild(dayHeader);
+	dayContainer.appendChild(dayList);
+	dayContainer.appendChild(counterContainer);
+	dayContainer.appendChild(deleteButtonsContainer);
 
-    return dayContainer
+	return dayContainer;
 
-}
+};
 
 const reGenerateDay = async (dayDate) => {
 
-    const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
-    const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
-    const storedDay = storedDays.storedDays[storedDayIndex];
+	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
+	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
+	const storedDay = storedDays.storedDays[storedDayIndex];
 
-    const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
-    const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
-    const beltHostListContainerCollection = dayContainer.getElementsByClassName("belt-host-list-container");
-    const beltHostListContainer = beltHostListContainerCollection[0];
+	const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
+	const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
+	const beltHostListContainerCollection = dayContainer.getElementsByClassName("belt-host-list-container");
+	const beltHostListContainer = beltHostListContainerCollection[0];
 
-    beltHostListContainer.innerHTML = null;
+	beltHostListContainer.innerHTML = null;
 
-    const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDay.hostList);
+	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDay.hostList);
 
-    const [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
 
-    const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
+	const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
 
-    if (sortingOption === 'sortByName') {
+	if (sortingOption === "sortByName") {
             
-        sortByNameList.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount)
+		sortByNameList.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount);
             
-        });
-    } else {
+		});
+	} else {
 
-        sortByVisitCount.forEach(hostName => {
-            const visitCount = hostInformationObject[hostName].visitCount;
-            const logo =  hostInformationObject[hostName].logo
-            ;(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount)
+		sortByVisitCount.forEach(hostName => {
+			const visitCount = hostInformationObject[hostName].visitCount;
+			const logo =  hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount);
             
-        });
-    }
+		});
+	}
 
-    totalVisitCounterCollection[0].innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
-}
+	totalVisitCounterCollection[0].innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
+};
 
 const updateTabCount = async (dayDate) => {
-    const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
-    const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
+	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
+	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
     
-    const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
-    const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
+	const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
+	const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
 
-    const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDays.storedDays[storedDayIndex].hostList);
+	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDays.storedDays[storedDayIndex].hostList);
 
-    const [,, totalVisit ] = data;
+	const [,, totalVisit ] = data;
 
-    totalVisitCounterCollection[0].innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
+	totalVisitCounterCollection[0].innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
 
-}
+};
 
 const scrollBeltToEnd = () => {
 
-    const belt = document.getElementById(`list-container-belt`)   ;
-    if (belt) {
+	const belt = document.getElementById("list-container-belt")   ;
+	if (belt) {
 
-        const firstChild = belt.firstElementChild;
-        const style = window.getComputedStyle(firstChild);
-        belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
-        goRightButton.classList.add("hide");
-    }
+		belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
+		goRightButton.classList.add("hide");
+	}
 
-}
+};
 
 
 
@@ -18142,128 +18140,128 @@ __webpack_require__.r(__webpack_exports__);
 
 //#region Prepare and Serve Operations
 
-const generateListElement = async (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
+const generateListElement = (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
 
-    const element = document.createElement("div");
-    const blockage = document.createElement("div");
-    const logoDisplay = document.createElement("img");
-    const header =  document.createElement("h4");
-    const visitDisplay =  document.createElement("p");
+	const element = document.createElement("div");
+	const blockage = document.createElement("div");
+	const logoDisplay = document.createElement("img");
+	const header =  document.createElement("h4");
+	const visitDisplay =  document.createElement("p");
 
 
 
-    element.classList.add("list-element");
-    blockage.classList.add("blockage", "hide");
-    logoDisplay.classList.add("logo");
-    header.classList.add("header");
-    visitDisplay.classList.add("visitDisplay")
+	element.classList.add("list-element");
+	blockage.classList.add("blockage", "hide");
+	logoDisplay.classList.add("logo");
+	header.classList.add("header");
+	visitDisplay.classList.add("visitDisplay");
 
-    if (logo.split("extension://").length > 1) {
-        logo = "../images/notFound.png"
-    }
-    logoDisplay.src = logo
-    header.innerText = hostName//`${hostName.substring(0,25)}`;
+	if (logo.split("extension://").length > 1) {
+		logo = "../images/notFound.png";
+	}
+	logoDisplay.src = logo;
+	header.innerText = hostName;//`${hostName.substring(0,25)}`;
 
-    visitDisplay.innerText = visitCount;
+	visitDisplay.innerText = visitCount;
 
-    blockage.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await removeDeletedElement(element, hostName, dataDate);
-        await clearDomainData(dataDate, hostName);
-        updateTabCount(dataDate)
+	blockage.addEventListener("click", async (e) => {
+		e.preventDefault();
+		await removeDeletedElement(element, hostName, dataDate);
+		await clearDomainData(dataDate, hostName);
+		updateTabCount(dataDate);
 
-        blockage.removeEventListener('click', (e) => {
-            e.preventDefault();
+		blockage.removeEventListener("click", (e) => {
+			e.preventDefault();
       
-        })
-    })
+		});
+	});
 
-    header.addEventListener('click', (e) => {
-        e.preventDefault()
-        goToSiteEventHandler(hostName);
-    })
+	header.addEventListener("click", (e) => {
+		e.preventDefault();
+		goToSiteEventHandler(hostName);
+	});
 
-    logoDisplay.addEventListener('click', (e) => {
-        e.preventDefault()
-        goToSiteEventHandler(hostName);
-    });
+	logoDisplay.addEventListener("click", (e) => {
+		e.preventDefault();
+		goToSiteEventHandler(hostName);
+	});
 
-    element.appendChild(blockage);
-    element.appendChild(logoDisplay);
-    element.appendChild(header);
-    element.appendChild(visitDisplay);
+	element.appendChild(blockage);
+	element.appendChild(logoDisplay);
+	element.appendChild(header);
+	element.appendChild(visitDisplay);
 
-    parent.appendChild(element);
+	parent.appendChild(element);
 
-}
+};
 
-const prepareData = async (hostList) => {
-    // const hostList = await chrome.storage.local.get("hostList");
-    let uniqueHostNameList = [];
-    let sortByNameList = []
-    const hostInformationObject = {};
-    let totalVisit = 0
-    if (hostList) {
-        totalVisit = hostList.length
+const prepareData = (hostList) => {
+	// const hostList = await chrome.storage.local.get("hostList");
+	const uniqueHostNameList = [];
+	const sortByNameList = [];
+	const hostInformationObject = {};
+	let totalVisit = 0;
+	if (hostList) {
+		totalVisit = hostList.length;
         
-        hostList.forEach(host => {
-            if (!uniqueHostNameList.includes(host.siteName)) {
-                uniqueHostNameList.push(host.siteName);
-                sortByNameList.push(host.siteName)
-                hostInformationObject[host.siteName] = {
-                    visitCount : 1,
-                    logo : host.favIcon || "../images/notFound.png"
-                }
-            } else {
-                hostInformationObject[host.siteName].visitCount++
-                if (host.favIcon !== "../images/notFound.png") {
-                    hostInformationObject[host.siteName].logo = host.favIcon;
-                }
+		hostList.forEach(host => {
+			if (!uniqueHostNameList.includes(host.siteName)) {
+				uniqueHostNameList.push(host.siteName);
+				sortByNameList.push(host.siteName);
+				hostInformationObject[host.siteName] = {
+					visitCount : 1,
+					logo : host.favIcon || "../images/notFound.png"
+				};
+			} else {
+				hostInformationObject[host.siteName].visitCount++;
+				if (host.favIcon !== "../images/notFound.png") {
+					hostInformationObject[host.siteName].logo = host.favIcon;
+				}
                 
-            }
-        });   
-    }
-    sortByNameList.sort();
-    const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
+			}
+		});   
+	}
+	sortByNameList.sort();
+	const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
 
-    return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ]
+	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ];
 
 
-}
+};
 
 const generateSortForVisitCount = (object) => {
 
-    const keys = Object.keys(object);
-    const sortingKeyList = [];
-    const sortedList = [];
+	const keys = Object.keys(object);
+	const sortingKeyList = [];
+	const sortedList = [];
 
-    keys.forEach(key => {
-        const visitCount = object[key].visitCount
-        const sortingKey = `${'0'.repeat(6-String(visitCount).length)}${visitCount}+${key}`
-        sortingKeyList.push(sortingKey)        
-    });
-    sortingKeyList.sort();
-    sortingKeyList.reverse();
+	keys.forEach(key => {
+		const visitCount = object[key].visitCount;
+		const sortingKey = `${"0".repeat(6-String(visitCount).length)}${visitCount}+${key}`;
+		sortingKeyList.push(sortingKey);        
+	});
+	sortingKeyList.sort();
+	sortingKeyList.reverse();
 
-    sortingKeyList.forEach(key => {
-        sortedList.push(key.split("+")[1]);
-    })
-    return sortedList
+	sortingKeyList.forEach(key => {
+		sortedList.push(key.split("+")[1]);
+	});
+	return sortedList;
 
 };
 
 const clearElements = (element) => {
-    element.innerHTML = "";
-}
+	element.innerHTML = "";
+};
 
 const goToSiteEventHandler = (hostName) => {
-    window.open(`https://${hostName}`, "_blank");
-}
+	window.open(`https://${hostName}`, "_blank");
+};
 
-const removeDeletedElement = async (element, hostName, dataDate) => {
+const removeDeletedElement = (element) => {
     
-    element.remove();
-}
+	element.remove();
+};
 
 //#endregion
 
@@ -18271,100 +18269,120 @@ const removeDeletedElement = async (element, hostName, dataDate) => {
 
 const clearDomainData = async (date, hostName) => {
 
-    const storedDays = await getStoredDays();
+	const storedDays = await getStoredDays();
 
-    if (storedDays.storedDays) {
-        storedDays.storedDays.forEach((storedDay, index) => {
-            if (storedDay.day === date) {
-                const newHostList = [];
-                storedDay.hostList.forEach(element =>{
-                    if (element.hostName !== hostName) {
-                        newHostList.push(element);
-                    }
-                });
-                storedDay.hostList = newHostList;                
-            }
-        });
-        chrome.storage.local.set({"storedDays" : storedDays.storedDays});
-    }
+	if (storedDays.storedDays) {
+		storedDays.storedDays.forEach((storedDay) => {
+			if (storedDay.day === date) {
+				const newHostList = [];
+				storedDay.hostList.forEach(element =>{
+					if (element.hostName !== hostName) {
+						newHostList.push(element);
+					}
+				});
+				storedDay.hostList = newHostList;                
+			}
+		});
+		chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+	}
 
-}
+};
 
 const clearAllData = async (dayDate) => {
 
-    const storedDays = await getStoredDays();
-    const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
+	const storedDays = await getStoredDays();
+	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
 
-    storedDays.storedDays.splice(storedDayIndex,1);
-    await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+	storedDays.storedDays.splice(storedDayIndex,1);
+	await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
 
-}
+};
 //#endregion
 
 //#region Storage Operations
 
 const getBlackList = async () => {
-    const blackList = await chrome.storage.local.get("blackList");
+	const blackList = await chrome.storage.local.get("blackList");
 
-    if (!blackList || !blackList.blackList) {
-        chrome.storage.local.set({"blackList" : []});
-    } 
+	if (!blackList || !blackList.blackList) {
+		chrome.storage.local.set({"blackList" : []});
+	} 
 
-    return blackList || []
-}
+	return blackList || [];
+};
 
 const setBlackList = async (urlPiece, operation = "add") => {
 
-    const blackList = await chrome.storage.local.get("blackList");
+	const blackList = await chrome.storage.local.get("blackList");
     
-    if (!blackList || !blackList.blackList) {
-        chrome.storage.local.set({"blackList" : [urlPiece]});
-    } else {
-        if (!blackList.blackList.includes(urlPiece) && operation === "add") {
-            blackList.blackList.push(urlPiece);
-            const filteredBlackList = blackList.blackList.filter(_utilities__WEBPACK_IMPORTED_MODULE_0__.onlyUnique);
-            blackList.blackList = filteredBlackList
-            chrome.storage.local.set({"blackList" : blackList.blackList});   
-        } else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
-            for( let i = 0; i < blackList.blackList.length; i++){ 
+	if (!blackList || !blackList.blackList) {
+		chrome.storage.local.set({"blackList" : [urlPiece]});
+	} else {
+		if (!blackList.blackList.includes(urlPiece) && operation === "add") {
+			blackList.blackList.push(urlPiece);
+			const filteredBlackList = blackList.blackList.filter(_utilities__WEBPACK_IMPORTED_MODULE_0__.onlyUnique);
+			blackList.blackList = filteredBlackList;
+			chrome.storage.local.set({"blackList" : blackList.blackList});   
+		} else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
+			for( let i = 0; i < blackList.blackList.length; i++){ 
     
-                if ( blackList.blackList[i] === urlPiece) { 
+				if ( blackList.blackList[i] === urlPiece) { 
             
-                    blackList.blackList.splice(i, 1); 
-                }
+					blackList.blackList.splice(i, 1); 
+				}
             
-            }
-            chrome.storage.local.set({"blackList" : blackList.blackList});   
-        }
-    }
-}   
+			}
+			chrome.storage.local.set({"blackList" : blackList.blackList});   
+		}
+	}
+};   
 
 const getStoredDays = async () => {
-    const storedDays = await chrome.storage.local.get("storedDays");
+	const storedDays = await chrome.storage.local.get("storedDays");
 
-    if (!storedDays || !storedDays.storedDays) {
-        chrome.storage.local.set({"storedDays" : []});
-    }
+	if (!storedDays || !storedDays.storedDays) {
+		chrome.storage.local.set({"storedDays" : []});
+	}
 
-    return storedDays || [];
-}
+	return storedDays || [];
+};
 
 const addStoredDays = async (day) => {
-    const storedDays = await getStoredDays();
+	const storedDays = await getStoredDays();
     
-    if (storedDays && storedDays.storedDays) {
-        if (storedDays.storedDays.length < 31) {
-            storedDays.storedDays.push(day);
-            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
-        } else {
-            storedDays.storedDays.shift();
-            storedDays.storedDays.push(day);
-            chrome.storage.local.set({"storedDays" : storedDays.storedDays})
-        }
-    } else {
-        chrome.storage.local.set({"storedDays" : [storedDays.storedDays]})
-    }
-}
+	console.log(day);
+
+	if (storedDays && storedDays.storedDays) {
+
+		let storedDayIndex = -1;
+		const today = await chrome.storage.local.get("day");
+		storedDays.storedDays.forEach((day, index) => {
+			if (day.day === today.day) {
+				storedDayIndex = index;
+			}
+		});
+		if (storedDayIndex > -1) {
+			const updatedDay = {
+				day: day.day,
+				sessionCount : storedDays.storedDays[storedDayIndex].sessionCount ? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount : day.sessionCount,
+				tabCount : storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
+				hostList : storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
+			};
+			storedDays.storedDays[storedDayIndex] = updatedDay;
+			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			// const updatedDay = {storedDays.storedDays[storedDayIndex], ...day}
+		} else if (storedDays.storedDays.length < 31) {
+			storedDays.storedDays.push(day);
+			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+		} else {
+			storedDays.storedDays.shift();
+			storedDays.storedDays.push(day);
+			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+		}
+	} else {
+		chrome.storage.local.set({"storedDays" : [storedDays.storedDays]});
+	}
+};
 
 //#endregion
 
@@ -18384,26 +18402,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const getSortingOptions = async () => {
     
-    const options = await chrome.storage.local.get("options");
-    if (options.options) {
+	const options = await chrome.storage.local.get("options");
+	if (options.options) {
 
-        const sortBy = options.options.sortBy;
-        return sortBy || 'sortByName'
-    } else {
-        return 'sortByName';
-    }
-}
+		const sortBy = options.options.sortBy;
+		return sortBy || "sortByName";
+	} else {
+		return "sortByName";
+	}
+};
 
 const setSortingOptions = async (sortValue) => {
-    const options = await chrome.storage.local.get("options")
+	const options = await chrome.storage.local.get("options");
 
-    if (options && options.options) {
-        options.options.sortBy = sortValue;
-        chrome.storage.local.set({"options" : options.options})
-    } else {
-        chrome.storage.local.set({"options" : {sortBy : 'sortByName'}})
-    }
-}
+	if (options && options.options) {
+		options.options.sortBy = sortValue;
+		chrome.storage.local.set({"options" : options.options});
+	} else {
+		chrome.storage.local.set({"options" : {sortBy : "sortByName"}});
+	}
+};
 
 /***/ }),
 
@@ -18425,56 +18443,56 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const openInNewTab = (url) => {
-    window.open(url, '_blank').focus();
-}
+	window.open(url, "_blank").focus();
+};
 
 const scrapeInformationFromUrl = (fullUrl) => {
-    const url = new URL(fullUrl);
-    return [fullUrl, url.protocol, url.hostname, url.pathname, url.search]
+	const url = new URL(fullUrl);
+	return [fullUrl, url.protocol, url.hostname, url.pathname, url.search];
 };
 
 const onlyUnique = (value, index, self) => {
-    return self.indexOf(value) === index;
-    // Use with filter to make an array unique
+	return self.indexOf(value) === index;
+	// Use with filter to make an array unique
 
-    // var a = ['a', 1, 'a', 2, '1'];
-    // var unique = a.filter(onlyUnique);
-}
+	// var a = ['a', 1, 'a', 2, '1'];
+	// var unique = a.filter(onlyUnique);
+};
 
 const exportFormat = async (format) => {
-    const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_0__.getStoredDays)();
+	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_0__.getStoredDays)();
 
 
-    if (format === "json") {
+	if (format === "json") {
 
-        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-        var a = document.createElement('a');
-        a.setAttribute("href",     dataStr     );
-        a.setAttribute("download", "scene.json");
-        a.click();
+		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
+		var a = document.createElement("a");
+		a.setAttribute("href",     dataStr     );
+		a.setAttribute("download", "scene.json");
+		a.click();
 
-    }
+	}
 
-    // if (format === "csv") {
+	// if (format === "csv") {
 
-    //     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-    //     var a = document.createElement('a');
-    //     a.setAttribute("href",     dataStr     );
-    //     a.setAttribute("download", "scene.json");
-    //     a.click();
+	//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
+	//     var a = document.createElement('a');
+	//     a.setAttribute("href",     dataStr     );
+	//     a.setAttribute("download", "scene.json");
+	//     a.click();
 
-    // }
+	// }
 
-    // if (format === "excel") {
+	// if (format === "excel") {
 
-    //     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-    //     var a = document.createElement('a');
-    //     a.setAttribute("href",     dataStr     );
-    //     a.setAttribute("download", "scene.json");
-    //     a.click();
+	//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
+	//     var a = document.createElement('a');
+	//     a.setAttribute("href",     dataStr     );
+	//     a.setAttribute("download", "scene.json");
+	//     a.click();
 
-    // }
-}
+	// }
+};
 
 
 
@@ -18598,171 +18616,171 @@ __webpack_require__.r(__webpack_exports__);
 const sortByName = document.getElementById("sort-by-name");
 const sortByVisitCount = document.getElementById("sort-by-visit-count");
 const sortBySwitch = document.getElementById("sort-by-switch-input");
-const sortBySwitchSpan = document.getElementById("sort-by-switch-span");
+// const sortBySwitchSpan = document.getElementById("sort-by-switch-span");
 
-const blackListContainer = document.getElementById("black-list-container");
+// const blackListContainer = document.getElementById("black-list-container");
 const blackListList = document.getElementById("black-list-list");
 const hostNameInput = document.getElementById("host-name-input");
 const addBlackListButton = document.getElementById("add-black-list-button");
 
-const inputPlaceholder = "Write a link"
+const inputPlaceholder = "Write a link";
 
-const csvExportButton = document.getElementById("csv-export-button");
+// const csvExportButton = document.getElementById("csv-export-button");
 const jsonExportButton = document.getElementById("json-export-button");
-const excelExportButton = document.getElementById("excel-export-button");
+// const excelExportButton = document.getElementById("excel-export-button");
 
 
 //#endregion
 
 //#region Option Handlers 
-    const displayOptions = async () => {
+const displayOptions = async () => {
 
-        await sortingOptionDisplay();
-        optionsHandlerImplementation();
-        hostNameInput.innerText = inputPlaceholder;
-        exportOptionLoader()
+	await sortingOptionDisplay();
+	optionsHandlerImplementation();
+	hostNameInput.innerText = inputPlaceholder;
+	exportOptionLoader();
          
-    }
+};
 
-    const sortingOptionDisplay = async () => {
+const sortingOptionDisplay = async () => {
         
-        const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
+	const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
 
-        if (sortingOption === 'sortByName') {
-            sortByName.classList.add("flamio");
-            sortByVisitCount.classList.remove("flamio");
-        } else {
-            sortByName.classList.remove("flamio");
-            sortByVisitCount.classList.add("flamio");
-            sortBySwitch.checked = true
-        }
-    }
+	if (sortingOption === "sortByName") {
+		sortByName.classList.add("flamio");
+		sortByVisitCount.classList.remove("flamio");
+	} else {
+		sortByName.classList.remove("flamio");
+		sortByVisitCount.classList.add("flamio");
+		sortBySwitch.checked = true;
+	}
+};
 
-    const optionsHandlerImplementation = async () => {
+const optionsHandlerImplementation =  () => {
 
-        sortBySwitch.addEventListener('change', async (e) => {
+	sortBySwitch.addEventListener("change", async (e) => {
         
-            e.preventDefault();
-            if (!sortBySwitch.checked) {
-                (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.setSortingOptions)('sortByName');
-                sortByName.classList.add("flamio");
-                sortByVisitCount.classList.remove("flamio");
-            } else {
-                (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.setSortingOptions)('sortByVisitCount')
-                sortByName.classList.remove("flamio");
-                sortByVisitCount.classList.add("flamio");
-            } 
+		e.preventDefault();
+		if (!sortBySwitch.checked) {
+			(0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.setSortingOptions)("sortByName");
+			sortByName.classList.add("flamio");
+			sortByVisitCount.classList.remove("flamio");
+		} else {
+			(0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.setSortingOptions)("sortByVisitCount");
+			sortByName.classList.remove("flamio");
+			sortByVisitCount.classList.add("flamio");
+		} 
     
-            //TODO Update Data Here
-            await (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
+		//TODO Update Data Here
+		await (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
 
     
-            sortBySwitch.removeEventListener('click', (e) => {
-                e.preventDefault()
-            });
-        });
+		sortBySwitch.removeEventListener("click", (e) => {
+			e.preventDefault();
+		});
+	});
 
-        hostNameInput.addEventListener('focusin', (e) => {
-            e.preventDefault();
-            if (hostNameInput.innerText === inputPlaceholder) {
-                hostNameInput.innerText = "";
-            } 
-            hostNameInput.removeEventListener('focusin', (e) => {
-                e.preventDefault();
-            });
-        });
+	hostNameInput.addEventListener("focusin", (e) => {
+		e.preventDefault();
+		if (hostNameInput.innerText === inputPlaceholder) {
+			hostNameInput.innerText = "";
+		} 
+		hostNameInput.removeEventListener("focusin", (e) => {
+			e.preventDefault();
+		});
+	});
         
-        hostNameInput.addEventListener('focusout', (e) => {
-            e.preventDefault();
-            if (hostNameInput.innerText === "") {
-                hostNameInput.innerText = inputPlaceholder
-            }
-            hostNameInput.removeEventListener('focusout', (e) => {
-                e.preventDefault();
-            });
-        });
+	hostNameInput.addEventListener("focusout", (e) => {
+		e.preventDefault();
+		if (hostNameInput.innerText === "") {
+			hostNameInput.innerText = inputPlaceholder;
+		}
+		hostNameInput.removeEventListener("focusout", (e) => {
+			e.preventDefault();
+		});
+	});
 
-        addBlackListButton.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const hostName = hostNameInput.innerText;
-            if (hostName.length && hostName !== inputPlaceholder) {
-                await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName)
-                displayBlackListElements()
-            }
+	addBlackListButton.addEventListener("click", async (e) => {
+		e.preventDefault();
+		const hostName = hostNameInput.innerText;
+		if (hostName.length && hostName !== inputPlaceholder) {
+			await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName);
+			displayBlackListElements();
+		}
           
-        })
-    }
+	});
+};
 
-    const exportOptionLoader = async () => {
-        // csvExportButton.addEventListener('click', async (e) => {
-        //     e.preventDefault();
-        //     exportFormat('csv')
-        //     csvExportButton.removeEventListener('click', async (e) => {
-        //         e.preventDefault
-        //         exportFormat('csv')
-        //     })
-        // })
+const exportOptionLoader =  () => {
+	// csvExportButton.addEventListener('click', async (e) => {
+	//     e.preventDefault();
+	//     exportFormat('csv')
+	//     csvExportButton.removeEventListener('click', async (e) => {
+	//         e.preventDefault
+	//         exportFormat('csv')
+	//     })
+	// })
 
-        jsonExportButton.addEventListener('click', async (e) => {
-            e.preventDefault();
-            (0,_utilities__WEBPACK_IMPORTED_MODULE_4__.exportFormat)('json' )
-            jsonExportButton.removeEventListener('click', async (e) => {
-                e.preventDefault
-                ;(0,_utilities__WEBPACK_IMPORTED_MODULE_4__.exportFormat)('json')
-            })
-        })
+	jsonExportButton.addEventListener("click",  (e) => {
+		e.preventDefault();
+		(0,_utilities__WEBPACK_IMPORTED_MODULE_4__.exportFormat)("json" );
+		jsonExportButton.removeEventListener("click",  (e) => {
+			e.preventDefault;
+			(0,_utilities__WEBPACK_IMPORTED_MODULE_4__.exportFormat)("json");
+		});
+	});
 
-        // excelExportButton.addEventListener('click', async (e) => {
-        //     e.preventDefault();
-        //     exportFormat('excel')
-        //     excelExportButton.removeEventListener('click', async (e) => {
-        //         e.preventDefault
-        //         exportFormat('excel')
-        //     })
-        // })
-    }
+	// excelExportButton.addEventListener('click', async (e) => {
+	//     e.preventDefault();
+	//     exportFormat('excel')
+	//     excelExportButton.removeEventListener('click', async (e) => {
+	//         e.preventDefault
+	//         exportFormat('excel')
+	//     })
+	// })
+};
 
-    const generateBlackListElement = async (hostName) => {
+const generateBlackListElement =  (hostName) => {
 
-        const blackListElement = document.createElement('div');
-        blackListElement.classList.add("black-list-element");
+	const blackListElement = document.createElement("div");
+	blackListElement.classList.add("black-list-element");
 
-        const blackListElementHostName = document.createElement("h2") ;
-        blackListElementHostName.innerText = hostName;
-        blackListElementHostName.classList.add("black-list-element-host-name");
+	const blackListElementHostName = document.createElement("h2") ;
+	blackListElementHostName.innerText = hostName;
+	blackListElementHostName.classList.add("black-list-element-host-name");
 
-        const removeFromBlackListButton = document.createElement("div");
-        removeFromBlackListButton.innerHTML = "<h3>Remove</h3>"
-        removeFromBlackListButton.classList.add("remove-from-black-list-button");
-        removeFromBlackListButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName, "remove");
-            blackListElement.remove();
+	const removeFromBlackListButton = document.createElement("div");
+	removeFromBlackListButton.innerHTML = "<h3>Remove</h3>";
+	removeFromBlackListButton.classList.add("remove-from-black-list-button");
+	removeFromBlackListButton.addEventListener("click", (e) => {
+		e.preventDefault();
+		(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName, "remove");
+		blackListElement.remove();
 
-            removeFromBlackListButton.removeEventListener('click', (e) => {
-                e.preventDefault();
-                (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName, "remove");
-                blackListElement.remove();
-            });
-        });
+		removeFromBlackListButton.removeEventListener("click", (e) => {
+			e.preventDefault();
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName, "remove");
+			blackListElement.remove();
+		});
+	});
 
-        blackListElement.appendChild(blackListElementHostName);
-        blackListElement.appendChild(removeFromBlackListButton);
-        return blackListElement;
-    }
+	blackListElement.appendChild(blackListElementHostName);
+	blackListElement.appendChild(removeFromBlackListButton);
+	return blackListElement;
+};
 
-    const displayBlackListElements = async () => {
-        console.log("displayBlackListElements");
-        const blackList = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.getBlackList)();
-        blackListList.innerHTML = null
-        if (blackList && blackList.blackList && blackList.blackList.length) {
-            console.log(blackList.blackList.length);
-            blackList.blackList.forEach(async (hostName) => {
-                const generatedElement = await generateBlackListElement(hostName);
-                blackListList.appendChild(generatedElement);
-            });
-        }
-    }
+const displayBlackListElements = async () => {
+	console.log("displayBlackListElements");
+	const blackList = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.getBlackList)();
+	blackListList.innerHTML = null;
+	if (blackList && blackList.blackList && blackList.blackList.length) {
+		console.log(blackList.blackList.length);
+		blackList.blackList.forEach(async (hostName) => {
+			const generatedElement = await generateBlackListElement(hostName);
+			blackListList.appendChild(generatedElement);
+		});
+	}
+};
 
     
 
@@ -18773,11 +18791,13 @@ const excelExportButton = document.getElementById("excel-export-button");
 
 const loaderForAsync = async () => {
 
-    await (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
-    await displayOptions();
-    await displayBlackListElements();
-    (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.scrollBeltToEnd)()
-}
+	await (0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.renderSlider)();
+	await displayOptions();
+	await displayBlackListElements();
+	(0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.scrollBeltToEnd)();
+
+  
+};
 
 loaderForAsync();
 })();

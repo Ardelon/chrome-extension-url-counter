@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "css-loader": "^6.5.1",
+    "eslint": "^8.16.0",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.67.0",

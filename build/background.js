@@ -4,7 +4,8 @@ chrome.windows.onCreated.addListener((window, filters) => {
     // console.log('Browser Created');
 
     sessionCount(window)
-    updateDateCounters();
+    let timeoutCycle;
+    updateDateCounters(timeoutCycle);
 
 });
 
@@ -56,7 +57,7 @@ const clearStorage = () => {
 const storeStorage = async () => {
     const hostList = await chrome.storage.local.get("hostList")
     const day = await chrome.storage.local.get("day")
-    const sessionCount = await chrome.storage.local.get("sessionCount")
+    const sessionCount = await chrome.storage.local.get("sessionCount") || 0
     const tabCount = await chrome.storage.local.get("tabCount")
     // const storedTabStateList = await chrome.storage.local.get("storedTabStateList")
     
@@ -82,19 +83,19 @@ const getDay = async () => {
     return await chrome.storage.local.get("day");
 }
 
-const updateDateCounters = async () => {
-
+const updateDateCounters = async (timeoutCycle) => {
+    console.log("Update Date Counters");
+    timeoutCycle ? clearTimeout(timeoutCycle) : null
     const [generatedDay, remainingMiliSeconds] = generateDay();
     const {day : savedDay} = await getDay();
     console.log("Sol Invictus");
     if (generatedDay !== savedDay) {
         setDay(generatedDay)
-    } else {
-        setTimeout(() => {
-            const [generatedDayToBe] = generateDay();
-            setDay(generatedDayToBe);
-        }, remainingMiliSeconds);
     }
+    timeoutCycle = setTimeout(() => {
+        updateDateCounters(timeoutCycle);
+    }, remainingMiliSeconds);
+   
 
     let hostList = await getHostList();
     if (hostList.hostList) {
@@ -238,11 +239,9 @@ const addStoredDays = async (day) => {
 
         if (isIncluded) {
             storedDay = storedDays.storedDays[storedDayIndex];
-            console.log(storedDay);
             storedDay.hostList = storedDay.hostList.concat(day.hostList);
             storedDay.tabCount += day.tabCount;
             storedDay.sessionCount += day.sessionCount;
-            console.log(storedDay);
             storedDays.storedDays[storedDayIndex] = storedDay;
             chrome.storage.local.set({"storedDays" : storedDays.storedDays})
         } else {
