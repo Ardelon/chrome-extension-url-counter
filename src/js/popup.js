@@ -15,6 +15,9 @@ import {
 const tabCountDiv = document.getElementById("tab-count");
 const listContainer = document.getElementById("list-container");
 const totalVisitDisplay = document.getElementById("total-visit");
+const activeTabCountIndicator = document.getElementById('active-tab-count');
+const activeWindowCountIndicator = document.getElementById('active-window-count');
+
 const optionsPageButton = document.getElementById("options-page-button");
 const githubPageButton = document.getElementById("github-page-button");
 
@@ -24,8 +27,6 @@ const dontSaveButton = document.getElementById("dont-save-button");
 const getTabCount = async () => {
 	return await chrome.storage.local.get("tabCount");
 };
-
-
 
 const eventHandler = async () => {
 	const hostList = await chrome.storage.local.get("hostList");
@@ -72,10 +73,6 @@ const openOptionsPageEvent = () => {
 	}
 };
 
-
-
-
-
 const prepareDontSaveButton = async () => {
 	const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true});
 	const url  = currentTab[0].url;
@@ -106,8 +103,19 @@ const prepareDontSaveButton = async () => {
 	});
 };
 
+const prepareIndicatiors = async () => {
+	console.log('Prepare Indicators');
+	const activeTabCount = await chrome.storage.local.get("activeTabCount");
+	const activeWindowCount = await chrome.storage.local.get("activeWindowCount");
+	activeTabCountIndicator.innerText = `Active Tab Count : ${activeTabCount.activeTabCount}`;
+	activeWindowCountIndicator.innerText = `Active Window Count : ${activeWindowCount.activeWindowCount}`;
+}
+
 eventHandler();
 prepareDontSaveButton();
+(() => {
+	prepareIndicatiors();
+})() 
 
 optionsPageButton.addEventListener("click", (e) => {
 	e.preventDefault();
@@ -123,29 +131,4 @@ githubPageButton.addEventListener("click", (e => {
 	openInNewTab("https://github.com/Ardelon/chrome-extension-url-counter");
 }));
 
-// document.getElementById("add-stored-days").addEventListener("click", async (e) => {
-// 	e.preventDefault();
-// 	const hostList = await chrome.storage.local.get("hostList");
-// 	const day = await chrome.storage.local.get("day");
-// 	const sessionCount = await chrome.storage.local.get("sessionCount");
-// 	const tabCount = await chrome.storage.local.get("tabCount");
-// 	// const storedTabStateList = await chrome.storage.local.get("storedTabStateList")
-    
-// 	const model = {
-// 		day : day.day,
-// 		sessionCount : sessionCount.sessionCount,
-// 		tabCount : tabCount.tabCount,
-// 		hostList : hostList.hostList
-// 	};
 
-// 	addStoredDays(model);
-
-// 	chrome.storage.local.set({"hostList" : null});
-// 	chrome.storage.local.set({"day" : null});
-// 	chrome.storage.local.set({"sessionCount" : null});
-// 	chrome.storage.local.set({"tabCount" : null});
-// 	chrome.storage.local.set({"storedTabStateList" : null});
-// 	// console.log(day);
-
-// 	// document.getElementById("console-display").innerText = `${day}`;
-// });
