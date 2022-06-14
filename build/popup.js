@@ -765,7 +765,6 @@ const getStoredDays = async () => {
 const addStoredDays = async (day) => {
 	const storedDays = await getStoredDays();
     
-	console.log(day);
 
 	if (storedDays && storedDays.storedDays) {
 
@@ -886,25 +885,7 @@ const exportFormat = async (format) => {
 
 	}
 
-	// if (format === "csv") {
 
-	//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-	//     var a = document.createElement('a');
-	//     a.setAttribute("href",     dataStr     );
-	//     a.setAttribute("download", "scene.json");
-	//     a.click();
-
-	// }
-
-	// if (format === "excel") {
-
-	//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
-	//     var a = document.createElement('a');
-	//     a.setAttribute("href",     dataStr     );
-	//     a.setAttribute("download", "scene.json");
-	//     a.click();
-
-	// }
 };
 
 
@@ -1001,8 +982,6 @@ __webpack_require__.r(__webpack_exports__);
 const tabCountDiv = document.getElementById("tab-count");
 const listContainer = document.getElementById("list-container");
 const totalVisitDisplay = document.getElementById("total-visit");
-const activeTabCountIndicator = document.getElementById('active-tab-count');
-const activeWindowCountIndicator = document.getElementById('active-window-count');
 
 const optionsPageButton = document.getElementById("options-page-button");
 const githubPageButton = document.getElementById("github-page-button");
@@ -1089,19 +1068,10 @@ const prepareDontSaveButton = async () => {
 	});
 };
 
-const prepareIndicatiors = async () => {
-	console.log('Prepare Indicators');
-	const activeTabCount = await chrome.storage.local.get("activeTabCount");
-	const activeWindowCount = await chrome.storage.local.get("activeWindowCount");
-	activeTabCountIndicator.innerText = `Active Tab Count : ${activeTabCount.activeTabCount}`;
-	activeWindowCountIndicator.innerText = `Active Window Count : ${activeWindowCount.activeWindowCount}`;
-}
 
 eventHandler();
 prepareDontSaveButton();
-(() => {
-	prepareIndicatiors();
-})() 
+
 
 optionsPageButton.addEventListener("click", (e) => {
 	e.preventDefault();

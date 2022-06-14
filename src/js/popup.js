@@ -15,8 +15,6 @@ import {
 const tabCountDiv = document.getElementById("tab-count");
 const listContainer = document.getElementById("list-container");
 const totalVisitDisplay = document.getElementById("total-visit");
-const activeTabCountIndicator = document.getElementById('active-tab-count');
-const activeWindowCountIndicator = document.getElementById('active-window-count');
 
 const optionsPageButton = document.getElementById("options-page-button");
 const githubPageButton = document.getElementById("github-page-button");
@@ -103,19 +101,10 @@ const prepareDontSaveButton = async () => {
 	});
 };
 
-const prepareIndicatiors = async () => {
-	console.log('Prepare Indicators');
-	const activeTabCount = await chrome.storage.local.get("activeTabCount");
-	const activeWindowCount = await chrome.storage.local.get("activeWindowCount");
-	activeTabCountIndicator.innerText = `Active Tab Count : ${activeTabCount.activeTabCount}`;
-	activeWindowCountIndicator.innerText = `Active Window Count : ${activeWindowCount.activeWindowCount}`;
-}
 
 eventHandler();
 prepareDontSaveButton();
-(() => {
-	prepareIndicatiors();
-})() 
+
 
 optionsPageButton.addEventListener("click", (e) => {
 	e.preventDefault();

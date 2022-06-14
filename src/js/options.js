@@ -1,16 +1,21 @@
 import "../style/index.scss";
 
-import {renderSlider, scrollBeltToEnd} from "./generateSlider";
-import {getSortingOptions, setSortingOptions} from "./manageOptions";
-import {
-    
-	getBlackList,
-	setBlackList,
-} from "./manageInfo";
+import { renderSlider, scrollBeltToEnd } from "./generateSlider";
+import { getSortingOptions, setSortingOptions } from "./manageOptions";
+import { getBlackList, setBlackList } from "./manageInfo";
 import { exportFormat } from "./utilities";
 
 //#region Elements
 
+const totalTabCountIndicator = document.getElementById(
+	"total-tab-count-indicator"
+);
+const maxActiveTabCountIndicator = document.getElementById(
+	"max-active-tab-count-indicator"
+);
+const totalWindowCountIndicator = document.getElementById(
+	"total-window-count-indicator"
+);
 
 const sortByName = document.getElementById("sort-by-name");
 const sortByVisitCount = document.getElementById("sort-by-visit-count");
@@ -28,21 +33,17 @@ const inputPlaceholder = "Write a link";
 const jsonExportButton = document.getElementById("json-export-button");
 // const excelExportButton = document.getElementById("excel-export-button");
 
-
 //#endregion
 
-//#region Option Handlers 
+//#region Option Handlers
 const displayOptions = async () => {
-
 	await sortingOptionDisplay();
 	optionsHandlerImplementation();
 	hostNameInput.innerText = inputPlaceholder;
 	exportOptionLoader();
-         
 };
 
 const sortingOptionDisplay = async () => {
-        
 	const sortingOption = await getSortingOptions();
 
 	if (sortingOption === "sortByName") {
@@ -55,10 +56,8 @@ const sortingOptionDisplay = async () => {
 	}
 };
 
-const optionsHandlerImplementation =  () => {
-
+const optionsHandlerImplementation = () => {
 	sortBySwitch.addEventListener("change", async (e) => {
-        
 		e.preventDefault();
 		if (!sortBySwitch.checked) {
 			setSortingOptions("sortByName");
@@ -68,12 +67,11 @@ const optionsHandlerImplementation =  () => {
 			setSortingOptions("sortByVisitCount");
 			sortByName.classList.remove("flamio");
 			sortByVisitCount.classList.add("flamio");
-		} 
-    
+		}
+
 		//TODO Update Data Here
 		await renderSlider();
 
-    
 		sortBySwitch.removeEventListener("click", (e) => {
 			e.preventDefault();
 		});
@@ -83,12 +81,12 @@ const optionsHandlerImplementation =  () => {
 		e.preventDefault();
 		if (hostNameInput.innerText === inputPlaceholder) {
 			hostNameInput.innerText = "";
-		} 
+		}
 		hostNameInput.removeEventListener("focusin", (e) => {
 			e.preventDefault();
 		});
 	});
-        
+
 	hostNameInput.addEventListener("focusout", (e) => {
 		e.preventDefault();
 		if (hostNameInput.innerText === "") {
@@ -106,11 +104,10 @@ const optionsHandlerImplementation =  () => {
 			await setBlackList(hostName);
 			displayBlackListElements();
 		}
-          
 	});
 };
 
-const exportOptionLoader =  () => {
+const exportOptionLoader = () => {
 	// csvExportButton.addEventListener('click', async (e) => {
 	//     e.preventDefault();
 	//     exportFormat('csv')
@@ -120,10 +117,10 @@ const exportOptionLoader =  () => {
 	//     })
 	// })
 
-	jsonExportButton.addEventListener("click",  (e) => {
+	jsonExportButton.addEventListener("click", (e) => {
 		e.preventDefault();
-		exportFormat("json" );
-		jsonExportButton.removeEventListener("click",  (e) => {
+		exportFormat("json");
+		jsonExportButton.removeEventListener("click", (e) => {
 			e.preventDefault;
 			exportFormat("json");
 		});
@@ -139,12 +136,11 @@ const exportOptionLoader =  () => {
 	// })
 };
 
-const generateBlackListElement =  (hostName) => {
-
+const generateBlackListElement = (hostName) => {
 	const blackListElement = document.createElement("div");
 	blackListElement.classList.add("black-list-element");
 
-	const blackListElementHostName = document.createElement("h2") ;
+	const blackListElementHostName = document.createElement("h2");
 	blackListElementHostName.innerText = hostName;
 	blackListElementHostName.classList.add("black-list-element-host-name");
 
@@ -169,11 +165,9 @@ const generateBlackListElement =  (hostName) => {
 };
 
 const displayBlackListElements = async () => {
-	console.log("displayBlackListElements");
 	const blackList = await getBlackList();
 	blackListList.innerHTML = null;
 	if (blackList && blackList.blackList && blackList.blackList.length) {
-		console.log(blackList.blackList.length);
 		blackList.blackList.forEach(async (hostName) => {
 			const generatedElement = await generateBlackListElement(hostName);
 			blackListList.appendChild(generatedElement);
@@ -181,21 +175,31 @@ const displayBlackListElements = async () => {
 	}
 };
 
-    
+const displayStatPanel = async () => {
 
+	const totalTabCount = await chrome.storage.local.get("totalTabCount");
+	const maxActiveTabCount = await chrome.storage.local.get("maxActiveTabCount");
+	const totalWindowCount = await chrome.storage.local.get("totalWindowCount");
+
+	console.log(totalTabCount.totalTabCount, maxActiveTabCount.maxActiveTabCount, totalWindowCount.totalWindowCount);
+
+
+	totalTabCountIndicator.innerText = `All Time Opened Tab Count : ${totalTabCount.totalTabCount || "no data"}`;
+	maxActiveTabCountIndicator.innerText = `Maximum Active Tab Count : ${maxActiveTabCount.maxActiveTabCount || "no data"}`;
+	totalWindowCountIndicator.innerText = `All Time Opened Window Count : ${totalWindowCount.totalWindowCount || "no data"}`;
+};
 
 //#endregion
 
 // renderDataHandler();
 
 const loaderForAsync = async () => {
-
 	await renderSlider();
 	await displayOptions();
 	await displayBlackListElements();
 	scrollBeltToEnd();
+	displayStatPanel();
 
-  
 };
 
 loaderForAsync();

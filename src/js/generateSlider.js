@@ -237,7 +237,6 @@ const generateDayContainer = async (storedDay, index) => {
 				blockage.classList.remove("hide");
 			});
 		} else {
-			console.log("selam");
 			reGenerateDay(storedDay.day, index);
 		}
 		deleteDomaintButton.removeEventListener("click",  (e) => {

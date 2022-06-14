@@ -211,7 +211,6 @@ export const getStoredDays = async () => {
 export const addStoredDays = async (day) => {
 	const storedDays = await getStoredDays();
     
-	console.log(day);
 
 	if (storedDays && storedDays.storedDays) {
 
