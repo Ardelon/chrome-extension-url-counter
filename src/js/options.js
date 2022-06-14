@@ -181,7 +181,7 @@ const displayStatPanel = async () => {
 	const maxActiveTabCount = await chrome.storage.local.get("maxActiveTabCount");
 	const totalWindowCount = await chrome.storage.local.get("totalWindowCount");
 
-	console.log(totalTabCount.totalTabCount, maxActiveTabCount.maxActiveTabCount, totalWindowCount.totalWindowCount);
+	
 
 
 	totalTabCountIndicator.innerText = `All Time Opened Tab Count : ${totalTabCount.totalTabCount || "no data"}`;

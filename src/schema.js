@@ -5,6 +5,11 @@ const dataStructure = {
 	maxActiveTabCount : Number,
 	totalWindowCount: Number,
 	activeWindowCount: Number,
+	day:String,
+	activeTabState : {
+		tabId : Number,
+		activationTime : Date,
+	},
 	sessionCount: Number, // Window Count
 	blacklist: Array,
 	hostList: [
@@ -14,6 +19,7 @@ const dataStructure = {
 			siteName: String,
 			tabId: Number,
 			timeStamp: Number,
+			timeSpent:Number,
 			url: String,
 		},
 	],
@@ -40,6 +46,7 @@ const dataStructure = {
 			siteName: String,
 			tabId: Number,
 			timeStamp: Number,
+			timeSpent:Number,
 			url: String,
 		},
 	],
