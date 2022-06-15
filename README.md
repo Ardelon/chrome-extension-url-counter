@@ -22,8 +22,9 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [x] Add blacklist for not tracking specific websites
 - [x] Store 30 days
 - [x] Make days slideable
+- [x] Add panel for all time counts
+- [ ] Track active tab times
 - [ ] Make sync with another devices
-- [ ] Add panel for all time counts
 - [ ] Show active windows?
 - [ ] Add option for save duration
 - [ ] Make it keyboard use friendly
@@ -32,7 +33,6 @@ As a web developer, I am always on browser. But I don't know what I am doing eve
 - [ ] Show how many browser is opened
 - [ ] Make a new logo
 - [ ] Add Language selection
-- [ ] Track active tab times
 - [ ] Add light and dark theme
 - [ ] Add theme choice with different color palettes (neon, pastel, neutral, etc);
 - [ ] Cache loaded logos
