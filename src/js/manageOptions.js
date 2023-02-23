@@ -1,8 +1,6 @@
 export const getSortingOptions = async () => {
-    
 	const options = await chrome.storage.local.get("options");
 	if (options.options) {
-
 		const sortBy = options.options.sortBy;
 		return sortBy || "sortByName";
 	} else {
@@ -15,8 +13,8 @@ export const setSortingOptions = async (sortValue) => {
 
 	if (options && options.options) {
 		options.options.sortBy = sortValue;
-		chrome.storage.local.set({"options" : options.options});
+		chrome.storage.local.set({ options: options.options });
 	} else {
-		chrome.storage.local.set({"options" : {sortBy : "sortByName"}});
+		chrome.storage.local.set({ options: { sortBy: "sortByName" } });
 	}
 };

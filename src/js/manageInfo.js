@@ -1,15 +1,19 @@
 import { onlyUnique } from "./utilities";
 //#region Prepare and Serve Operations
 
-export const generateListElement = (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
-
+export const generateListElement = (
+	parent,
+	hostName,
+	visitCount,
+	logo,
+	dataDate,
+	updateTabCount
+) => {
 	const element = document.createElement("div");
 	const blockage = document.createElement("div");
 	const logoDisplay = document.createElement("img");
-	const header =  document.createElement("h4");
-	const visitDisplay =  document.createElement("p");
-
-
+	const header = document.createElement("h4");
+	const visitDisplay = document.createElement("p");
 
 	element.classList.add("list-element");
 	blockage.classList.add("blockage", "hide");
@@ -21,7 +25,7 @@ export const generateListElement = (parent, hostName, visitCount, logo, dataDate
 		logo = "../images/notFound.png";
 	}
 	logoDisplay.src = logo;
-	header.innerText = hostName;//`${hostName.substring(0,25)}`;
+	header.innerText = hostName; //`${hostName.substring(0,25)}`;
 
 	visitDisplay.innerText = visitCount;
 
@@ -33,7 +37,6 @@ export const generateListElement = (parent, hostName, visitCount, logo, dataDate
 
 		blockage.removeEventListener("click", (e) => {
 			e.preventDefault();
-      
 		});
 	});
 
@@ -53,7 +56,6 @@ export const generateListElement = (parent, hostName, visitCount, logo, dataDate
 	element.appendChild(visitDisplay);
 
 	parent.appendChild(element);
-
 };
 
 export const prepareData = (hostList) => {
@@ -64,51 +66,46 @@ export const prepareData = (hostList) => {
 	let totalVisit = 0;
 	if (hostList) {
 		totalVisit = hostList.length;
-        
-		hostList.forEach(host => {
+
+		hostList.forEach((host) => {
 			if (!uniqueHostNameList.includes(host.siteName)) {
 				uniqueHostNameList.push(host.siteName);
 				sortByNameList.push(host.siteName);
 				hostInformationObject[host.siteName] = {
-					visitCount : 1,
-					logo : host.favIcon || "../images/notFound.png"
+					visitCount: 1,
+					logo: host.favIcon || "../images/notFound.png",
 				};
 			} else {
 				hostInformationObject[host.siteName].visitCount++;
 				if (host.favIcon !== "../images/notFound.png") {
 					hostInformationObject[host.siteName].logo = host.favIcon;
 				}
-                
 			}
-		});   
+		});
 	}
 	sortByNameList.sort();
 	const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
 
-	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ];
-
-
+	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList];
 };
 
 export const generateSortForVisitCount = (object) => {
-
 	const keys = Object.keys(object);
 	const sortingKeyList = [];
 	const sortedList = [];
 
-	keys.forEach(key => {
+	keys.forEach((key) => {
 		const visitCount = object[key].visitCount;
-		const sortingKey = `${"0".repeat(6-String(visitCount).length)}${visitCount}+${key}`;
-		sortingKeyList.push(sortingKey);        
+		const sortingKey = `${"0".repeat(6 - String(visitCount).length)}${visitCount}+${key}`;
+		sortingKeyList.push(sortingKey);
 	});
 	sortingKeyList.sort();
 	sortingKeyList.reverse();
 
-	sortingKeyList.forEach(key => {
+	sortingKeyList.forEach((key) => {
 		sortedList.push(key.split("+")[1]);
 	});
 	return sortedList;
-
 };
 
 export const clearElements = (element) => {
@@ -120,7 +117,6 @@ export const goToSiteEventHandler = (hostName) => {
 };
 
 export const removeDeletedElement = (element) => {
-    
 	element.remove();
 };
 
@@ -129,34 +125,30 @@ export const removeDeletedElement = (element) => {
 //#region Delete Operations
 
 export const clearDomainData = async (date, hostName) => {
-
 	const storedDays = await getStoredDays();
 
 	if (storedDays.storedDays) {
 		storedDays.storedDays.forEach((storedDay) => {
 			if (storedDay.day === date) {
 				const newHostList = [];
-				storedDay.hostList.forEach(element =>{
+				storedDay.hostList.forEach((element) => {
 					if (element.hostName !== hostName) {
 						newHostList.push(element);
 					}
 				});
-				storedDay.hostList = newHostList;                
+				storedDay.hostList = newHostList;
 			}
 		});
-		chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+		chrome.storage.local.set({ storedDays: storedDays.storedDays });
 	}
-
 };
 
 export const clearAllData = async (dayDate) => {
-
 	const storedDays = await getStoredDays();
 	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
 
-	storedDays.storedDays.splice(storedDayIndex,1);
-	await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
-
+	storedDays.storedDays.splice(storedDayIndex, 1);
+	await chrome.storage.local.set({ storedDays: storedDays.storedDays });
 };
 //#endregion
 
@@ -166,43 +158,39 @@ export const getBlackList = async () => {
 	const blackList = await chrome.storage.local.get("blackList");
 
 	if (!blackList || !blackList.blackList) {
-		chrome.storage.local.set({"blackList" : []});
-	} 
+		chrome.storage.local.set({ blackList: [] });
+	}
 
 	return blackList || [];
 };
 
 export const setBlackList = async (urlPiece, operation = "add") => {
-
 	const blackList = await chrome.storage.local.get("blackList");
-    
+
 	if (!blackList || !blackList.blackList) {
-		chrome.storage.local.set({"blackList" : [urlPiece]});
+		chrome.storage.local.set({ blackList: [urlPiece] });
 	} else {
 		if (!blackList.blackList.includes(urlPiece) && operation === "add") {
 			blackList.blackList.push(urlPiece);
 			const filteredBlackList = blackList.blackList.filter(onlyUnique);
 			blackList.blackList = filteredBlackList;
-			chrome.storage.local.set({"blackList" : blackList.blackList});   
+			chrome.storage.local.set({ blackList: blackList.blackList });
 		} else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
-			for( let i = 0; i < blackList.blackList.length; i++){ 
-    
-				if ( blackList.blackList[i] === urlPiece) { 
-            
-					blackList.blackList.splice(i, 1); 
+			for (let i = 0; i < blackList.blackList.length; i++) {
+				if (blackList.blackList[i] === urlPiece) {
+					blackList.blackList.splice(i, 1);
 				}
-            
 			}
-			chrome.storage.local.set({"blackList" : blackList.blackList});   
+			chrome.storage.local.set({ blackList: blackList.blackList });
 		}
 	}
-};   
+};
 
 export const getStoredDays = async () => {
 	const storedDays = await chrome.storage.local.get("storedDays");
 
 	if (!storedDays || !storedDays.storedDays) {
-		chrome.storage.local.set({"storedDays" : []});
+		chrome.storage.local.set({ storedDays: [] });
 	}
 
 	return storedDays || [];
@@ -210,10 +198,8 @@ export const getStoredDays = async () => {
 
 export const addStoredDays = async (day) => {
 	const storedDays = await getStoredDays();
-    
 
 	if (storedDays && storedDays.storedDays) {
-
 		let storedDayIndex = -1;
 		const today = await chrome.storage.local.get("day");
 		storedDays.storedDays.forEach((day, index) => {
@@ -224,23 +210,25 @@ export const addStoredDays = async (day) => {
 		if (storedDayIndex > -1) {
 			const updatedDay = {
 				day: day.day,
-				sessionCount : storedDays.storedDays[storedDayIndex].sessionCount ? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount : day.sessionCount,
-				tabCount : storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
-				hostList : storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
+				sessionCount: storedDays.storedDays[storedDayIndex].sessionCount
+					? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount
+					: day.sessionCount,
+				tabCount: storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
+				hostList: storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
 			};
 			storedDays.storedDays[storedDayIndex] = updatedDay;
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 			// const updatedDay = {storedDays.storedDays[storedDayIndex], ...day}
 		} else if (storedDays.storedDays.length < 31) {
 			storedDays.storedDays.push(day);
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 		} else {
 			storedDays.storedDays.shift();
 			storedDays.storedDays.push(day);
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 		}
 	} else {
-		chrome.storage.local.set({"storedDays" : [storedDays.storedDays]});
+		chrome.storage.local.set({ storedDays: [storedDays.storedDays] });
 	}
 };
 

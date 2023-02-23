@@ -330,12 +330,9 @@ const generateDay = () => {
 	const date = Date.now();
 	const today = new Date(date);
 
-	const todayInString = `${today.getFullYear()}/${
-		today.getMonth() + 1
-	}/${today.getDate()}`;
+	const todayInString = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
 
-	const secondSpentToday =
-		today.getHours() * 3600 + today.getMinutes() * 60 + today.getSeconds();
+	const secondSpentToday = today.getHours() * 3600 + today.getMinutes() * 60 + today.getSeconds();
 	const remainingMiliSeconds = (86400 - secondSpentToday) * 1000;
 
 	return [todayInString, remainingMiliSeconds];
@@ -442,14 +439,10 @@ const updateSavedHost = async (storedHost) => {
 			console.log(storedHost);
 			item.timeSpent = storedHost.timeSpent;
 			console.log(item);
-	
-			
 		}
 	});
 
-
-	chrome.storage.local.set({ "hostList": hostList.hostList });
-
+	chrome.storage.local.set({ hostList: hostList.hostList });
 };
 
 //#endregion

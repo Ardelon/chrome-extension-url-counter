@@ -7,15 +7,9 @@ import { exportFormat } from "./utilities";
 
 //#region Elements
 
-const totalTabCountIndicator = document.getElementById(
-	"total-tab-count-indicator"
-);
-const maxActiveTabCountIndicator = document.getElementById(
-	"max-active-tab-count-indicator"
-);
-const totalWindowCountIndicator = document.getElementById(
-	"total-window-count-indicator"
-);
+const totalTabCountIndicator = document.getElementById("total-tab-count-indicator");
+const maxActiveTabCountIndicator = document.getElementById("max-active-tab-count-indicator");
+const totalWindowCountIndicator = document.getElementById("total-window-count-indicator");
 
 const sortByName = document.getElementById("sort-by-name");
 const sortByVisitCount = document.getElementById("sort-by-visit-count");
@@ -176,17 +170,19 @@ const displayBlackListElements = async () => {
 };
 
 const displayStatPanel = async () => {
-
 	const totalTabCount = await chrome.storage.local.get("totalTabCount");
 	const maxActiveTabCount = await chrome.storage.local.get("maxActiveTabCount");
 	const totalWindowCount = await chrome.storage.local.get("totalWindowCount");
 
-	
-
-
-	totalTabCountIndicator.innerText = `All Time Opened Tab Count : ${totalTabCount.totalTabCount || "no data"}`;
-	maxActiveTabCountIndicator.innerText = `Maximum Active Tab Count : ${maxActiveTabCount.maxActiveTabCount || "no data"}`;
-	totalWindowCountIndicator.innerText = `All Time Opened Window Count : ${totalWindowCount.totalWindowCount || "no data"}`;
+	totalTabCountIndicator.innerText = `All Time Opened Tab Count : ${
+		totalTabCount.totalTabCount || "no data"
+	}`;
+	maxActiveTabCountIndicator.innerText = `Maximum Active Tab Count : ${
+		maxActiveTabCount.maxActiveTabCount || "no data"
+	}`;
+	totalWindowCountIndicator.innerText = `All Time Opened Window Count : ${
+		totalWindowCount.totalWindowCount || "no data"
+	}`;
 };
 
 //#endregion
@@ -199,7 +195,6 @@ const loaderForAsync = async () => {
 	await displayBlackListElements();
 	scrollBeltToEnd();
 	displayStatPanel();
-
 };
 
 loaderForAsync();
