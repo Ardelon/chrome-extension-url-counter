@@ -17788,38 +17788,36 @@ const renderSlider = async () => {
 			const day = await generateDayContainer(storedDay, index);
 			listContainer.appendChild(day);
 		});
-        
 	} else {
 		listContainer.innerHTML = null;
 		const day = await generateDayContainer({}, 0);
 		const day1 = await generateDayContainer({}, 0);
-        
+
 		listContainer.appendChild(day);
 		listContainer.appendChild(day1);
 	}
 
 	if (listContainer.children.length <= 2) {
-		goRightButton.classList.add("hide");  
+		goRightButton.classList.add("hide");
 		goLeftButton.classList.add("hide");
 	}
 };
 
-const thLeft = lodash__WEBPACK_IMPORTED_MODULE_0___default().throttle(function() {
+const thLeft = lodash__WEBPACK_IMPORTED_MODULE_0___default().throttle(function () {
 	slideVisionMethod2("left");
 }, 800);
 
-const thRight = lodash__WEBPACK_IMPORTED_MODULE_0___default().throttle(function() {
+const thRight = lodash__WEBPACK_IMPORTED_MODULE_0___default().throttle(function () {
 	slideVisionMethod2("right");
 }, 800);
 
 goLeftButton.addEventListener("click", thLeft);
 
-
 goRightButton.addEventListener("click", thRight);
 
 listContainer.addEventListener("scroll", (e) => {
 	e.preventDefault();
-    
+
 	if (listContainer.scrollLeft >= listContainer.scrollWidth - listContainer.clientWidth) {
 		goRightButton.classList.add("hide");
 	} else {
@@ -17832,15 +17830,13 @@ listContainer.addEventListener("scroll", (e) => {
 		goLeftButton.classList.remove("hide");
 	}
 
-
 	goRightButton.removeEventListener("scroll", (e) => {
 		e.preventDefault();
 	});
-} );
+});
 
 const slideVisionMethod2 = (direction) => {
-
-	const frame = 64; 
+	const frame = 64;
 	const frameRate = 6; // miliseconds
 	let interval;
 	let target;
@@ -17848,21 +17844,22 @@ const slideVisionMethod2 = (direction) => {
 	let verticalAmount;
 	clearInterval(interval);
 	const driver = {
-		"left" : () => {
-      
-			const belt = document.getElementById("list-container-belt")   ;
+		left: () => {
+			const belt = document.getElementById("list-container-belt");
 			if (belt) {
-
 				const firstChild = belt.firstElementChild;
 				if (firstChild) {
-
 					const style = window.getComputedStyle(firstChild);
-					horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
+					horizontalAmount =
+						parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
 					const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
 					target = Math.max((elementIndex - 1) * horizontalAmount, 0);
-                    
+
 					interval = setInterval(() => {
-						belt.scrollLeft = Math.max(belt.scrollLeft - Math.max(horizontalAmount/frame, 1), target);
+						belt.scrollLeft = Math.max(
+							belt.scrollLeft - Math.max(horizontalAmount / frame, 1),
+							target
+						);
 						if (belt.scrollLeft === target) {
 							clearInterval(interval);
 						}
@@ -17870,21 +17867,25 @@ const slideVisionMethod2 = (direction) => {
 				}
 			}
 		},
-		"right" : () => {
-
-			const belt = document.getElementById("list-container-belt");   
+		right: () => {
+			const belt = document.getElementById("list-container-belt");
 			if (belt) {
-
 				const firstChild = belt.firstElementChild;
 				if (firstChild) {
-
 					const style = window.getComputedStyle(firstChild);
-					horizontalAmount = parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
+					horizontalAmount =
+						parseInt(style.marginLeft) + parseInt(style.marginRight) + parseInt(style.width);
 					const elementIndex = Math.floor(belt.scrollLeft / horizontalAmount);
-					target = Math.min((elementIndex + 1) * horizontalAmount, belt.scrollWidth - belt.clientWidth);
-                    
+					target = Math.min(
+						(elementIndex + 1) * horizontalAmount,
+						belt.scrollWidth - belt.clientWidth
+					);
+
 					interval = setInterval(() => {
-						belt.scrollLeft = Math.min(belt.scrollLeft + Math.max(horizontalAmount/frame, 1), target);
+						belt.scrollLeft = Math.min(
+							belt.scrollLeft + Math.max(horizontalAmount / frame, 1),
+							target
+						);
 						if (belt.scrollLeft === target) {
 							clearInterval(interval);
 						}
@@ -17892,42 +17893,50 @@ const slideVisionMethod2 = (direction) => {
 				}
 			}
 		},
-		"up" : () => {
-
+		up: () => {
 			const selectedBelt = Math.max(selectedBelt - 1, 0);
 			const belt = document.getElementById(`selected-belt-${selectedBelt}`);
 			if (belt) {
-
 				const style = window.getComputedStyle(belt);
-				verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height);
+				verticalAmount =
+					parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height);
 				target = Math.max(mainContainer.scrollTop - verticalAmount, 0);
-                
+
 				interval = setInterval(() => {
-					mainContainer.scrollTop = Math.max(mainContainer.scrollTop - Math.max(verticalAmount/frame, 1), target);
+					mainContainer.scrollTop = Math.max(
+						mainContainer.scrollTop - Math.max(verticalAmount / frame, 1),
+						target
+					);
 					if (mainContainer.scrollTop === target) {
 						clearInterval(interval);
 					}
 				}, frameRate);
 			}
 		},
-		"down" : () => {
-
+		down: () => {
 			const selectedBelt = Math.min(selectedBelt + 1, 30);
 			const belt = document.getElementById(`selected-belt-${selectedBelt}`);
 			if (belt) {
 				const style = window.getComputedStyle(belt);
-                
-				verticalAmount = parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height);
-				target = Math.min(mainContainer.scrollTop + verticalAmount, mainContainer.scrollHeight - mainContainer.clientHeight);
-                
+
+				verticalAmount =
+					parseInt(style.marginTop) + parseInt(style.marginBottom) + parseInt(style.height);
+				target = Math.min(
+					mainContainer.scrollTop + verticalAmount,
+					mainContainer.scrollHeight - mainContainer.clientHeight
+				);
+
 				interval = setInterval(() => {
-					mainContainer.scrollTop = Math.min(mainContainer.scrollTop + Math.max(verticalAmount/frame, 1), target);
+					mainContainer.scrollTop = Math.min(
+						mainContainer.scrollTop + Math.max(verticalAmount / frame, 1),
+						target
+					);
 					if (mainContainer.scrollTop === target) {
 						clearInterval(interval);
 					}
 				}, frameRate);
 			}
-		}
+		},
 	};
 
 	const driverKeys = Object.keys(driver);
@@ -17939,7 +17948,6 @@ const slideVisionMethod2 = (direction) => {
 };
 
 const generateDayContainer = async (storedDay, index) => {
-
 	const dayContainer = document.createElement("div");
 	dayContainer.classList.add("belt-element");
 	dayContainer.id = `day-container-${index}`;
@@ -17974,41 +17982,36 @@ const generateDayContainer = async (storedDay, index) => {
 
 	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDay.hostList);
 
-	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList] = data;
 	const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
 
 	if (sortingOption === "sortByName") {
-            
-		sortByNameList.forEach(hostName => {
+		sortByNameList.forEach((hostName) => {
 			const visitCount = hostInformationObject[hostName].visitCount;
-			const logo =  hostInformationObject[hostName].logo;
+			const logo = hostInformationObject[hostName].logo;
 			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount);
-            
 		});
 	} else {
-
-		sortByVisitCount.forEach(hostName => {
+		sortByVisitCount.forEach((hostName) => {
 			const visitCount = hostInformationObject[hostName].visitCount;
-			const logo =  hostInformationObject[hostName].logo;
+			const logo = hostInformationObject[hostName].logo;
 			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(dayList, hostName, visitCount, logo, storedDay.day, updateTabCount);
-            
 		});
 	}
 
-	totalVisitCount.innerHTML =  `<p>Total Visit : ${totalVisit || 0}</p>`;
+	totalVisitCount.innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
 
-	deleteDomaintButton.addEventListener("click",  (e) => {
+	deleteDomaintButton.addEventListener("click", (e) => {
 		e.preventDefault();
 		const blockageList = [...dayList.getElementsByClassName("hide")];
 		if (blockageList.length) {
-
-			blockageList.forEach(blockage => {
+			blockageList.forEach((blockage) => {
 				blockage.classList.remove("hide");
 			});
 		} else {
 			reGenerateDay(storedDay.day, index);
 		}
-		deleteDomaintButton.removeEventListener("click",  (e) => {
+		deleteDomaintButton.removeEventListener("click", (e) => {
 			e.preventDefault();
 		});
 	});
@@ -18023,57 +18026,66 @@ const generateDayContainer = async (storedDay, index) => {
 			e.preventDefault();
 		});
 	});
-    
-    
+
 	counterContainer.appendChild(tabCount);
 	counterContainer.appendChild(totalVisitCount);
-    
+
 	deleteButtonsContainer.appendChild(deleteAllButton);
 	deleteButtonsContainer.appendChild(deleteDomaintButton);
-    
+
 	dayContainer.appendChild(dayHeader);
 	dayContainer.appendChild(dayList);
 	dayContainer.appendChild(counterContainer);
 	dayContainer.appendChild(deleteButtonsContainer);
 
 	return dayContainer;
-
 };
 
 const reGenerateDay = async (dayDate) => {
-
 	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
 	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
 	const storedDay = storedDays.storedDays[storedDayIndex];
 
 	const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
 	const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
-	const beltHostListContainerCollection = dayContainer.getElementsByClassName("belt-host-list-container");
+	const beltHostListContainerCollection = dayContainer.getElementsByClassName(
+		"belt-host-list-container"
+	);
 	const beltHostListContainer = beltHostListContainerCollection[0];
 
 	beltHostListContainer.innerHTML = null;
 
 	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDay.hostList);
 
-	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList] = data;
 
 	const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
 
 	if (sortingOption === "sortByName") {
-            
-		sortByNameList.forEach(hostName => {
+		sortByNameList.forEach((hostName) => {
 			const visitCount = hostInformationObject[hostName].visitCount;
-			const logo =  hostInformationObject[hostName].logo;
-			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount);
-            
+			const logo = hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(
+				beltHostListContainer,
+				hostName,
+				visitCount,
+				logo,
+				storedDay.day,
+				updateTabCount
+			);
 		});
 	} else {
-
-		sortByVisitCount.forEach(hostName => {
+		sortByVisitCount.forEach((hostName) => {
 			const visitCount = hostInformationObject[hostName].visitCount;
-			const logo =  hostInformationObject[hostName].logo;
-			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(beltHostListContainer, hostName, visitCount, logo, storedDay.day, updateTabCount);
-            
+			const logo = hostInformationObject[hostName].logo;
+			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.generateListElement)(
+				beltHostListContainer,
+				hostName,
+				visitCount,
+				logo,
+				storedDay.day,
+				updateTabCount
+			);
 		});
 	}
 
@@ -18083,32 +18095,24 @@ const reGenerateDay = async (dayDate) => {
 const updateTabCount = async (dayDate) => {
 	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.getStoredDays)();
 	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
-    
+
 	const dayContainer = document.getElementById(`day-container-${storedDayIndex}`);
 	const totalVisitCounterCollection = dayContainer.getElementsByClassName("total-visit-count");
 
 	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_1__.prepareData)(storedDays.storedDays[storedDayIndex].hostList);
 
-	const [,, totalVisit ] = data;
+	const [, , totalVisit] = data;
 
 	totalVisitCounterCollection[0].innerHTML = `<p>Total Visit : ${totalVisit || 0}</p>`;
-
 };
 
 const scrollBeltToEnd = () => {
-
-	const belt = document.getElementById("list-container-belt")   ;
+	const belt = document.getElementById("list-container-belt");
 	if (belt) {
-
 		belt.scrollLeft = belt.scrollWidth - belt.clientWidth;
 		goRightButton.classList.add("hide");
 	}
-
 };
-
-
-
-
 
 
 /***/ }),
@@ -18139,15 +18143,19 @@ __webpack_require__.r(__webpack_exports__);
 
 //#region Prepare and Serve Operations
 
-const generateListElement = (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
-
+const generateListElement = (
+	parent,
+	hostName,
+	visitCount,
+	logo,
+	dataDate,
+	updateTabCount
+) => {
 	const element = document.createElement("div");
 	const blockage = document.createElement("div");
 	const logoDisplay = document.createElement("img");
-	const header =  document.createElement("h4");
-	const visitDisplay =  document.createElement("p");
-
-
+	const header = document.createElement("h4");
+	const visitDisplay = document.createElement("p");
 
 	element.classList.add("list-element");
 	blockage.classList.add("blockage", "hide");
@@ -18159,7 +18167,7 @@ const generateListElement = (parent, hostName, visitCount, logo, dataDate, updat
 		logo = "../images/notFound.png";
 	}
 	logoDisplay.src = logo;
-	header.innerText = hostName;//`${hostName.substring(0,25)}`;
+	header.innerText = hostName; //`${hostName.substring(0,25)}`;
 
 	visitDisplay.innerText = visitCount;
 
@@ -18171,7 +18179,6 @@ const generateListElement = (parent, hostName, visitCount, logo, dataDate, updat
 
 		blockage.removeEventListener("click", (e) => {
 			e.preventDefault();
-      
 		});
 	});
 
@@ -18191,7 +18198,6 @@ const generateListElement = (parent, hostName, visitCount, logo, dataDate, updat
 	element.appendChild(visitDisplay);
 
 	parent.appendChild(element);
-
 };
 
 const prepareData = (hostList) => {
@@ -18202,51 +18208,46 @@ const prepareData = (hostList) => {
 	let totalVisit = 0;
 	if (hostList) {
 		totalVisit = hostList.length;
-        
-		hostList.forEach(host => {
+
+		hostList.forEach((host) => {
 			if (!uniqueHostNameList.includes(host.siteName)) {
 				uniqueHostNameList.push(host.siteName);
 				sortByNameList.push(host.siteName);
 				hostInformationObject[host.siteName] = {
-					visitCount : 1,
-					logo : host.favIcon || "../images/notFound.png"
+					visitCount: 1,
+					logo: host.favIcon || "../images/notFound.png",
 				};
 			} else {
 				hostInformationObject[host.siteName].visitCount++;
 				if (host.favIcon !== "../images/notFound.png") {
 					hostInformationObject[host.siteName].logo = host.favIcon;
 				}
-                
 			}
-		});   
+		});
 	}
 	sortByNameList.sort();
 	const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
 
-	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ];
-
-
+	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList];
 };
 
 const generateSortForVisitCount = (object) => {
-
 	const keys = Object.keys(object);
 	const sortingKeyList = [];
 	const sortedList = [];
 
-	keys.forEach(key => {
+	keys.forEach((key) => {
 		const visitCount = object[key].visitCount;
-		const sortingKey = `${"0".repeat(6-String(visitCount).length)}${visitCount}+${key}`;
-		sortingKeyList.push(sortingKey);        
+		const sortingKey = `${"0".repeat(6 - String(visitCount).length)}${visitCount}+${key}`;
+		sortingKeyList.push(sortingKey);
 	});
 	sortingKeyList.sort();
 	sortingKeyList.reverse();
 
-	sortingKeyList.forEach(key => {
+	sortingKeyList.forEach((key) => {
 		sortedList.push(key.split("+")[1]);
 	});
 	return sortedList;
-
 };
 
 const clearElements = (element) => {
@@ -18258,7 +18259,6 @@ const goToSiteEventHandler = (hostName) => {
 };
 
 const removeDeletedElement = (element) => {
-    
 	element.remove();
 };
 
@@ -18267,34 +18267,30 @@ const removeDeletedElement = (element) => {
 //#region Delete Operations
 
 const clearDomainData = async (date, hostName) => {
-
 	const storedDays = await getStoredDays();
 
 	if (storedDays.storedDays) {
 		storedDays.storedDays.forEach((storedDay) => {
 			if (storedDay.day === date) {
 				const newHostList = [];
-				storedDay.hostList.forEach(element =>{
+				storedDay.hostList.forEach((element) => {
 					if (element.hostName !== hostName) {
 						newHostList.push(element);
 					}
 				});
-				storedDay.hostList = newHostList;                
+				storedDay.hostList = newHostList;
 			}
 		});
-		chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+		chrome.storage.local.set({ storedDays: storedDays.storedDays });
 	}
-
 };
 
 const clearAllData = async (dayDate) => {
-
 	const storedDays = await getStoredDays();
 	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
 
-	storedDays.storedDays.splice(storedDayIndex,1);
-	await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
-
+	storedDays.storedDays.splice(storedDayIndex, 1);
+	await chrome.storage.local.set({ storedDays: storedDays.storedDays });
 };
 //#endregion
 
@@ -18304,43 +18300,39 @@ const getBlackList = async () => {
 	const blackList = await chrome.storage.local.get("blackList");
 
 	if (!blackList || !blackList.blackList) {
-		chrome.storage.local.set({"blackList" : []});
-	} 
+		chrome.storage.local.set({ blackList: [] });
+	}
 
 	return blackList || [];
 };
 
 const setBlackList = async (urlPiece, operation = "add") => {
-
 	const blackList = await chrome.storage.local.get("blackList");
-    
+
 	if (!blackList || !blackList.blackList) {
-		chrome.storage.local.set({"blackList" : [urlPiece]});
+		chrome.storage.local.set({ blackList: [urlPiece] });
 	} else {
 		if (!blackList.blackList.includes(urlPiece) && operation === "add") {
 			blackList.blackList.push(urlPiece);
 			const filteredBlackList = blackList.blackList.filter(_utilities__WEBPACK_IMPORTED_MODULE_0__.onlyUnique);
 			blackList.blackList = filteredBlackList;
-			chrome.storage.local.set({"blackList" : blackList.blackList});   
+			chrome.storage.local.set({ blackList: blackList.blackList });
 		} else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
-			for( let i = 0; i < blackList.blackList.length; i++){ 
-    
-				if ( blackList.blackList[i] === urlPiece) { 
-            
-					blackList.blackList.splice(i, 1); 
+			for (let i = 0; i < blackList.blackList.length; i++) {
+				if (blackList.blackList[i] === urlPiece) {
+					blackList.blackList.splice(i, 1);
 				}
-            
 			}
-			chrome.storage.local.set({"blackList" : blackList.blackList});   
+			chrome.storage.local.set({ blackList: blackList.blackList });
 		}
 	}
-};   
+};
 
 const getStoredDays = async () => {
 	const storedDays = await chrome.storage.local.get("storedDays");
 
 	if (!storedDays || !storedDays.storedDays) {
-		chrome.storage.local.set({"storedDays" : []});
+		chrome.storage.local.set({ storedDays: [] });
 	}
 
 	return storedDays || [];
@@ -18348,10 +18340,8 @@ const getStoredDays = async () => {
 
 const addStoredDays = async (day) => {
 	const storedDays = await getStoredDays();
-    
 
 	if (storedDays && storedDays.storedDays) {
-
 		let storedDayIndex = -1;
 		const today = await chrome.storage.local.get("day");
 		storedDays.storedDays.forEach((day, index) => {
@@ -18362,27 +18352,30 @@ const addStoredDays = async (day) => {
 		if (storedDayIndex > -1) {
 			const updatedDay = {
 				day: day.day,
-				sessionCount : storedDays.storedDays[storedDayIndex].sessionCount ? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount : day.sessionCount,
-				tabCount : storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
-				hostList : storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
+				sessionCount: storedDays.storedDays[storedDayIndex].sessionCount
+					? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount
+					: day.sessionCount,
+				tabCount: storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
+				hostList: storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
 			};
 			storedDays.storedDays[storedDayIndex] = updatedDay;
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 			// const updatedDay = {storedDays.storedDays[storedDayIndex], ...day}
 		} else if (storedDays.storedDays.length < 31) {
 			storedDays.storedDays.push(day);
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 		} else {
 			storedDays.storedDays.shift();
 			storedDays.storedDays.push(day);
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 		}
 	} else {
-		chrome.storage.local.set({"storedDays" : [storedDays.storedDays]});
+		chrome.storage.local.set({ storedDays: [storedDays.storedDays] });
 	}
 };
 
 //#endregion
+
 
 /***/ }),
 
@@ -18399,10 +18392,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setSortingOptions": () => (/* binding */ setSortingOptions)
 /* harmony export */ });
 const getSortingOptions = async () => {
-    
 	const options = await chrome.storage.local.get("options");
 	if (options.options) {
-
 		const sortBy = options.options.sortBy;
 		return sortBy || "sortByName";
 	} else {
@@ -18415,11 +18406,12 @@ const setSortingOptions = async (sortValue) => {
 
 	if (options && options.options) {
 		options.options.sortBy = sortValue;
-		chrome.storage.local.set({"options" : options.options});
+		chrome.storage.local.set({ options: options.options });
 	} else {
-		chrome.storage.local.set({"options" : {sortBy : "sortByName"}});
+		chrome.storage.local.set({ options: { sortBy: "sortByName" } });
 	}
 };
+
 
 /***/ }),
 
@@ -18460,20 +18452,14 @@ const onlyUnique = (value, index, self) => {
 const exportFormat = async (format) => {
 	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_0__.getStoredDays)();
 
-
 	if (format === "json") {
-
 		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
 		var a = document.createElement("a");
-		a.setAttribute("href",     dataStr     );
+		a.setAttribute("href", dataStr);
 		a.setAttribute("download", "scene.json");
 		a.click();
-
 	}
-
-
 };
-
 
 
 /***/ })
@@ -18592,15 +18578,9 @@ __webpack_require__.r(__webpack_exports__);
 
 //#region Elements
 
-const totalTabCountIndicator = document.getElementById(
-	"total-tab-count-indicator"
-);
-const maxActiveTabCountIndicator = document.getElementById(
-	"max-active-tab-count-indicator"
-);
-const totalWindowCountIndicator = document.getElementById(
-	"total-window-count-indicator"
-);
+const totalTabCountIndicator = document.getElementById("total-tab-count-indicator");
+const maxActiveTabCountIndicator = document.getElementById("max-active-tab-count-indicator");
+const totalWindowCountIndicator = document.getElementById("total-window-count-indicator");
 
 const sortByName = document.getElementById("sort-by-name");
 const sortByVisitCount = document.getElementById("sort-by-visit-count");
@@ -18761,17 +18741,19 @@ const displayBlackListElements = async () => {
 };
 
 const displayStatPanel = async () => {
-
 	const totalTabCount = await chrome.storage.local.get("totalTabCount");
 	const maxActiveTabCount = await chrome.storage.local.get("maxActiveTabCount");
 	const totalWindowCount = await chrome.storage.local.get("totalWindowCount");
 
-	console.log(totalTabCount.totalTabCount, maxActiveTabCount.maxActiveTabCount, totalWindowCount.totalWindowCount);
-
-
-	totalTabCountIndicator.innerText = `All Time Opened Tab Count : ${totalTabCount.totalTabCount || "no data"}`;
-	maxActiveTabCountIndicator.innerText = `Maximum Active Tab Count : ${maxActiveTabCount.maxActiveTabCount || "no data"}`;
-	totalWindowCountIndicator.innerText = `All Time Opened Window Count : ${totalWindowCount.totalWindowCount || "no data"}`;
+	totalTabCountIndicator.innerText = `All Time Opened Tab Count : ${
+		totalTabCount.totalTabCount || "no data"
+	}`;
+	maxActiveTabCountIndicator.innerText = `Maximum Active Tab Count : ${
+		maxActiveTabCount.maxActiveTabCount || "no data"
+	}`;
+	totalWindowCountIndicator.innerText = `All Time Opened Window Count : ${
+		totalWindowCount.totalWindowCount || "no data"
+	}`;
 };
 
 //#endregion
@@ -18784,7 +18766,6 @@ const loaderForAsync = async () => {
 	await displayBlackListElements();
 	(0,_generateSlider__WEBPACK_IMPORTED_MODULE_1__.scrollBeltToEnd)();
 	displayStatPanel();
-
 };
 
 loaderForAsync();

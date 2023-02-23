@@ -1,12 +1,14 @@
 //#region Chrome Event Listeners
 
-chrome.windows.onCreated.addListener((window) => {
+chrome.windows.onCreated.addListener(async (window) => {
 	// console.log('Browser Created');
 
 	sessionCount(window);
 	let timeoutCycle;
 	updateDateCounters(timeoutCycle);
 	updateActiveWindowCount();
+	const sessionCount1 = (await chrome.storage.local.get("sessionCount")) || 0;
+	setTotalWindowCount(sessionCount1.sessionCount);
 });
 
 chrome.windows.onRemoved.addListener(() => {
@@ -37,7 +39,7 @@ chrome.tabs.onActivated.addListener(async (data) => {
 	const oldTabState = await getActiveTabState();
 	const storedTabStateList = await getStoredTabStateList();
 	storedTabStateList.storedTabStateList.forEach((item, index) => {
-		if (item.tabId === oldTabState.tabId) {
+		if (oldTabState && item.tabId === oldTabState.tabId) {
 			item.timeSpent += Date.now() - oldTabState.activationTime;
 		}
 	});
@@ -119,7 +121,6 @@ const updateDateCounters = async (timeoutCycle) => {
 	timeoutCycle = setTimeout(() => {
 		updateDateCounters(timeoutCycle);
 	}, remainingMiliSeconds);
-
 	const hostList = await getHostList();
 	if (hostList.hostList) {
 		chrome.storage.local.set({ hostList: hostList.hostList });
@@ -289,6 +290,7 @@ const setActiveWindowCount = (activeWindowCount) => {
 
 const setTotalWindowCount = async (sessionCount) => {
 	const totalWindowCount = await chrome.storage.local.get("totalWindowCount");
+
 	if (totalWindowCount.totalWindowCount === "number") {
 		totalWindowCount.totalWindowCount += sessionCount;
 	} else {

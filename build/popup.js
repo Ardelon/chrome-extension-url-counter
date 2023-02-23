@@ -555,15 +555,19 @@ __webpack_require__.r(__webpack_exports__);
 
 //#region Prepare and Serve Operations
 
-const generateListElement = (parent, hostName, visitCount, logo, dataDate, updateTabCount ) => {
-
+const generateListElement = (
+	parent,
+	hostName,
+	visitCount,
+	logo,
+	dataDate,
+	updateTabCount
+) => {
 	const element = document.createElement("div");
 	const blockage = document.createElement("div");
 	const logoDisplay = document.createElement("img");
-	const header =  document.createElement("h4");
-	const visitDisplay =  document.createElement("p");
-
-
+	const header = document.createElement("h4");
+	const visitDisplay = document.createElement("p");
 
 	element.classList.add("list-element");
 	blockage.classList.add("blockage", "hide");
@@ -575,7 +579,7 @@ const generateListElement = (parent, hostName, visitCount, logo, dataDate, updat
 		logo = "../images/notFound.png";
 	}
 	logoDisplay.src = logo;
-	header.innerText = hostName;//`${hostName.substring(0,25)}`;
+	header.innerText = hostName; //`${hostName.substring(0,25)}`;
 
 	visitDisplay.innerText = visitCount;
 
@@ -587,7 +591,6 @@ const generateListElement = (parent, hostName, visitCount, logo, dataDate, updat
 
 		blockage.removeEventListener("click", (e) => {
 			e.preventDefault();
-      
 		});
 	});
 
@@ -607,7 +610,6 @@ const generateListElement = (parent, hostName, visitCount, logo, dataDate, updat
 	element.appendChild(visitDisplay);
 
 	parent.appendChild(element);
-
 };
 
 const prepareData = (hostList) => {
@@ -618,51 +620,46 @@ const prepareData = (hostList) => {
 	let totalVisit = 0;
 	if (hostList) {
 		totalVisit = hostList.length;
-        
-		hostList.forEach(host => {
+
+		hostList.forEach((host) => {
 			if (!uniqueHostNameList.includes(host.siteName)) {
 				uniqueHostNameList.push(host.siteName);
 				sortByNameList.push(host.siteName);
 				hostInformationObject[host.siteName] = {
-					visitCount : 1,
-					logo : host.favIcon || "../images/notFound.png"
+					visitCount: 1,
+					logo: host.favIcon || "../images/notFound.png",
 				};
 			} else {
 				hostInformationObject[host.siteName].visitCount++;
 				if (host.favIcon !== "../images/notFound.png") {
 					hostInformationObject[host.siteName].logo = host.favIcon;
 				}
-                
 			}
-		});   
+		});
 	}
 	sortByNameList.sort();
 	const sortByVisitCount = generateSortForVisitCount(hostInformationObject);
 
-	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ];
-
-
+	return [uniqueHostNameList, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList];
 };
 
 const generateSortForVisitCount = (object) => {
-
 	const keys = Object.keys(object);
 	const sortingKeyList = [];
 	const sortedList = [];
 
-	keys.forEach(key => {
+	keys.forEach((key) => {
 		const visitCount = object[key].visitCount;
-		const sortingKey = `${"0".repeat(6-String(visitCount).length)}${visitCount}+${key}`;
-		sortingKeyList.push(sortingKey);        
+		const sortingKey = `${"0".repeat(6 - String(visitCount).length)}${visitCount}+${key}`;
+		sortingKeyList.push(sortingKey);
 	});
 	sortingKeyList.sort();
 	sortingKeyList.reverse();
 
-	sortingKeyList.forEach(key => {
+	sortingKeyList.forEach((key) => {
 		sortedList.push(key.split("+")[1]);
 	});
 	return sortedList;
-
 };
 
 const clearElements = (element) => {
@@ -674,7 +671,6 @@ const goToSiteEventHandler = (hostName) => {
 };
 
 const removeDeletedElement = (element) => {
-    
 	element.remove();
 };
 
@@ -683,34 +679,30 @@ const removeDeletedElement = (element) => {
 //#region Delete Operations
 
 const clearDomainData = async (date, hostName) => {
-
 	const storedDays = await getStoredDays();
 
 	if (storedDays.storedDays) {
 		storedDays.storedDays.forEach((storedDay) => {
 			if (storedDay.day === date) {
 				const newHostList = [];
-				storedDay.hostList.forEach(element =>{
+				storedDay.hostList.forEach((element) => {
 					if (element.hostName !== hostName) {
 						newHostList.push(element);
 					}
 				});
-				storedDay.hostList = newHostList;                
+				storedDay.hostList = newHostList;
 			}
 		});
-		chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+		chrome.storage.local.set({ storedDays: storedDays.storedDays });
 	}
-
 };
 
 const clearAllData = async (dayDate) => {
-
 	const storedDays = await getStoredDays();
 	const storedDayIndex = storedDays.storedDays.findIndex((element) => element.day === dayDate);
 
-	storedDays.storedDays.splice(storedDayIndex,1);
-	await chrome.storage.local.set({"storedDays" : storedDays.storedDays});
-
+	storedDays.storedDays.splice(storedDayIndex, 1);
+	await chrome.storage.local.set({ storedDays: storedDays.storedDays });
 };
 //#endregion
 
@@ -720,43 +712,39 @@ const getBlackList = async () => {
 	const blackList = await chrome.storage.local.get("blackList");
 
 	if (!blackList || !blackList.blackList) {
-		chrome.storage.local.set({"blackList" : []});
-	} 
+		chrome.storage.local.set({ blackList: [] });
+	}
 
 	return blackList || [];
 };
 
 const setBlackList = async (urlPiece, operation = "add") => {
-
 	const blackList = await chrome.storage.local.get("blackList");
-    
+
 	if (!blackList || !blackList.blackList) {
-		chrome.storage.local.set({"blackList" : [urlPiece]});
+		chrome.storage.local.set({ blackList: [urlPiece] });
 	} else {
 		if (!blackList.blackList.includes(urlPiece) && operation === "add") {
 			blackList.blackList.push(urlPiece);
 			const filteredBlackList = blackList.blackList.filter(_utilities__WEBPACK_IMPORTED_MODULE_0__.onlyUnique);
 			blackList.blackList = filteredBlackList;
-			chrome.storage.local.set({"blackList" : blackList.blackList});   
+			chrome.storage.local.set({ blackList: blackList.blackList });
 		} else if (blackList.blackList.includes(urlPiece) && operation === "remove") {
-			for( let i = 0; i < blackList.blackList.length; i++){ 
-    
-				if ( blackList.blackList[i] === urlPiece) { 
-            
-					blackList.blackList.splice(i, 1); 
+			for (let i = 0; i < blackList.blackList.length; i++) {
+				if (blackList.blackList[i] === urlPiece) {
+					blackList.blackList.splice(i, 1);
 				}
-            
 			}
-			chrome.storage.local.set({"blackList" : blackList.blackList});   
+			chrome.storage.local.set({ blackList: blackList.blackList });
 		}
 	}
-};   
+};
 
 const getStoredDays = async () => {
 	const storedDays = await chrome.storage.local.get("storedDays");
 
 	if (!storedDays || !storedDays.storedDays) {
-		chrome.storage.local.set({"storedDays" : []});
+		chrome.storage.local.set({ storedDays: [] });
 	}
 
 	return storedDays || [];
@@ -764,10 +752,8 @@ const getStoredDays = async () => {
 
 const addStoredDays = async (day) => {
 	const storedDays = await getStoredDays();
-    
 
 	if (storedDays && storedDays.storedDays) {
-
 		let storedDayIndex = -1;
 		const today = await chrome.storage.local.get("day");
 		storedDays.storedDays.forEach((day, index) => {
@@ -778,27 +764,30 @@ const addStoredDays = async (day) => {
 		if (storedDayIndex > -1) {
 			const updatedDay = {
 				day: day.day,
-				sessionCount : storedDays.storedDays[storedDayIndex].sessionCount ? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount : day.sessionCount,
-				tabCount : storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
-				hostList : storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
+				sessionCount: storedDays.storedDays[storedDayIndex].sessionCount
+					? day.sessionCount + storedDays.storedDays[storedDayIndex].sessionCount
+					: day.sessionCount,
+				tabCount: storedDays.storedDays[storedDayIndex].tabCount + day.tabCount,
+				hostList: storedDays.storedDays[storedDayIndex].hostList.concat(day.hostList),
 			};
 			storedDays.storedDays[storedDayIndex] = updatedDay;
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 			// const updatedDay = {storedDays.storedDays[storedDayIndex], ...day}
 		} else if (storedDays.storedDays.length < 31) {
 			storedDays.storedDays.push(day);
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 		} else {
 			storedDays.storedDays.shift();
 			storedDays.storedDays.push(day);
-			chrome.storage.local.set({"storedDays" : storedDays.storedDays});
+			chrome.storage.local.set({ storedDays: storedDays.storedDays });
 		}
 	} else {
-		chrome.storage.local.set({"storedDays" : [storedDays.storedDays]});
+		chrome.storage.local.set({ storedDays: [storedDays.storedDays] });
 	}
 };
 
 //#endregion
+
 
 /***/ }),
 
@@ -814,10 +803,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setSortingOptions": () => (/* binding */ setSortingOptions)
 /* harmony export */ });
 const getSortingOptions = async () => {
-    
 	const options = await chrome.storage.local.get("options");
 	if (options.options) {
-
 		const sortBy = options.options.sortBy;
 		return sortBy || "sortByName";
 	} else {
@@ -830,11 +817,12 @@ const setSortingOptions = async (sortValue) => {
 
 	if (options && options.options) {
 		options.options.sortBy = sortValue;
-		chrome.storage.local.set({"options" : options.options});
+		chrome.storage.local.set({ options: options.options });
 	} else {
-		chrome.storage.local.set({"options" : {sortBy : "sortByName"}});
+		chrome.storage.local.set({ options: { sortBy: "sortByName" } });
 	}
 };
+
 
 /***/ }),
 
@@ -874,20 +862,14 @@ const onlyUnique = (value, index, self) => {
 const exportFormat = async (format) => {
 	const storedDays = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_0__.getStoredDays)();
 
-
 	if (format === "json") {
-
 		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storedDays));
 		var a = document.createElement("a");
-		a.setAttribute("href",     dataStr     );
+		a.setAttribute("href", dataStr);
 		a.setAttribute("download", "scene.json");
 		a.click();
-
 	}
-
-
 };
-
 
 
 /***/ })
@@ -977,7 +959,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 // let tabCountButton = document.getElementById("tab-count-button");
 const tabCountDiv = document.getElementById("tab-count");
 const listContainer = document.getElementById("list-container");
@@ -987,7 +968,6 @@ const optionsPageButton = document.getElementById("options-page-button");
 const githubPageButton = document.getElementById("github-page-button");
 
 const dontSaveButton = document.getElementById("dont-save-button");
-
 
 const getTabCount = async () => {
 	return await chrome.storage.local.get("tabCount");
@@ -999,38 +979,28 @@ const eventHandler = async () => {
 	const hostList1 = hostList.hostList;
 	const data = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.prepareData)(hostList1);
 	(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.clearElements)(listContainer);
-	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList ] = data;
+	const [, hostInformationObject, totalVisit, sortByVisitCount, sortByNameList] = data;
 	tabCountDiv.innerHTML = `<p>Tab Count : ${tabCount.tabCount || 0}</p>`;
 
 	const sortingOption = await (0,_manageOptions__WEBPACK_IMPORTED_MODULE_2__.getSortingOptions)();
 
 	if (sortingOption === "sortByName") {
-    
-		sortByNameList.forEach(hostName => {
+		sortByNameList.forEach((hostName) => {
 			const visitCount = hostInformationObject[hostName].visitCount;
-			const logo =  hostInformationObject[hostName].logo;
+			const logo = hostInformationObject[hostName].logo;
 			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.generateListElement)(listContainer, hostName, visitCount, logo);
-
 		});
-
 	} else {
-    
-		sortByVisitCount.forEach(hostName => {
+		sortByVisitCount.forEach((hostName) => {
 			const visitCount = hostInformationObject[hostName].visitCount;
-			const logo =  hostInformationObject[hostName].logo;
+			const logo = hostInformationObject[hostName].logo;
 			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.generateListElement)(listContainer, hostName, visitCount, logo);
-    
 		});
-    
-	} 
-	totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>` ;
-
-
+	}
+	totalVisitDisplay.innerHTML = `<p>Total Visit : ${totalVisit}</p>`;
 };
 
 const openOptionsPageEvent = () => {
-
-    
 	if (chrome.runtime.openOptionsPage) {
 		chrome.runtime.openOptionsPage();
 	} else {
@@ -1039,39 +1009,34 @@ const openOptionsPageEvent = () => {
 };
 
 const prepareDontSaveButton = async () => {
-	const currentTab = await chrome.tabs.query({"active" : true, "currentWindow" : true});
-	const url  = currentTab[0].url;
-	const [, , hostName ] = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.scrapeInformationFromUrl)(url);
+	const currentTab = await chrome.tabs.query({ active: true, currentWindow: true });
+	const url = currentTab[0].url;
+	const [, , hostName] = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.scrapeInformationFromUrl)(url);
 	const blackList = await (0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.getBlackList)();
-    
 
 	if (blackList.blackList && blackList.blackList.includes(hostName)) {
 		dontSaveButton.classList.add("this-site-will-not-be-saved");
 	}
-    
 
-	dontSaveButton.addEventListener("click",  (e) => {
+	dontSaveButton.addEventListener("click", (e) => {
 		e.preventDefault();
-        
+
 		if (dontSaveButton.classList.contains("this-site-will-not-be-saved")) {
 			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName, "remove");
 		} else {
 			(0,_manageInfo__WEBPACK_IMPORTED_MODULE_3__.setBlackList)(hostName);
 		}
-        
+
 		dontSaveButton.classList.toggle("this-site-will-not-be-saved");
-    
-		dontSaveButton.removeEventListener("click",  (e) => {
+
+		dontSaveButton.removeEventListener("click", (e) => {
 			e.preventDefault();
 		});
-        
 	});
 };
 
-
 eventHandler();
 prepareDontSaveButton();
-
 
 optionsPageButton.addEventListener("click", (e) => {
 	e.preventDefault();
@@ -1082,12 +1047,10 @@ optionsPageButton.addEventListener("click", (e) => {
 	});
 });
 
-githubPageButton.addEventListener("click", (e => {
+githubPageButton.addEventListener("click", (e) => {
 	e.preventDefault();
 	(0,_utilities__WEBPACK_IMPORTED_MODULE_1__.openInNewTab)("https://github.com/Ardelon/chrome-extension-url-counter");
-}));
-
-
+});
 
 })();
 
