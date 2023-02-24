@@ -1,14 +1,14 @@
 //#region Chrome Event Listeners
 
-chrome.windows.onCreated.addListener(async (window) => {
+chrome.windows.onCreated.addListener(() => {
 	// console.log('Browser Created');
 
-	sessionCount(window);
+	sessionCount();
 	let timeoutCycle;
 	updateDateCounters(timeoutCycle);
 	updateActiveWindowCount();
-	const sessionCount1 = (await chrome.storage.local.get("sessionCount")) || 0;
-	setTotalWindowCount(sessionCount1.sessionCount);
+
+	setTotalWindowCount();
 });
 
 chrome.windows.onRemoved.addListener(() => {
@@ -19,6 +19,7 @@ chrome.windows.onRemoved.addListener(() => {
 chrome.tabs.onCreated.addListener(() => {
 	// console.log('New Tab Created');
 	addOneToTabCount();
+	setTotalTabCount();
 });
 
 // Tab is Updated
@@ -38,7 +39,7 @@ chrome.tabs.onActivated.addListener(async (data) => {
 	const { tabId } = data;
 	const oldTabState = await getActiveTabState();
 	const storedTabStateList = await getStoredTabStateList();
-	storedTabStateList.storedTabStateList.forEach((item, index) => {
+	storedTabStateList.storedTabStateList.forEach((item) => {
 		if (oldTabState && item.tabId === oldTabState.tabId) {
 			item.timeSpent += Date.now() - oldTabState.activationTime;
 		}
@@ -93,8 +94,6 @@ const storeStorage = async () => {
 		hostList: hostList.hostList,
 	};
 
-	setTotalWindowCount(sessionCount.sessionCount);
-	setTotalTabCount(tabCount.tabCount);
 	addStoredDays(model);
 };
 
@@ -155,10 +154,11 @@ const addOneToTabCount = async () => {
 	}
 };
 
-const storeTabState = async (tabId, tab, timeSpent) => {
+const storeTabState = async (tabId, tab) => {
 	// console.log('Store Tab State');
 	const urlSet = scrapeInformationFromUrl(tab.url);
-	let [fullUrl, protocol, hostName, pathname, search] = urlSet;
+	// eslint-disable-next-line prefer-const
+	let [fullUrl, hostName] = urlSet;
 	const blackList = await getBlackList();
 
 	if (hostName.includes("www.")) {
@@ -288,25 +288,25 @@ const setActiveWindowCount = (activeWindowCount) => {
 	chrome.storage.local.set({ activeWindowCount: activeWindowCount });
 };
 
-const setTotalWindowCount = async (sessionCount) => {
+const setTotalWindowCount = async () => {
 	const totalWindowCount = await chrome.storage.local.get("totalWindowCount");
 
 	if (totalWindowCount.totalWindowCount === "number") {
-		totalWindowCount.totalWindowCount += sessionCount;
+		totalWindowCount.totalWindowCount += 1;
 	} else {
-		totalWindowCount.totalWindowCount = sessionCount;
+		totalWindowCount.totalWindowCount = 1;
 	}
 	chrome.storage.local.set({
 		totalWindowCount: totalWindowCount.totalWindowCount,
 	});
 };
 
-const setTotalTabCount = async (tabCount) => {
+const setTotalTabCount = async () => {
 	const totalTabCount = await chrome.storage.local.get("totalTabCount");
 	if (totalTabCount.totalTabCount === "number") {
-		totalTabCount.totalTabCount += tabCount;
+		totalTabCount.totalTabCount += 1;
 	} else {
-		totalTabCount.totalTabCount = tabCount;
+		totalTabCount.totalTabCount = 1;
 	}
 	chrome.storage.local.set({ totalTabCount: totalTabCount.totalTabCount });
 };
