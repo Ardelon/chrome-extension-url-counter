@@ -33,7 +33,7 @@ const dataStructure = {
 		"gmail.com": "work",
 	},
 	daysArchive: ["dayState", "dayState"],
-	tabState: [
+	tabListState: [
 		{
 			tabId: number,
 			url: string,
