@@ -354,6 +354,7 @@ const setStoredTabState = (storedTabStateList, tabState) => {
 	let isSameUrl = false;
 	let changeIndex = -1;
 	let storedHost = null;
+	let timeSpent = 0;
 
 	if (storedTabStateList.length === 0) {
 		willBeUpdated = true;
@@ -367,6 +368,7 @@ const setStoredTabState = (storedTabStateList, tabState) => {
 				isTabExist = true;
 				if (storedTabState.hostName === tabState.hostName) {
 					isSameHost = true;
+					timeSpent = storedTabState.timeSpent;
 					if (storedTabState.url === tabState.url) {
 						isSameUrl = true;
 					}
@@ -388,7 +390,7 @@ const setStoredTabState = (storedTabStateList, tabState) => {
 			}
 		}
 	}
-
+	storedHost.timeSpent = timeSpent;
 	chrome.storage.local.set({ storedTabStateList: storedTabStateList });
 	console.log(storedHost);
 	return [willBeUpdated, storedHost];
@@ -437,13 +439,12 @@ const updateSavedHost = async (storedHost) => {
 			item.url === storedHost.url
 		) {
 			console.log("%c Oh my heavens! ", "background: #222; color: #bada55");
-			console.log(item);
-			console.log(storedHost);
+			console.log(storedHost.timeSpent);
 			item.timeSpent = storedHost.timeSpent;
 			console.log(item);
 		}
 	});
-
+	console.log(hostList.hostList);
 	chrome.storage.local.set({ hostList: hostList.hostList });
 };
 

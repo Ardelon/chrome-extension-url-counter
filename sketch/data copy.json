@@ -1,40 +1,9 @@
 {
-	"hostList": [
-		{
-			"favIcon": "../images/notFound.png",
-			"hostName": "api.daily.dev",
-			"siteName": "api.daily.dev",
-			"tabId": 1489517535,
-			"timeSpent": 0,
-			"timeStamp": 1677216387594,
-			"url": "https://api.daily.dev/r/goETjh99w"
-		}
-	],
-
-	"storedDays": [
-		{
-			"hostList": [
-				{
-					"favIcon": "https://mail.ibb.gov.tr/owa/favicon.ico",
-					"hostName": "mail.ibb.gov.tr",
-					"siteName": "mail.ibb.gov.tr",
-					"tabId": 1489511332,
-					"timeSpent": 0,
-					"timeStamp": 1671517524379,
-					"url": "https://mail.ibb.gov.tr/owa/?ItemID=AAMkADJhYmMxNDJjLTc1NmUtNDFlOC1iYjNjLTgyZTBkNTU2YzVmZABGAAAAAACUhpaUmJnZTaY7jrKMfoOTBwAAxF5OB3y%2fR5vT1gu5%2fYVeAAAAAAEMAAAAxF5OB3y%2fR5vT1gu5%2fYVeAAEgImHaAAA%3d#viewmodel=ReadMessageItem&ispopout=1"
-				}
-			]
-		}
-	],
 	"storedTabStateList": [
 		{
 			"favIcon": "../images/notFound.png",
 			"hostName": "api.daily.dev",
-			"siteName": "api.daily.dev",
-			"tabId": 1489517535,
-			"timeSpent": 0,
-			"timeStamp": 1677216387594,
-			"url": "https://api.daily.dev/r/goETjh99w"
+			"siteName": "api.daily.dev"
 		}
 	]
 }

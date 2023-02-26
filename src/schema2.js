@@ -1,26 +1,48 @@
 // eslint-disable-next-line no-unused-vars
 const dataStructure = {
-	allTime: {
-		windowOpened: number,
-		tabCreated: number,
+	allTimeCounter: {
+		newWindowOpened: number,
+		newTabCreated: number,
 		maxActiveTab: number,
-		maxActiveWindow: nubmer,
+		maxActiveWindow: number,
 	},
-	current: {
+	currentCounter: {
 		activeWindow: number,
 		activeTab: number,
 		day: string,
 	},
-	daily: {
+	dayState: {
 		day: string,
-		visitedDomains: [],
-		windowOpened: number,
-		tabCreated: number,
+		visitedDomains: [
+			{
+				favIcon: string,
+				hostName: string,
+				siteName: string,
+				tabId: number,
+				timeSignature: [["whenActivated", "timeSpent"]],
+				url: string,
+			},
+		],
+		newWindowOpened: number,
+		newTabCreated: number,
 	},
 	options: { sortBy: string },
-	activeTabState: {
-		tabId: string,
-		activationTime: number,
-	},
 	blackList: [],
+	categories: {
+		"google.com": "fun",
+		"gmail.com": "work",
+	},
+	daysArchive: ["dayState", "dayState"],
+	tabState: [
+		{
+			tabId: number,
+			url: string,
+			whenCreated: [number],
+			whenActivated: number,
+			timeSpent: number,
+			timeSignature: [["whenActivated", "timeSpent"]],
+			whenDestroyed: [number],
+			reopenedCount: number,
+		},
+	],
 };
