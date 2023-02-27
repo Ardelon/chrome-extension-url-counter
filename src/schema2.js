@@ -13,7 +13,7 @@ const dataStructure = {
 	},
 	dayState: {
 		day: string,
-		visitedDomains: [
+		visitedUrlList: [
 			{
 				favIcon: string,
 				hostName: string,
